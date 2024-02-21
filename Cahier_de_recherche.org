@@ -258,5 +258,5 @@ IndexError: index 32 is out of bounds for axis 0 with size 32
 + Creation of jupyter notebook file "GridSearch.ipynb" where we compute the experimental game
 *** Random shuffle evaluation
 
-[[file:./images/gridsearch_random.png]]
+[[file:./images/graph_gs_random.png]]
 + The AVGBoundedSlowdown stabilize for all tuples urrond the 60th generation
