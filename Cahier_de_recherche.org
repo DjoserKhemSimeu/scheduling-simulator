@@ -5,8 +5,8 @@
 ** Prise en mains du repertoire gitHub
 + Fork du repertoire https://github.com/fredgrub/scheduling-simulator
 + Prise main de Docker
-*** TODO :: Mettre à jour la version de python 3.9.12  -> 3.9.2
-*** TODO :: Mieux comprendre l'utilisation de conteneurs docker
+*** DONE :: Mettre à jour la version de python 3.9.12  -> 3.9.2
+*** DONE :: Mieux comprendre l'utilisation de conteneurs docker
 ** Erreurs rencontrée :
 + You may still be able to access the file from the browser:https://drive.google.com/uc?id=1MkSKglrQeI8rEO9hbr-7kYEvSHhrpFKG but Gdown can't. Please check connections and permissions.
   + commande : sudo docker run --rm -v "$(pwd)":/workspaces/scheduling-simulator/ build-simgrid bash -c "python /workspaces/scheduling-simulator/initialize.py"
@@ -21,7 +21,7 @@
 + line 388 : src/simulator/trial_simulator.c -> commentary (todo[i]->name problem)
 + line 677 : src/tester/sched-simulator-runtime.c ->commentary (todo[i]->name problem)
 + line 624 : src/tester/sched-simulator-backfilling.c -> commentary (todo[i]->name problem)
-*** TODO :: Understand why the todo[i]->name problem occur
+*** DONE :: Understand why the todo[i]->name problem occur
 ** Files understanding
 *** simulator.py
 + S = initial state of the HPC
@@ -53,7 +53,7 @@ As it's explain on the paper, we compute |Q| permutation of the set Q to constru
 Create a a new permutation for each trial
 ***** compute_AVGbsld(self,index)
 Apply the computation of the score(j) based on the equation 3 of the paper
-****** TODO :: more Understand the function
+****** DONE :: more Understand the function
 ***** simulate(self)
 call all the functions described previously to compute the simulation.
 *** regressor.py
@@ -83,7 +83,7 @@ apply the regression with all the functions contain by the object Regressor and 
   + possible values : ["FCFS", "WFP3", "UNICEF", "SPT", "SAF", "F2", "LIN", "QDR", "CUB", "QUA", "QUI", "SEX"]
 + parameter sim_type : an array of string which represent the type of simulator we want to use in our simulation
   + possible values : ["ACTUAL", "ESTIMATED"]
-****** TODO :: knowing the role of each workload and the particularity of each simulation type
+****** DONE :: knowing the role of each workload and the particularity of each simulation type
 ***** Function
 + incomprehension line 98-99 tester.py
 + 1 : strat by collecting informations about the workloads and the type of simulator used
@@ -171,23 +171,23 @@ To increase the precision and the speed of the computation of the targets given 
 *** DONE :: How to define the average bounded slowdown with simple terms ?
 * Vendredi 16 février
 ** Advecement on the Gen algo implementation
-*** TODO :: Concatenate the dataset genrerated by the algo to construct our train dataset
+*** DONE :: Concatenate the dataset genrerated by the algo to construct our train dataset
 + Adding in simulator the attribute : _global_training_data_path = SIMULATION_DIR / "training-data"/ "global_training_data.csv"
 + Adding in simulator the attribute : self.global_data=open(self._global_training_data_path,"w+")
 + Adding in regressor the global variable : TRAINING_DIR = pathlib.Path(__file__).parent.parent / "simulator" / "training-data"
   + using it : SCORE_DISTRIBUTION = TRAINING_DIR / "global_training_data.csv"
-*** TODO :: Define a way to stop the learning of the gen algo
+*** DONE :: Define a way to stop the learning of the gen algo
 ** TODO ::posible utilisation d'une recherche profonde -> Gen algo
 ** DONE ::latin hypercube for the initialization of the population
 ** DONE ::Grid Search algo hyper parameter = nb gen , initiaalisation de la population
-** TODO ::Jeu experimentale python simulator.py -random/-lhs
+** DONE ::Jeu experimentale python simulator.py -random/-lhs
 | tuple | random |  lhs |              |
 |     1 |    512 |  450 |              |
 |     2 |     30 |   25 |              |
 |    .. |    ... |...   |              |
 |    10 |    250 | 2520 | nb_gen = 500 |
 metric = Average bounded slowdown
-*** TODO :: find a way to use latin hypercube (agrparse)
+*** DONE :: find a way to use latin hypercube (agrparse)
 #+begin_example
 for j in range(0, self.population_size):
             self._parents_indices[j] = np.arange(self.size_of_Q)
@@ -259,3 +259,4 @@ IndexError: index 32 is out of bounds for axis 0 with size 32
 *** Random shuffle evaluation
 #+RESULTS:
 [[file:./images/gridsearch_random.png]]
++ The AVGBoundedSlowdown stabilize for all tuples urrond the 60th generation
