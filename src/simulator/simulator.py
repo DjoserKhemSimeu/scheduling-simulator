@@ -21,10 +21,10 @@ SIMULATION_PARAMETERS = {
     "workload": str(DATA_DIR / "workloads" / "lublin_256.swf"),
     "application": str(DATA_DIR / "applications" / "deployment_cluster.xml"),
     "platform": str(DATA_DIR / "platforms" / "simple_cluster.xml"),
-    "number-of-tuples": 1,
+    "number-of-tuples": 10,
     "population-size": 40,
     "mutation-prob": 0.05,
-    "number-of-generations": 5,
+    "number-of-generations": 500,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
@@ -44,6 +44,8 @@ class Simulator:
     _training_data_path = SIMULATION_DIR / "training-data"
     _global_training_data_path = SIMULATION_DIR / "training-data" / "global_training_data.csv"
     _global_training_data_path = SIMULATION_DIR / "training-data" / "global_training_data.csv"
+    _avgbd_data_h_path=SIMULATION_DIR / "training-data" / "AVGBD_data_h.csv"
+    _avgbd_data_r_path=SIMULATION_DIR / "training-data" / "AVGBD_data_r.csv"
     _permutation_indices = None
     _parents_indices = None
     _children_indices = None
@@ -82,18 +84,31 @@ class Simulator:
 
     def get_start_index(self):
         start = 0
-        while (self._training_data_path / f"set-{start}.csv").exists():
-            start += 1
+        if args.hypercube:
+            while (self._training_data_path / f"set-h-{start}.csv").exists():
+                start += 1
+        else :    
+            while (self._training_data_path / f"set-r-{start}.csv").exists():
+                start += 1
         return start
 
     def get_task_sets_file(self, index):
-        return self._task_sets_path / f"set-{index}.csv"
+        if args.hypercube:
+            return self._task_sets_path / f"set-h-{index}.csv"
+        else : 
+            return self._task_sets_path / f"set-r-{index}.csv"
 
     def get_states_file(self, index):
-        return self._states_path / f"set-{index}.csv"
+        if args.hypercube:
+            return self._states_path / f"set-h-{index}.csv"
+        else :
+            return self._states_path / f"set-r-{index}.csv"
 
     def get_training_data_file(self, index):
-        return self._training_data_path / f"set-{index}.csv"
+        if args.hypercube:
+            return self._training_data_path / f"set-h-{index}.csv"
+        else :
+            return self._training_data_path / f"set-r-{index}.csv"
 
     def get_random_index(self):
         maximum_start_index = (self.number_of_jobs - 1) - (self.tuple_size)
@@ -194,8 +209,10 @@ class Simulator:
     def initialize_population_indexes(self): 
         #if self._current_generation == 0:  
         self._parents_indices = np.empty(shape=(self.population_size, self.size_of_Q), dtype=int)
+        
        #print(self._parents_indices[0])
         if args.hypercube :
+            self._parents_indices =[[-1 for _ in range(self.size_of_Q)] for _ in range(self.population_size)]
             sampler= qmc.LatinHypercube(d=self.size_of_Q)
             lhs=sampler.random(n=self.population_size)
             for indiv in range (0,self.population_size):
@@ -207,15 +224,16 @@ class Simulator:
                     
                     idx=randint(0, self.size_of_Q - 1)
                     p=random()
-                    
+                    #print (self._parents_indices[indiv])
                     while (np.isin(idx,self._parents_indices[indiv]) or p>prob[i]) :
+                        
                         idx=randint(0, self.size_of_Q - 1)
                         p=random()
                     #print(np.isin(idx,self._parents_indices[indiv]))
                     self._parents_indices[indiv][i]=idx
                     copy.append(idx)
                     #print(copy.count(idx))
-                print(self._parents_indices[indiv])
+                #print(self._parents_indices[indiv])
 
 
         else:     
@@ -224,7 +242,7 @@ class Simulator:
                 self._parents_indices[j] = np.arange(self.size_of_Q)
                 
                 shuffle(self._parents_indices[j])
-                print(self._parents_indices[j])
+                #print(self._parents_indices[j])
             
         
         #else:
@@ -311,6 +329,16 @@ class Simulator:
             #print(lst_next_indvs)
             self._parents_indices = np.asarray(lst_next_indvs)
             print("Bounded Slowdown: ", arr_slowdowns[best_indvs[0]])
+            if args.hypercube:
+                with open(self._avgbd_data_h_path, "a+") as res:
+                    res.write(str(arr_slowdowns[best_indvs[0]]))
+                    res.write("\n")
+            else :
+                with open(self._avgbd_data_r_path, "a+") as res:
+                    res.write(str(arr_slowdowns[best_indvs[0]]))
+                    res.write("\n")
+
+            
             
     def define_score_dist(self):
         with open(self._result_file, "r") as rf:
@@ -324,7 +352,7 @@ class Simulator:
             for idx in best_indiv:
                 target_score[idx]=cpt/self.size_of_Q
                 cpt=cpt+1
-            print(target_score)
+            #print(target_score)
             return target_score
     
     def simulate(self):
@@ -379,7 +407,9 @@ class Simulator:
 
 if __name__ == "__main__":
     if args.hypercube:
-        print("cc")
+        print("hypercube shuffle mode\n")
+    else :
+        print("random shuffle mode\n")
     simulator = Simulator(
         SIMULATION_PARAMETERS["workload"],
         SIMULATION_PARAMETERS["application"],
