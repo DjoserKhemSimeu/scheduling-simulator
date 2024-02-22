@@ -277,9 +277,9 @@ lower_dim_data_r =pca_r.fit_transform(init_pop_r)
 #+end_example
 No real graphical differences
 ***** Hypercube:
-file:./images/scatter_h.png
+[[file:./images/scatter_h.png]]
 ***** Random:
-file:./images/scatter_r.png
+[[file:./images/scatter_r.png]]
 
 **** Using the same method as in simulator.py
 No real graphical differences
@@ -304,7 +304,7 @@ for i in range(0,size_obs):
     res_h_x.append(copy[0])
     res_h_y.append(copy[1])
 #+end_example
-file:./images/sc.png
+[[file:./images/sc.png]]
 ***** Random :
 #+begin_example
 from random import shuffle,randint,random
@@ -321,6 +321,6 @@ for i in range (0,size_obs):
     res_r_x.append(test1[0])
     res_r_y.append(test1[1])
 #+end_example
-file:./images/sr.png
+[[file:./images/sr.png]]
 
 *** TODO :: Graph with 10 time the same tuples in the two configuration with different seed to ensure reproductibility
