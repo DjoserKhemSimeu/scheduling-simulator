@@ -265,4 +265,62 @@ IndexError: index 32 is out of bounds for axis 0 with size 32
 + The AVGBounded slowdown stabilize for all tuples arround 300th generations
 
 *** TODO ::Representation in two dimension of the intial distribution of the pop in the two methods
+**** Using PCA dimension reduction
+#+begin_example
+from sklearn.decomposition import PCA
+
+n_compo=2
+pca_h =PCA(n_components=n_compo)
+lower_dim_data_h =pca_h.fit_transform(init_pop_h)
+pca_r =PCA(n_components=n_compo)
+lower_dim_data_r =pca_r.fit_transform(init_pop_r)
+#+end_example
+No real graphical differences
+***** Hypercube:
+file:./images/scatter_h.png
+***** Random:
+file:./images/scatter_r.png
+
+**** Using the same method as in simulator.py
+No real graphical differences
+***** Hypercube :
+#+begin_example
+sampler= qmc.LatinHypercube(d=2)
+lhs=sampler.random(n=size_obs)
+
+res_h_x=list()
+res_h_y=list()
+for i in range(0,size_obs):
+    prob=lhs[i]
+    copy=[]
+    for j in range(0,2):
+        idx=randint(0,size_test - 1)
+        p=random()
+
+        while (np.isin(idx,copy) or p>prob[j]) :
+            idx=randint(0, size_test - 1)
+            p=random()
+        copy.append(idx)
+    res_h_x.append(copy[0])
+    res_h_y.append(copy[1])
+#+end_example
+file:./images/sc.png
+***** Random :
+#+begin_example
+from random import shuffle,randint,random
+from scipy.stats import qmc
+import numpy as np
+size_obs=40
+size_test=32
+test1=np.arange(size_test)
+shuffle(test1)
+res_r_x=list()
+res_r_y=list()
+for i in range (0,size_obs):
+    shuffle(test1)
+    res_r_x.append(test1[0])
+    res_r_y.append(test1[1])
+#+end_example
+file:./images/sr.png
+
 *** TODO :: Graph with 10 time the same tuples in the two configuration with different seed to ensure reproductibility

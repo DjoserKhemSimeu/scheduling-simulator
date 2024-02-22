@@ -21,10 +21,10 @@ SIMULATION_PARAMETERS = {
     "workload": str(DATA_DIR / "workloads" / "lublin_256.swf"),
     "application": str(DATA_DIR / "applications" / "deployment_cluster.xml"),
     "platform": str(DATA_DIR / "platforms" / "simple_cluster.xml"),
-    "number-of-tuples": 10,
+    "number-of-tuples": 1,
     "population-size": 40,
     "mutation-prob": 0.05,
-    "number-of-generations": 500,
+    "number-of-generations": 5,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
@@ -43,7 +43,8 @@ class Simulator:
     _states_path = SIMULATION_DIR / "states"
     _training_data_path = SIMULATION_DIR / "training-data"
     _global_training_data_path = SIMULATION_DIR / "training-data" / "global_training_data.csv"
-    _global_training_data_path = SIMULATION_DIR / "training-data" / "global_training_data.csv"
+    _pop_init_r_path = SIMULATION_DIR / "training-data" / "pop_init_r.csv"
+    _pop_init_h_path = SIMULATION_DIR / "training-data" / "pop_init_h.csv"
     _avgbd_data_h_path=SIMULATION_DIR / "training-data" / "AVGBD_data_h.csv"
     _avgbd_data_r_path=SIMULATION_DIR / "training-data" / "AVGBD_data_r.csv"
     _permutation_indices = None
@@ -234,6 +235,14 @@ class Simulator:
                     copy.append(idx)
                     #print(copy.count(idx))
                 #print(self._parents_indices[indiv])
+            with open(self._pop_init_h_path, "w+") as init:
+                for idx in range(0, self.population_size):
+                    for j in range(0,self.size_of_Q):
+                        if j == self.size_of_Q-1:
+                            init.write(f"{self._parents_indices[idx][j]}\n")
+                        else :
+                            init.write(f"{self._parents_indices[idx][j]},")
+
 
 
         else:     
@@ -243,7 +252,13 @@ class Simulator:
                 
                 shuffle(self._parents_indices[j])
                 #print(self._parents_indices[j])
-            
+            with open(self._pop_init_r_path, "w+") as init:
+                for idx in range(0, self.population_size):
+                    for j in range(0,self.size_of_Q):
+                        if j == self.size_of_Q-1:
+                            init.write(f"{self._parents_indices[idx][j]}\n")
+                        else :
+                            init.write(f"{self._parents_indices[idx][j]},")
         
         #else:
         #    self.create_childrens()
