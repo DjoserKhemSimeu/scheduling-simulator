@@ -6,6 +6,7 @@ import shutil
 import subprocess
 from scipy.stats import qmc
 import argparse
+
 from random import seed, randint, shuffle, random
 
 
@@ -24,7 +25,7 @@ SIMULATION_PARAMETERS = {
     "number-of-tuples": 1,
     "population-size": 40,
     "mutation-prob": 0.05,
-    "number-of-generations": 5,
+    "number-of-generations": 300,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
@@ -75,7 +76,7 @@ class Simulator:
         self.global_data=open(self._global_training_data_path,"w+")
 
         if fixed_seed:
-            seed(42)
+            seed(1)
 
     def get_workload_info(self):
         reader = ReaderSWF(self.workload)
@@ -214,7 +215,7 @@ class Simulator:
        #print(self._parents_indices[0])
         if args.hypercube :
             self._parents_indices =[[-1 for _ in range(self.size_of_Q)] for _ in range(self.population_size)]
-            sampler= qmc.LatinHypercube(d=self.size_of_Q)
+            sampler= qmc.LatinHypercube(d=self.size_of_Q,seed=1)
             lhs=sampler.random(n=self.population_size)
             for indiv in range (0,self.population_size):
                 prob = lhs[indiv]

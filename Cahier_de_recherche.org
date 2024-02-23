@@ -264,7 +264,7 @@ IndexError: index 32 is out of bounds for axis 0 with size 32
 [[file:./images/graph_gs_hyper.png]]
 + The AVGBounded slowdown stabilize for all tuples arround 300th generations
 
-*** TODO ::Representation in two dimension of the intial distribution of the pop in the two methods
+*** DONE ::Representation in two dimension of the intial distribution of the pop in the two methods
 **** Using PCA dimension reduction
 #+begin_example
 from sklearn.decomposition import PCA
@@ -322,5 +322,14 @@ for i in range (0,size_obs):
     res_r_y.append(test1[1])
 #+end_example
 [[file:./images/sr.png]]
-
-*** TODO :: Graph with 10 time the same tuples in the two configuration with different seed to ensure reproductibility
+* vendredi 23 février
+** TODO :: Graph with 10 time the same tuples in the two configuration with different seed to ensure reproductibility
++ list of seed : 42 , 23 , 32, 15, 234 , 898 , 747, 45, 14, 1
+  Changing the value simulator.py line 78 : seed(42) and line 217 : sampler= qmc.LatinHypercube(d=self.size_of_Q,seed=42)
+*** For Ramdom shuffle :
+[[file:./images/r_shuffle_seed.png]]
+*** For Hypercube shuffle :
+[[file:./images/h_shuffle_seed.png]]
+** TODO :: Learn how to use Grid'5000
++ Tutorial getting started : https://www.grid5000.fr/w/Getting_Started#Connecting_for_the_first_time
++ Usefull ressource for installing nix in Grid'5000 :https://nix-tutorial.gitlabpages.inria.fr/nix-tutorial/installation.html
