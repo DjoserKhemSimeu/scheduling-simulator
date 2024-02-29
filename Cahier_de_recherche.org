@@ -333,3 +333,53 @@ for i in range (0,size_obs):
 ** TODO :: Learn how to use Grid'5000
 + Tutorial getting started : https://www.grid5000.fr/w/Getting_Started#Connecting_for_the_first_time
 + Usefull ressource for installing nix in Grid'5000 :https://nix-tutorial.gitlabpages.inria.fr/nix-tutorial/installation.html
+* Jeudi 29 février
+** First utilisation of Grid5000
++ to connect to the server :
+  #+begin_example
+  ssh grenoble.g5k
+  #+end_example
++ to copy a file/folder into my space in the server :
+  #+begin_example
+  scp myfile.py g5k:targetfolder
+  scp -r myfolder g5k:targetfolder
+  #+end_example
++ to run a file :
+  #+begin_example
+  oarsub -l host=1/core=1 "python3 myfile.py"
+  #+end_example
++ to see the advancement of my task:
+  #+begin_example
+  oarstat -u
+  #+end_example
+** Advancement
++ Sucessely run simple program as hello.python
++ Sucessely copy paste my workspaces into my Grid5000 env
+*** Problems
+**** TODO :: Problem in the running of simulator.py :
+#+begin_example
+Traceback (most recent call last):
+  File "/home/dsimeu/public/workspaces/scheduling-simulator/src/simulator/simulator.py", line 444, in <module>
+    simulator.simulate()
+  File "/home/dsimeu/public/workspaces/scheduling-simulator/src/simulator/simulator.py", line 380, in simulate
+    self.create_initial_state(tuple_index)
+  File "/home/dsimeu/public/workspaces/scheduling-simulator/src/simulator/simulator.py", line 145, in create_initial_state
+    subprocess.run(
+  File "/usr/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.9/subprocess.py", line 1823, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/dsimeu/public/workspaces/scheduling-simulator/src/simulator/trials_simulator'
+#+end_example
++ Advencement the error "No such file or directory" explaination:"libsimgrid.so.3.13 => not found"
+#+begin_example
+    $ ldd /home/dsimeu/public/workspaces/scheduling-simulator/src/simulator/trials_simulator
+	linux-vdso.so.1 (0x00007ffeb05fb000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f3bf10c8000)
+	libsimgrid.so.3.13 => not found
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3bf0ef4000)
+	/nix/store/z56jcx3j1gfyk4sv7g8iaan0ssbdkhz1-glibc-2.33-56/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f3bf1225000)
+#+end_example
++ Possible usage of guix :https://guix.gnu.org/manual/fr/html_node/
