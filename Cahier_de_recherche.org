@@ -421,3 +421,5 @@ root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
 ** Observations:
 We can observe a real speedup(x2) compare to the running on my machine but, in that case we use only one node, maybe we can have better performance by using multiple node for the computation.
 *** TODO :: Find a way to save in my local environnement the trainning datas generated in environnement of the node
+*** TODO :: How to use multiple node with this method
+*** TODO :: How to save a particular configuration to setup nodes
