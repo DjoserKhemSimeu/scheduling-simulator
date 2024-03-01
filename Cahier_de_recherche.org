@@ -323,14 +323,14 @@ for i in range (0,size_obs):
 #+end_example
 [[file:./images/sr.png]]
 * vendredi 23 février
-** TODO :: Graph with 10 time the same tuples in the two configuration with different seed to ensure reproductibility
+** DONE :: Graph with 10 time the same tuples in the two configuration with different seed to ensure reproductibility
 + list of seed : 42 , 23 , 32, 15, 234 , 898 , 747, 45, 14, 1
   Changing the value simulator.py line 78 : seed(42) and line 217 : sampler= qmc.LatinHypercube(d=self.size_of_Q,seed=42)
 *** For Ramdom shuffle :
 [[file:./images/r_shuffle_seed.png]]
 *** For Hypercube shuffle :
 [[file:./images/h_shuffle_seed.png]]
-** TODO :: Learn how to use Grid'5000
+** DONE :: Learn how to use Grid'5000
 + Tutorial getting started : https://www.grid5000.fr/w/Getting_Started#Connecting_for_the_first_time
 + Usefull ressource for installing nix in Grid'5000 :https://nix-tutorial.gitlabpages.inria.fr/nix-tutorial/installation.html
 * Jeudi 29 février
@@ -356,7 +356,7 @@ for i in range (0,size_obs):
 + Sucessely run simple program as hello.python
 + Sucessely copy paste my workspaces into my Grid5000 env
 *** Problems
-**** TODO :: Problem in the running of simulator.py :
+**** DONE :: Problem in the running of simulator.py :
 #+begin_example
 Traceback (most recent call last):
   File "/home/dsimeu/public/workspaces/scheduling-simulator/src/simulator/simulator.py", line 444, in <module>
@@ -383,3 +383,41 @@ FileNotFoundError: [Errno 2] No such file or directory: '/home/dsimeu/public/wor
 	/nix/store/z56jcx3j1gfyk4sv7g8iaan0ssbdkhz1-glibc-2.33-56/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f3bf1225000)
 #+end_example
 + Possible usage of guix :https://guix.gnu.org/manual/fr/html_node/
+* vendredi 1 mars
+** Sucessfuly run simulator.py on Grid5000 method :
++ reserve a specific node:
+  #+begin-example
+dsimeu@fgrenoble:~/public/workspaces$ oarsub -I -l host=1,walltime=1:45 -t deploy
+#+end_example
++ deploy the same distrubtuion as me on the node :
+  #+begin_example
+  dsimeu@fgrenoble:~/public/workspaces$ kadeploy3 ubuntu2204-min
+  #+end_example
++ connecting to the node (in our case dahu-30 given by the previous function)
+  #+begin-example
+  dsimeu@fgrenoble:~/public/workspaces$ ssh root@dahu-30.grenoble.grid5000.fr
+  #+end-example
++ install nix on the node :
+  #+begin_example
+root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
+   #+end_example
++ also install packages which allow us to call nix commands:
+  #+begin-example
+  root@dahu-30:~# apt install nix-bin
+  #+end-example
++ return to our grid5000 env by Ctrl+D
++ copy the workspaces folder wich contain our file to the node's environnement:
+  #+begin-example
+  dsimeu@fgrenoble:~/public$ rsync -r workspaces root@dahu-30.grenoble.grid5000.fr:
+  #+end_example
++ run the nix-shell with our file:
+  #+begin-example
+  root@dahu-30:~/workspaces# nix-shell simgrid.nix
+#+end_example
++ run our file:
+  #+begin-example
+  [nix-shell:~/workspaces/scheduling-simulator/src/simulator]# python3 simulator.py
+#+end-example
+** Observations:
+We can observe a real speedup(x2) compare to the running on my machine but, in that case we use only one node, maybe we can have better performance by using multiple node for the computation.
+*** TODO :: Find a way to save in my local environnement the trainning datas generated in environnement of the node
