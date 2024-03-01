@@ -386,7 +386,7 @@ FileNotFoundError: [Errno 2] No such file or directory: '/home/dsimeu/public/wor
 * vendredi 1 mars
 ** Sucessfuly run simulator.py on Grid5000 method :
 + reserve a specific node:
-  #+begin-example
+#+begin_example
 dsimeu@fgrenoble:~/public/workspaces$ oarsub -I -l host=1,walltime=1:45 -t deploy
 #+end_example
 + deploy the same distrubtuion as me on the node :
@@ -394,30 +394,30 @@ dsimeu@fgrenoble:~/public/workspaces$ oarsub -I -l host=1,walltime=1:45 -t deplo
   dsimeu@fgrenoble:~/public/workspaces$ kadeploy3 ubuntu2204-min
   #+end_example
 + connecting to the node (in our case dahu-30 given by the previous function)
-  #+begin-example
+  #+begin_example
   dsimeu@fgrenoble:~/public/workspaces$ ssh root@dahu-30.grenoble.grid5000.fr
-  #+end-example
+  #+end_example
 + install nix on the node :
   #+begin_example
 root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
    #+end_example
 + also install packages which allow us to call nix commands:
-  #+begin-example
+  #+begin_example
   root@dahu-30:~# apt install nix-bin
-  #+end-example
+  #+end_example
 + return to our grid5000 env by Ctrl+D
 + copy the workspaces folder wich contain our file to the node's environnement:
-  #+begin-example
+  #+begin_example
   dsimeu@fgrenoble:~/public$ rsync -r workspaces root@dahu-30.grenoble.grid5000.fr:
   #+end_example
 + run the nix-shell with our file:
-  #+begin-example
+  #+begin_example
   root@dahu-30:~/workspaces# nix-shell simgrid.nix
 #+end_example
 + run our file:
-  #+begin-example
+  #+begin_example
   [nix-shell:~/workspaces/scheduling-simulator/src/simulator]# python3 simulator.py
-#+end-example
+#+end_example
 ** Observations:
 We can observe a real speedup(x2) compare to the running on my machine but, in that case we use only one node, maybe we can have better performance by using multiple node for the computation.
 *** TODO :: Find a way to save in my local environnement the trainning datas generated in environnement of the node
