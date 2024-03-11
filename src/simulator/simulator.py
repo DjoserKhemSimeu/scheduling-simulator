@@ -4,7 +4,7 @@ import pathlib
 import numpy as np
 import shutil
 import subprocess
-from scipy.stats import qmc
+#from scipy.stats import qmc
 import argparse
 
 from random import seed, randint, shuffle, random
@@ -215,7 +215,8 @@ class Simulator:
        #print(self._parents_indices[0])
         if args.hypercube :
             self._parents_indices =[[-1 for _ in range(self.size_of_Q)] for _ in range(self.population_size)]
-            sampler= qmc.LatinHypercube(d=self.size_of_Q,seed=1)
+            #sampler= qmc.LatinHypercube(d=self.size_of_Q,seed=1)
+            sampler=0
             lhs=sampler.random(n=self.population_size)
             for indiv in range (0,self.population_size):
                 prob = lhs[indiv]

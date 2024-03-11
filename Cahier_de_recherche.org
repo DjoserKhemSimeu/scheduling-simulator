@@ -1,5 +1,5 @@
 #+title: Cahier De Recherche
-#+ Author: Djoser SIMEU
+#+author: Djoser SIMEU
 
 * mercredi 31 janvier 2024
 ** Prise en mains du repertoire gitHub
@@ -419,7 +419,48 @@ root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
   [nix-shell:~/workspaces/scheduling-simulator/src/simulator]# python3 simulator.py
 #+end_example
 ** Observations:
-We can observe a real speedup(x2) compare to the running on my machine but, in that case we use only one node, maybe we can have better performance by using multiple node for the computation.
+Not a big improvement compare to the running in local
 *** TODO :: Find a way to save in my local environnement the trainning datas generated in environnement of the node
-*** TODO :: How to use multiple node with this method
+*** DONE :: How to use multiple node with this method
 *** TODO :: How to save a particular configuration to setup nodes
+* mercredi 6 mars
+** Observation
++ The runtime on Grid 5000 is similar to the runtime on my local machine , maybe it's due to the multiple disk acesses at each iteration of the GA
++ Maybe we can decrease the runtime by using parallel programming methods such as OpenMP
++ Grid 5000 allow us to use external hardware devices in our case it usefull for generating the training dataset with 10 000 observation but it will take approximately the same time as a local running.
+** Runtime computation
++ 2 Gen/sec
++ We need 100 000 observations
++ Size of Q = 32
++ Nb tuples needed = 3125
++ Nb Gen = 300
++ Runtimes by tuples = 150 sec
++ Global Runtimes = 130 H 13 min
+** TODO :: Olivier Richard solution
++ i can decompose the programm set of tuples to use multiple cores by lauching multipler process in dahu
++ To decompose my task i can use gnu parallel (https://www.grid5000.fr/w/GNU_Parallel)
++ 31 process which each execute 100 tuples and 1 process 25 tuples
++ like that the full running will take 4H 11min
++ use tmux
++ attention concurent acces
+** TODO :: Comparaison GA Deep search
++ 10 tuples
++ 2*10 curves ( Ga, DS )
++ slodown in function of time
++ time computation : Averge running tim by generation
+* Vendredi 8 mars
+** Comparaison GA DS
++ The code here https://github.com/fredgrub/scheduling-simulator/blob/main/src/simulator/simulator.py compute the DS algorithm to find a target priorities
++ Run the DS code and store only new minimum for plotting
++ Because of the time needed to run the DS program with 256 000 trials for 10 tuples, for the moment we compute the result only for 1 tuple
+*** TODO :: Paralellize the computation of each tuples for the two experimental contexts (DS,GA)
+*** TODO :: Do the same thing with a budget of 1 hour for each context and compare them
+* Lundi 11 mars
+** Paralellize the computation by tuple
+*** DONE :: Use the arg for the seed
+*** TODO :: Finding a way to parallelize the computation
+One node for GA and one node for DS
+**** Genetic algo and Deep Search method
++ 10 tuples to compute
++ 10 cpu with 1 tuples
++ First idea : copy 10 time the directory and run simulator.py and simulator_trials.py in each directories with 10 different seed
