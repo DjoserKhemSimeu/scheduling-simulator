@@ -25,12 +25,14 @@ SIMULATION_PARAMETERS = {
     "number-of-tuples": 1,
     "population-size": 40,
     "mutation-prob": 0.05,
-    "number-of-generations": 300,
+    "number-of-generations": 10,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
 parser=argparse.ArgumentParser()
 parser.add_argument("-l","--hypercube",help="random (default) or hypercube?",action="store_true")
+parser.add_argument("seed", metavar='N', type=int,
+                    help='an integer for the accumulator')
 args = parser.parse_args()
 
 
@@ -76,7 +78,7 @@ class Simulator:
         self.global_data=open(self._global_training_data_path,"w+")
 
         if fixed_seed:
-            seed(1)
+            seed(args.seed)
 
     def get_workload_info(self):
         reader = ReaderSWF(self.workload)
@@ -427,6 +429,8 @@ if __name__ == "__main__":
         print("hypercube shuffle mode\n")
     else :
         print("random shuffle mode\n")
+    if args.seed:
+        print("arg: ",args.seed)
     simulator = Simulator(
         SIMULATION_PARAMETERS["workload"],
         SIMULATION_PARAMETERS["application"],

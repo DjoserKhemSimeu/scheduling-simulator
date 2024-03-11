@@ -5,7 +5,7 @@ import numpy as np
 import shutil
 import subprocess
 from random import seed, randint
-
+import argparse
 # Add the src directory to the path so we can import the tools
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "src")))
 from tools.swf_reader import *
@@ -14,12 +14,17 @@ from tools.swf_reader import *
 SIMULATION_DIR = pathlib.Path(__file__).parent
 DATA_DIR = pathlib.Path(__file__).parent.parent.parent / "data"
 
+parser=argparse.ArgumentParser()
+
+parser.add_argument("seed", metavar='N', type=int,
+                    help='an integer for the accumulator')
+args = parser.parse_args()
 SIMULATION_PARAMETERS = {
     "workload": str(DATA_DIR / "workloads" / "lublin_256.swf"),
     "application": str(DATA_DIR / "applications" / "deployment_cluster.xml"),
     "platform": str(DATA_DIR / "platforms" / "simple_cluster.xml"),
     "number-of-tuples": 1,
-    "number-of-trials": 256000,
+    "number-of-trials": 2560,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
@@ -34,6 +39,7 @@ class Simulator:
     _task_sets_path = SIMULATION_DIR / "task-sets"
     _states_path = SIMULATION_DIR / "states"
     _training_data_path = SIMULATION_DIR / "training-data"
+    _avgbd_data_ds_path=SIMULATION_DIR / "training-data" / "AVGBD_data_ds.csv"
     _permutation_indexes = None
 
     def __init__(
@@ -55,7 +61,7 @@ class Simulator:
         self.get_workload_info()
 
         if fixed_seed:
-            seed(42)
+            seed(args.seed)
 
     def get_workload_info(self):
         reader = ReaderSWF(self.workload)
@@ -187,6 +193,7 @@ class Simulator:
 
     def compute_AVGbsld(self, index):
         exp_sum_slowdowns = 0.0
+        #print("coucou")
         distribution = np.zeros(self.size_of_Q)
         exp_first_choice = np.zeros((self.number_of_trials), dtype=np.int32)
         exp_slowdowns = np.zeros((self.number_of_trials))
@@ -197,12 +204,16 @@ class Simulator:
         trialID = 0
         with open(self._result_file, "r") as rf:
             lines = rf.readlines()
+
             if len(lines) != self.number_of_trials:
                 index = index - 1
-            for line in lines:
-                exp_slowdowns[trialID] = float(line)
-                exp_sum_slowdowns += float(line)
-                trialID = trialID + 1
+            with open(self._avgbd_data_ds_path, "a+") as res:
+                
+                for line in lines:
+                    exp_slowdowns[trialID] = float(line)
+                    exp_sum_slowdowns += float(line)
+                    trialID = trialID + 1
+                    res.write(line)
 
         for trialID in range(self.number_of_trials):
             distribution[exp_first_choice[trialID]] += exp_slowdowns[trialID]
@@ -233,8 +244,8 @@ class Simulator:
             self.initialize_permutation_indexes()
             self.schedule_trials()
             self.report_trials_results()
-            #score_dist = self.compute_AVGbsld(tuple_index)
-            #self.save_score_distribution(tuple_index, score_dist)
+            score_dist = self.compute_AVGbsld(tuple_index)
+            self.save_score_distribution(tuple_index, score_dist)
 
     @classmethod
     def clear_files(cls):
@@ -258,6 +269,8 @@ class Simulator:
 
 
 if __name__ == "__main__":
+    if args.seed:
+        print("arg: ",args.seed)
     simulator = Simulator(
         SIMULATION_PARAMETERS["workload"],
         SIMULATION_PARAMETERS["application"],
