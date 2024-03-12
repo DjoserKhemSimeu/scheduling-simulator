@@ -6,6 +6,7 @@ import shutil
 import subprocess
 from random import seed, randint
 import argparse
+import time
 # Add the src directory to the path so we can import the tools
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "src")))
 from tools.swf_reader import *
@@ -24,7 +25,7 @@ SIMULATION_PARAMETERS = {
     "application": str(DATA_DIR / "applications" / "deployment_cluster.xml"),
     "platform": str(DATA_DIR / "platforms" / "simple_cluster.xml"),
     "number-of-tuples": 1,
-    "number-of-trials": 2560,
+    "number-of-trials": 256000,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
@@ -38,8 +39,8 @@ class Simulator:
     _gather_file = SIMULATION_DIR / "training-data.csv"
     _task_sets_path = SIMULATION_DIR / "task-sets"
     _states_path = SIMULATION_DIR / "states"
-    _training_data_path = SIMULATION_DIR / "training-data"
-    _avgbd_data_ds_path=SIMULATION_DIR / "training-data" / "AVGBD_data_ds.csv"
+    _training_data_path = SIMULATION_DIR / "training-ds-data"
+    _avgbd_data_ds_path=SIMULATION_DIR / "training-ds-data" / "AVGBD_data_ds.csv"
     _permutation_indexes = None
 
     def __init__(
@@ -58,6 +59,7 @@ class Simulator:
         self.number_of_jobs = None
         self.number_of_processors = None
         self.model_jobs = None
+        self.time_trials=[]
         self.get_workload_info()
 
         if fixed_seed:
@@ -169,12 +171,15 @@ class Simulator:
         shuffled_Q = self.create_shuffled_Q()
 
         for trial_index in range(self.number_of_trials):
+            start=time.time()
             shuffled_Q = self.create_permutation(trial_index, shuffled_Q)
             subprocess.run(
                 ["./trials_simulator", self.cluster, self.deployment],
                 stdout=open(self._result_file, "a+"),
                 cwd=SIMULATION_DIR,
             )
+            end=time.time()
+            self.time_trials.append(end-start)
             print("Trial ", trial_index, " of ", self.number_of_trials, end="\r")
 
     def report_trials_results(self):
@@ -212,8 +217,10 @@ class Simulator:
                 for line in lines:
                     exp_slowdowns[trialID] = float(line)
                     exp_sum_slowdowns += float(line)
-                    trialID = trialID + 1
+                    res.write(str(self.time_trials[trialID]))
+                    res.write(',')
                     res.write(line)
+                    trialID = trialID + 1
 
         for trialID in range(self.number_of_trials):
             distribution[exp_first_choice[trialID]] += exp_slowdowns[trialID]
@@ -235,6 +242,7 @@ class Simulator:
 
     def simulate(self):
         for tuple_index in range(self.get_start_index(), self.number_of_tuples):
+
             self._jobs_S = {"p": [], "q": [], "r": []}
             self._jobs_Q = {"p": [], "q": [], "r": []}
 
@@ -244,6 +252,7 @@ class Simulator:
             self.initialize_permutation_indexes()
             self.schedule_trials()
             self.report_trials_results()
+
             score_dist = self.compute_AVGbsld(tuple_index)
             self.save_score_distribution(tuple_index, score_dist)
 

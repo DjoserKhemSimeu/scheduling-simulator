@@ -464,3 +464,43 @@ One node for GA and one node for DS
 + 10 tuples to compute
 + 10 cpu with 1 tuples
 + First idea : copy 10 time the directory and run simulator.py and simulator_trials.py in each directories with 10 different seed
+***** TODO :: See MPI library
+* Mercredi 13 mars
+** Creation of the parallel context of execution
++ Creation of multiple folder, each one represent a process which will run in parallel of the others
++ Creation of a script for the execution of the processes
+  #+begin_example
+  #!/bin/bash
+
+# Tableau contenant les chemins des scripts Python à exécuter
+scripts=(
+    "scheduling-simulator_DS/scheduling-simulator_DS_1/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_2/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_3/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_4/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_5/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_6/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_7/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_8/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_9/src/simulator/simulator_trials.py"
+    "scheduling-simulator_DS/scheduling-simulator_DS_10/src/simulator/simulator_trials.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_1/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_2/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_3/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_4/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_5/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_6/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_7/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_8/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_9/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_10/src/simulator/simulator.py"
+    # Ajoutez ici les chemins des autres scripts Python que vous souhaitez exécuter
+)
+
+# Boucle pour ouvrir 20 terminaux et exécuter les scripts Python
+for i in {0..19}
+do
+    gnome-terminal --command "python3 ${scripts[$i]} ${i}" &
+done
+#+end_example
+** TODO :: Problem, the gnome-terminal instruction is not installed

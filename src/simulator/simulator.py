@@ -6,6 +6,7 @@ import shutil
 import subprocess
 #from scipy.stats import qmc
 import argparse
+import time
 
 from random import seed, randint, shuffle, random
 
@@ -25,7 +26,7 @@ SIMULATION_PARAMETERS = {
     "number-of-tuples": 1,
     "population-size": 40,
     "mutation-prob": 0.05,
-    "number-of-generations": 10,
+    "number-of-generations": 300,
     "size-of-S": 16,
     "size-of-Q": 32,
 }
@@ -75,6 +76,7 @@ class Simulator:
         self.number_of_processors = None
         self.model_jobs = None
         self.get_workload_info()
+        self.time_trials=[]
         self.global_data=open(self._global_training_data_path,"w+")
 
         if fixed_seed:
@@ -335,7 +337,7 @@ class Simulator:
             output_file.write(output)
         self.global_data.write(output)
 
-    def select(self):
+    def select(self,exec_time):
         with open(self._result_file, "r") as rf:
             lines = rf.readlines()
             arr_slowdowns = np.asarray([float(_str.rstrip("\n")) for _str in lines])
@@ -354,6 +356,8 @@ class Simulator:
                     res.write("\n")
             else :
                 with open(self._avgbd_data_r_path, "a+") as res:
+                    res.write(str(exec_time))
+                    res.write(',')
                     res.write(str(arr_slowdowns[best_indvs[0]]))
                     res.write("\n")
 
@@ -384,6 +388,7 @@ class Simulator:
             self.clear_possible_artifacts(tuple_index)
             for gen in range(self.number_of_generations):
                 print("Generation: ", gen)
+                start=time.time()
                 if gen == 0: 
                     self.initialize_population_indexes()                    
                     self.create_childrens()                    
@@ -396,7 +401,8 @@ class Simulator:
                 self._permutation_indices = self.population_indices                  
                 #print(self.population_indices)
                 self.schedule_population()
-                self.select()
+                end=time.time()
+                self.select(end-start)
             #    score_dist = self.compute_AVGbsld(tuple_index)
                 self._current_generation = gen
             score_dist=self.define_score_dist()
