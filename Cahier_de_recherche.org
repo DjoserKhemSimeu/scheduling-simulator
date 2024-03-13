@@ -503,4 +503,7 @@ do
     gnome-terminal --command "python3 ${scripts[$i]} ${i}" &
 done
 #+end_example
-** TODO :: Problem, the gnome-terminal instruction is not installed
+** DONE :: Problem, the gnome-terminal instruction is not installed*
+** Results of the comparison :
+[[file:./images/GAvsDS.png]]
++ As we can see for all the tuple of the evaluation the GA succeed to have a better score than the DS
