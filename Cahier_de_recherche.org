@@ -408,7 +408,8 @@ root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
 + return to our grid5000 env by Ctrl+D
 + copy the workspaces folder wich contain our file to the node's environnement:
   #+begin_example
-  dsimeu@fgrenoble:~/public$ rsync -r workspaces root@dahu-30.grenoble.grid5000.fr:
+  dsimeu@fgrenoble:~/public$ ls
+
   #+end_example
 + run the nix-shell with our file:
   #+begin_example
@@ -420,7 +421,7 @@ root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
 #+end_example
 ** Observations:
 Not a big improvement compare to the running in local
-*** TODO :: Find a way to save in my local environnement the trainning datas generated in environnement of the node
+*** DONE :: Find a way to save in my local environnement the trainning datas generated in environnement of the node
 *** DONE :: How to use multiple node with this method
 *** TODO :: How to save a particular configuration to setup nodes
 * mercredi 6 mars
@@ -443,7 +444,7 @@ Not a big improvement compare to the running in local
 + like that the full running will take 4H 11min
 + use tmux
 + attention concurent acces
-** TODO :: Comparaison GA Deep search
+** DONE :: Comparaison GA Deep search
 + 10 tuples
 + 2*10 curves ( Ga, DS )
 + slodown in function of time
@@ -453,18 +454,18 @@ Not a big improvement compare to the running in local
 + The code here https://github.com/fredgrub/scheduling-simulator/blob/main/src/simulator/simulator.py compute the DS algorithm to find a target priorities
 + Run the DS code and store only new minimum for plotting
 + Because of the time needed to run the DS program with 256 000 trials for 10 tuples, for the moment we compute the result only for 1 tuple
-*** TODO :: Paralellize the computation of each tuples for the two experimental contexts (DS,GA)
-*** TODO :: Do the same thing with a budget of 1 hour for each context and compare them
+*** DONE :: Paralellize the computation of each tuples for the two experimental contexts (DS,GA)
+*** DONE :: Do the same thing with a budget of 1 hour for each context and compare them
 * Lundi 11 mars
 ** Paralellize the computation by tuple
 *** DONE :: Use the arg for the seed
-*** TODO :: Finding a way to parallelize the computation
+*** DONE :: Finding a way to parallelize the computation
 One node for GA and one node for DS
 **** Genetic algo and Deep Search method
 + 10 tuples to compute
 + 10 cpu with 1 tuples
 + First idea : copy 10 time the directory and run simulator.py and simulator_trials.py in each directories with 10 different seed
-***** TODO :: See MPI library
+***** DONE :: See MPI library
 * Mercredi 13 mars
 ** Creation of the parallel context of execution
 + Creation of multiple folder, each one represent a process which will run in parallel of the others
@@ -505,5 +506,40 @@ done
 #+end_example
 ** DONE :: Problem, the gnome-terminal instruction is not installed*
 ** Results of the comparison :
+[[file:./images/mean_90_10.png]]
 [[file:./images/GAvsDS.png]]
 + As we can see for all the tuple of the evaluation the GA succeed to have a better score than the DS
+**
+* vendredi 15 mars
+** Update of the script:
++ remove the gnome-command by: python3 ${scripts[$i]} ${i} > outputs/output_${i}.txt &
+*** DONE :: Z-score
+** Writting a script to process the data generation
+#+begin_example
+#!/bin/bash
+sudo-g5k
+sh <(curl -L https://nixos.org/nix/install) --daemon --yes
+sudo apt install nix-bin -y
+#nix-shell simgrid.nix &
+# Tableau contenant les chemins des scripts Python à exécuter
+scripts=(
+    "scheduling-simulator_GA/scheduling-simulator_GA_1/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_2/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_3/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_4/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_5/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_6/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_7/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_8/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_9/src/simulator/simulator.py"
+    "scheduling-simulator_GA/scheduling-simulator_GA_10/src/simulator/simulator.py"
+    # Ajoutez ici les chemins des autres scripts Python que vous souhaitez exécuter
+)
+
+# Boucle pour ouvrir 20 terminaux et exécuter les scripts Python
+for i in {0..9}
+do
+    nix-shell simgrid.nix --command "python3 ${scripts[$i]} ${i} > outputs/output_${i}.txt" &
+done
+
+#+end_example
