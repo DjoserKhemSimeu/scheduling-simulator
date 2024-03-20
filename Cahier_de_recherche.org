@@ -177,7 +177,7 @@ To increase the precision and the speed of the computation of the targets given 
 + Adding in regressor the global variable : TRAINING_DIR = pathlib.Path(__file__).parent.parent / "simulator" / "training-data"
   + using it : SCORE_DISTRIBUTION = TRAINING_DIR / "global_training_data.csv"
 *** DONE :: Define a way to stop the learning of the gen algo
-** TODO ::posible utilisation d'une recherche profonde -> Gen algo
+** DONE ::posible utilisation d'une recherche profonde -> Gen algo
 ** DONE ::latin hypercube for the initialization of the population
 ** DONE ::Grid Search algo hyper parameter = nb gen , initiaalisation de la population
 ** DONE ::Jeu experimentale python simulator.py -random/-lhs
@@ -408,8 +408,7 @@ root@dahu-30:~# sh <(curl -L https://nixos.org/nix/install) --daemon
 + return to our grid5000 env by Ctrl+D
 + copy the workspaces folder wich contain our file to the node's environnement:
   #+begin_example
-  dsimeu@fgrenoble:~/public$ ls
-
+  dsimeu@fgrenoble:~/public$ rsync -r workspaces root@dahu-30.grenoble.grid5000.fr:
   #+end_example
 + run the nix-shell with our file:
   #+begin_example
@@ -543,3 +542,33 @@ do
 done
 
 #+end_example
+* mercredi 20 mars
+** Runnig the generation of the trainning dataset
+to generate the training dataset i modified the script previously defined to divide the execution into 32 processes where each one will execute 100 tuples (for each configuration DS an GA)
++ I divided the number of trials in the DS version by 10 to reduce the runtime and because in our observations the DS version find approximatly is minimum in les than 25600 trials in median
++ Now instead of do a deployment we can used the command oarsub -I -l host=1,walltime=1:45
+** Problem
++ dead loop with :
+** Beginning of the half report
+*** Organization
+**** Introduction
+**** Previous work
++ Simgrid
++ scheduling-simulator
++ Genetic Algorithm
++ Grid 5000 ?
++ Multiple linear regressions model
+**** Gentic Algorithm deployment
++ finalize the implementation
+***** Trying other implementation
++ LatinHypercube
++ Deep search
+**** Multiple Linear Regressions model
++ Polynomials of jobs attributes
++ Correlation of jobs attributes
++ Possible solutions
+**** Conclusion
+*** TODO :: Informations about SimGrid
+*** TODO :: Informations about Grid 5000
+*** TODO :: Informations about the theorie of the Latin Hypercubes
+*** TODO :: Informations about the part of Multiple linear regressions model

@@ -23,7 +23,7 @@ SIMULATION_PARAMETERS = {
     "workload": str(DATA_DIR / "workloads" / "lublin_256.swf"),
     "application": str(DATA_DIR / "applications" / "deployment_cluster.xml"),
     "platform": str(DATA_DIR / "platforms" / "simple_cluster.xml"),
-    "number-of-tuples": 1,
+    "number-of-tuples": 100,
     "population-size": 40,
     "mutation-prob": 0.05,
     "number-of-generations": 300,
