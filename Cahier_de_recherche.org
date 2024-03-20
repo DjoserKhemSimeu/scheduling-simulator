@@ -547,12 +547,11 @@ done
 to generate the training dataset i modified the script previously defined to divide the execution into 32 processes where each one will execute 100 tuples (for each configuration DS an GA)
 + I divided the number of trials in the DS version by 10 to reduce the runtime and because in our observations the DS version find approximatly is minimum in les than 25600 trials in median
 + Now instead of do a deployment we can used the command oarsub -I -l host=1,walltime=1:45
-** Problem
-+ dead loop with :
 ** Beginning of the half report
 *** Organization
 **** Introduction
-**** Previous work
+**** Preliminary concepts
++ ressources managment in HPC
 + Simgrid
 + scheduling-simulator
 + Genetic Algorithm
@@ -569,6 +568,7 @@ to generate the training dataset i modified the script previously defined to div
 + Possible solutions
 **** Conclusion
 *** TODO :: Informations about SimGrid
-*** TODO :: Informations about Grid 5000
+*** DONE :: Informations about Grid 5000
++ Jusrt a citation : https://www.grid5000.fr/mediawiki/index.php?title=Special:CiteThisPage&page=News&id=102364&wpFormIdentifier=titleform
 *** TODO :: Informations about the theorie of the Latin Hypercubes
 *** TODO :: Informations about the part of Multiple linear regressions model
