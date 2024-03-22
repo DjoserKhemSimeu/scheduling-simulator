@@ -567,15 +567,25 @@ to generate the training dataset i modified the script previously defined to div
 + Correlation of jobs attributes
 + Possible solutions
 **** Conclusion
-*** TODO :: Informations about SimGrid
+*** DONE :: Informations about SimGrid
 *** DONE :: Informations about Grid 5000
 + Jusrt a citation : https://www.grid5000.fr/mediawiki/index.php?title=Special:CiteThisPage&page=News&id=102364&wpFormIdentifier=titleform
-*** TODO :: Informations about the theorie of the Latin Hypercubes
-*** TODO :: Informations about the part of Multiple linear regressions model
+*** DONE :: Informations about the theorie of the Latin Hypercubes
+*** DONE :: Informations about the part of Multiple linear regressions model
 * vendredi 22 mars
-** TODO :: Collect data from the Grid 5000 front end to save it locally for the GA version
+** DONE :: Collect data from the Grid 5000 front end to save it locally for the GA version
 + Process stop as tuple 82 -83 so for the moment we have 83968 observations of jobs
 
 ** TODO :: Prepare the deep search running process in exec_script.sh
 ** TODO :: Read documentation about the functionnement of the multiple linear regressions before trainning
-** TODO :: Check the MALT library
+*** VIF computation
++ read_score_distribution :
+  read a csv file which contain the scores, define the cols name to p,q,r and score and call convert_temporal_dataon the dataframe
++ convert_temporal_data:
+  divide the temporal informations (p and r) by 3600 (why?
++ compute_vif :
+  call the methode variance_inflation_factor for each of the observation of the array (see: https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html)
+
+
+** TODO :: do sh exec_script.sh i
+** scp g5k:grenoble/public/... [destination in local]
