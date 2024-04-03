@@ -589,3 +589,51 @@ to generate the training dataset i modified the script previously defined to div
 
 ** TODO :: do sh exec_script.sh i
 ** scp g5k:grenoble/public/... [destination in local]
+* mercredi 27 mars
+** Starting writting the half-report
+*** Questions
++ Can I introduce scheme in the description of RJMS
+* vendredi 29 mars
+** starting the second part of the report
++ I must had in the section preliminary concepts : notion of tuples, notions of Average bounded slowdown
+* mercredi 3 avril
+** TODO :: Look at the exponantial smoothing principle
+** observation of the vif jupyter notebook
+*** Data:
++ global_training_data_GA.csv: trainning dataset
+*** Interpretation
++ a VIF(j) = 1 mean no correlation between the coeff j and the ramaining coefficiebnt of the regression
++ VIFs exceeding 10 are signs of serious multicollinearity requiring correction
++ https://online.stat.psu.edu/stat462/node/180/
+*** Observation
+**** Linear regression
+for all the attributes of jobs, we have a vif value close to 1 so we no correlation between our coef
+[[file:images/vif_linear.png]]
+**** Quadratic regression
+The values of the vif for quadratic regression are greater than the linear ones, the highest values are obtained for q and q² (arround eight)
+[[file:images/vif_qdr.png]]
+**** Cubic regression
+The values of the vif in this context are also hidher than in the previous context, and a majority of them are higher than 10. The highest values are obtained with q , q² and q³.
+[[file:images/vif_cub.png]]
+**** Other regression
+The other regressions parameters follow the same evolution as which one we saw in the previous contexts( higher genral vif and highest values obtain whith polynomials of q )
+**** Conclusion
+We observed that by increasing the polynomialty of the attributes we also increase the multicolinearity between them, we have a global vif higher than 10 from the cubic regression. We observed also that the highest vif values are always obtained for polynomials of q, by knowing that, maybe we can reduce the multicolinearity by removing the polinomials of q from the regression parameters.
+*** Comparaison with the results observed with the GA dataset
+We observed that the results are between 0.27 and 0.22 (MSE) we don't have a big influence of the polynomiality of the regression model on the results.
+*** Testing of our model
+**** TODO :: Understand why we have multiple class of parameters
+**** TODO :: Difference between estimate backfilling and runtime?
+**** Understanding of the tester folder
+***** parameters.c
++ contains the parameters of our multiple linear regressions in different context (default , temporal normalized...)
+***** polynomials.c
++ implement the computation of the models in function of a context (PARAMETERS)
+***** tester.py
++ Impleme,nt the testing process of our policies on different contexts
++ Save the solwdown of the different policies in different contexts
++ the workload_trace represent the dataset on whch we will test our policie
++ the policies set is the set of ploicies we want to test on our simulation
++ the simulator reprensent the context of sumulation used (estimate backfilling or runtime)
+****** TODO :: How can I make the link between the training of the model in regressor and the tester code?
+****** TODO :: What are the difference between the differents experimentation contexts?
