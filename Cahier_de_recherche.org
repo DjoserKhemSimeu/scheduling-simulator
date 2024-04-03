@@ -608,19 +608,30 @@ to generate the training dataset i modified the script previously defined to div
 *** Observation
 **** Linear regression
 for all the attributes of jobs, we have a vif value close to 1 so we no correlation between our coef
-#+begin_example
+
+
+
 [[file:images/vif_linear.png]]
-#+end_example
+
+
+
 **** Quadratic regression
 The values of the vif for quadratic regression are greater than the linear ones, the highest values are obtained for q and q² (arround eight)
-#+begin_example
+
+
+
 [[file:images/vif_qdr.png]]
-#+end_example
+
+
+
 **** Cubic regression
 The values of the vif in this context are also hidher than in the previous context, and a majority of them are higher than 10. The highest values are obtained with q , q² and q³.
-#+begin_example
+
+
 [[file:images/vif_cub.png]]
-#+end_example
+
+
+
 **** Other regression
 The other regressions parameters follow the same evolution as which one we saw in the previous contexts( higher genral vif and highest values obtain whith polynomials of q )
 **** Conclusion
