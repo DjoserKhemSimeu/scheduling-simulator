@@ -654,3 +654,4 @@ We observed that the results are between 0.27 and 0.22 (MSE) we don't have a big
 + the simulator reprensent the context of sumulation used (estimate backfilling or runtime)
 ****** TODO :: How can I make the link between the training of the model in regressor and the tester code?
 ****** TODO :: What are the difference between the differents experimentation contexts?
+****** TODO :: add sqare root
