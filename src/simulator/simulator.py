@@ -154,7 +154,7 @@ class Simulator:
 
     def clear_possible_artifacts(self, index):
         if self._result_file.exists():
-            self._result_file.unlink()
+            self._result_file.unlink()calculatrice en ligne
         if self.get_training_data_file(index).exists():
             self.get_training_data_file(index).unlink()
 

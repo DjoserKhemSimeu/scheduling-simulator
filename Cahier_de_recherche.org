@@ -655,3 +655,55 @@ We observed that the results are between 0.27 and 0.22 (MSE) we don't have a big
 ****** TODO :: How can I make the link between the training of the model in regressor and the tester code?
 ****** TODO :: What are the difference between the differents experimentation contexts?
 ****** TODO :: add sqare root
+* mercredi 10 avril
+** Implementation of a grid search to find the polynomiales with the less vif score
++ Maximum vif score of the set is the metric
+#+begin_example
+def grid_search (dataframe, n):
+    best_vif=100000000000000
+    best_set=[]
+    comb=list(itertools.combinations(possibilites,n))
+    for var_set in tqdm(comb, desc="Progression"):
+        print
+        df_copy = dataframe.copy()
+
+        # Appliquer les transformations pour chaque variable dans l'ensemble
+        for var in var_set:
+            if var.startswith('sqrt'):
+                root_var = var[-2]  # Récupérer la variable ('p', 'q' ou 'r') à partir de la variable sqrt
+                df_copy[var] = df_copy[root_var].apply(math.sqrt)
+            elif var.startswith(('p', 'q', 'r'))and len(var)==2:
+                power = int(var[1:]) if len(var) > 1 else 1  # Récupérer l'exposant du polynôme
+                base_var = var[0]  # Récupérer la variable ('p', 'q' ou 'r') à partir de la variable polynomiale
+                df_copy[var] = df_copy[base_var] ** power
+            elif var in ['p2q', 'q2p', 'p2r', 'r2p', 'q2r', 'r2q']:
+                var_1, var_2 = var[0], var[2]  # Récupérer les deux variables ('p', 'q' ou 'r') de la combinaison
+                df_copy[var] = (df_copy[var_1] **2) * df_copy[var_2]
+            elif var in ['p3q', 'q3p', 'p3r', 'r3p', 'q3r', 'r3q']:
+                var_1, var_2 = var[0], var[2]  # Récupérer les trois variables ('p', 'q' ou 'r') de la combinaison
+                df_copy[var] = (df_copy[var_1]**3) * df_copy[var_2]
+            elif var in ['p4q', 'q4p', 'p4r', 'r4p', 'q4r', 'r4q']:
+                var_1, var_2 = var[0], var[2] # Récupérer les quatre variables ('p', 'q' ou 'r') de la combinaison
+                df_copy[var] = (df_copy[var_1]**4) * df_copy[var_2]
+        res=compute_vif(df_copy)
+        max=np.max(res['VIF'])
+        if max<best_vif:
+            best_vif=max
+            best_set=var_set
+    print(best_vif)
+    print(best_set)
+
+#+end_example
+for n fixed as three with 4 as maximal degree the function return:
+#+begin_example
+1.3632406344945118
+('p4q', 'r4p', 'r4q')
+#+end_example
+*** TODO :: Use grid 5000 tu run grid search with high number of cores
+** Proof of the pertinence of the use of serialism parameters for the model
++ to implement a proof I used as serialism parameter the mean of the attributes (p,q,r)
+*** TODO :: Look at the moment of order 2,3,...
+*** Formula
+#+begin_example
+f(j)=r_mean+(p-p_mean)+(q-q_mean)
+#+end_example
