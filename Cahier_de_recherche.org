@@ -699,6 +699,11 @@ for n fixed as three with 4 as maximal degree the function return:
 1.3632406344945118
 ('p4q', 'r4p', 'r4q')
 #+end_example
+for n equal 4 we obtain :
+#+begin_example
+1.4240461523363361
+('r2q', 'p4q', 'p4r', 'r4p')
+#+end_example
 *** TODO :: Use grid 5000 tu run grid search with high number of cores
 ** Proof of the pertinence of the use of serialism parameters for the model
 + to implement a proof I used as serialism parameter the mean of the attributes (p,q,r)
