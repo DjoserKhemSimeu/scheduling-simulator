@@ -723,6 +723,7 @@ To prove that the mean of the job attributes can be usefull as input of the line
 #+begin_example
 f(j)=(r_j-r_mean)+(p_j-p_mean)+(q_j-q_mean)
 #+end_example
++ in our example the number of cores = 4
 +  for the first element scheduled by the method I define that the values of the r_mean _p_mean and q_mean are equal to r_j p_j and q_j, so the priority of the first job will always be 0.
 let's take the following example:
 #+begin_example
