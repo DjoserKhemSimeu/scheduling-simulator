@@ -740,7 +740,9 @@ f(j3)=1.5+1-0.5=2 (2)
 f(j4)=2-0.3+1.7=3.4 (4)
 #+end_example
 we obtain this scheduling:
+#+begin_center
 [[file:images/ex1.png]]
+#+end_center
 Now lets try an other example :
 #+begin_example
 j1 : p=5        q=4     r=0
@@ -756,4 +758,22 @@ f(j3)=1.5-0.5-1.5=-0.5 (2)
 f(j4)=2-1.33-1=-0.33 (3)
 #+end_example
 we obtained this scheduling :
+#+begin_center
 [[file:images/ex2.png]]
+#+end_center
+* mercredi 17 avril
+** DONE :: Implementation of a top 5 best vif score for the grid search
+#+begin_example
+Progression: 100%|████████████████████████████| 435/435 [00:31<00:00, 14.01it/s]
+[1.2862065211525044, 1.288677185752982, 1.307909782827608, 1.3200808766937433, 1.322164130430408]
+[('r3q', 'r4p'), ('r4p', 'r4q'), ('r3p', 'r4q'), ('r3p', 'r3q'), ('r2q', 'r4p')]
+#+end_example
+** TODO :: Continue the proof about te serialism
+#+begin_example
+
+#+end_example
+** TODO :: More detail in the abstract descriptif abstract
+** TODO :: give name to the axis of the pca graph
+** TODO :: replace scrore by- AVGbsld
+** TODO :: figurte en PDF
+** TODO :: connection sentence in preliminary concepts
