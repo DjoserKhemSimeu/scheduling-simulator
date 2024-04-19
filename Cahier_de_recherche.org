@@ -834,3 +834,8 @@ Progression: 100%|████████████████████�
 #+end_example
 **
 ** TODO :: Talk about the ponderation with p and q
+** Let's talk
++ Computing regression with attributes with a low vif ensure us of the regularity of the coefficients
++ we obsrevd that our results produce a better mean square error than the qdr cin ... models
++ compare our models on the MSE obtain is not enough we must try them with the tester code
++ for the moment we want to observe the behavior of our models with two and 3 attributes, by testing we can decide to run the grid search for higher number of attributes.
