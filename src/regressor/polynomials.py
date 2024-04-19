@@ -61,3 +61,44 @@ def sex(
             + t32*(p**2)*(q**4) + t33*p*(q**5))
 
     return qui_term + sex_term
+
+def new_2_1(x, t0, t1, t2):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(r**4)*q)
+    return lin_term
+def new_2_2(x, t0, t1, t2):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(r**3)*q)
+    return lin_term
+def new_2_3(x, t0, t1, t2):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**4) + t2*(p**4)*q)
+    return lin_term
+def new_2_4(x, t0, t1, t2):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4)*q + t2*(r**4)*q)
+    return lin_term
+def new_2_5(x, t0, t1, t2):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(r**4))
+    return lin_term
+def new_3_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**4) + t2*(q**4)*p +t3*(p**4)*r)
+    return lin_term
+def new_3_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**4) + t2*(q**3)*p +t3*(p**4)*r)
+    return lin_term
+def new_3_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(r**4) +t3*(q**4)*p)
+    return lin_term
+def new_3_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(q**4) +t3*(r**4))
+    return lin_term
+def new_3_5(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(q**4)*p +t3*(r**4)*p)
+    return lin_term

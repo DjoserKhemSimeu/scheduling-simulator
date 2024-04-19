@@ -8,7 +8,7 @@ DATA_DIR = pathlib.Path(__file__).parent.parent.parent / "data"
 TRAINING_DIR = pathlib.Path(__file__).parent / "simulator" / "training-data"
 SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA.csv"
 REPORT_FILE = DATA_DIR / "regression_report.json"
-FUNCTIONS = [lin, qdr, cub, qua, qui, sex]
+FUNCTIONS = [lin, new_2_1,new_2_2,new_2_3,new_2_4,new_2_5,new_3_1,new_3_2,new_3_3,new_3_4,new_3_5]
 
 
 class Regressor:
@@ -18,7 +18,7 @@ class Regressor:
     """
 
     def __init__(self, data_file, functions):
-        """
+        """9.003280802672648e-22,
         Initialize the regressor.
 
         Parameters
@@ -79,8 +79,8 @@ class Regressor:
             function,
             (self.data_set["p"], self.data_set["q"], self.data_set["r"]),
             self.data_set["score"],
-            sigma=self._compute_weights(),
-            absolute_sigma=True,
+            #sigma=self._compute_weights(),
+            #absolute_sigma=True,
         )
 
         return optimal_parameters, optimal_covariance
