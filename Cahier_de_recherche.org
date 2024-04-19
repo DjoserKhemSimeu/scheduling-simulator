@@ -784,3 +784,27 @@ Progression: 100%|████████████████████�
 ** TODO :: figurte en PDF
 ** TODO :: connection sentence in preliminary concepts
 ** TODO :: Observe the error vif = 1. / (1. - r_squared_i)
+* vendredi 19 avril
+** Solving the grid search bug
++ We observed that the computation of the polinmoiales is not correct so we mus correct it
++ The polynomiale are already correect it was just that i forget the attributes p , q and r are always computed :
+#+begin_example
+              p    q          r         p2
+0      0.009444    2   4.613333   0.000089
+1      0.002222   32   4.627500   0.000005
+2      0.049167   16   4.908333   0.002417
+3      0.014444    1   4.928889   0.000209
+4      2.546944  128   4.931667   6.486926
+...         ...  ...        ...        ...
+81339  3.888611   32  19.506111  15.121296
+81340  0.280833   64  19.533889   0.078867
+81341  0.001111    1  83.753056   0.000001
+81342  0.018889    2  83.766111   0.000357
+81343  0.009444   19  83.814167   0.000089
+#+end_example
++ its for that that having p,q,r,p1,q1 and r1 give a high vif values.
+** Adding plot at the end of the grid search
+I add plot to represent the sumuary of the grid search
+#+begin_center
+[[file:./images/grid_1.png]]
+#+end_center
