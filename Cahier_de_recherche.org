@@ -839,3 +839,68 @@ Progression: 100%|████████████████████�
 + we obsrevd that our results produce a better mean square error than the qdr cin ... models
 + compare our models on the MSE obtain is not enough we must try them with the tester code
 + for the moment we want to observe the behavior of our models with two and 3 attributes, by testing we can decide to run the grid search for higher number of attributes.
+* Mardi 24 mai
+** Come back to the internship
+I must recheck where i'm to advance in the better condition
+ + I have the result of the best combination of attributes of size 3 and 2
++ I can use parrallel programming approach to increase the number of attribute of the gridsearch
++ I have train some fold of attributes
++ I must use them in the tester code
++ I must write the proof about the importance of the jobs serialism in th scheduling
+** Tester code
+The definition of the polynomiale is made by usin an an array of policies in the code of tester.py and it run the sched-simulator process with as argument the policy used, the policy wanted is find in the code of polynomile.h so it's here where i must add the new polinomiales functions. In addition, the parameters used in the regression model ar define in the code of parameter.h so i must add the parameters computed in the regressor code.
+*** First attempt of modification
+#+begin_example
+double default_new_3_1_parameters[] = {
+    0.5068215289329832,
+    9.206215685644925e-24,
+    6.553326002644232e-15,
+    1.6313004708446503e-26
+};
+#+end_example
+*** Important to save parameters
+#+begin_example
+["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
+["FCFS", "WFP3", "UNICEF", "SPT", "SAF", "F2", "LIN", "NEW_3_1"],
+["ACTUAL", "ESTIMATED"],
+#+end_example
+*** Successely run  the simulation
+In CTC_SP2_ACTUAL_22_1.csv the following slowdown:
+#+begin_example
+LIN,NEW_3_1
+22.622475,100.719362
+17.060091,404.450163
+106.316168,589.503321
+96.078215,164.113145
+78.802736,326.308991
+357.399834,553.764731
+7.7924,269.803833
+5.002107,141.812656
+3.641912,58.946199
+36.289035,546.683427
+6.18314,363.690756
+13.815736,144.732412
+1.798211,23.994623
+90.037521,326.517501
+156.162032,356.52568
+18.894119,710.377754
+23.183183,229.515776
+69.722574,778.656456
+552.452211,315.694662
+1046.799808,874.433078
+22.336177,241.016212
+49.240266,594.078253
+#+end_example
+[[file:images/New_3_1VSLin.png]]
+As we can see the linear regression have a better performance than the new approach (r4,q4p,p4r) in term of AVGBoundedSlowdown
+** Comparaison of all the methods
+[[file:images/Comparaison_policies.png]]
+As we can see by comparing the different regression methods with the new one, our new regression is better than FCFS and WFP3 but the other method are better.
+** Work about the proof
+*** Objective : prove that the serialsm of the task can be used to improve the performance of our regression model
++ job serialism : the order in which the jobs arrive on the plateform (scheduling j1 before j2 is diffent than scheduling j1 after j2)
++ can be used : implement a memory mechanism as parameter of the model
++ improve the performance of the model: reduce the AVGBoundedSlowdown
+*** First Idea : Defining a scheduling policy based on the memory mechanism and show that the AVGBoundedSlowdown with this method is lower than with other methods
++ this approach can show that the serialsm can be take in account to schedule
++ Which memory mechanism?

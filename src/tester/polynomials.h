@@ -7,5 +7,7 @@ double cubic(double p, double q, double r);
 double quartic(double p, double q, double r);
 double quintic(double p, double q, double r);
 double sextic(double p, double q, double r);
+double new_3_1(double p, double q, double r);
+
 
 #endif

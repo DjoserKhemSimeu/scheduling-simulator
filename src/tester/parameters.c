@@ -123,7 +123,12 @@ double default_sex_parameters[] = {
     -1.613397120222877604e-19,
     -3.222835453728692674e-17
 };
-
+double default_new_3_1_parameters[] = {
+    0.5068215289329832,
+    9.206215685644925e-24,
+    6.553326002644232e-15,
+    1.6313004708446503e-26
+};
 // NORMALIZED
 
 double temporal_normalized_lin_parameters[] = {

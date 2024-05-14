@@ -224,3 +224,11 @@ double sextic(double p, double q, double r)
             + theta[31]*pow(p,3)*pow(q,3) \
             + theta[32]*pow(p,2)*pow(q,4) + theta[33]*p*pow(q,5);
 }
+double new_3_1 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,4) + theta[2]*pow(q,4)*p + theta[3]*pow(p,4)*r;
+}

@@ -54,6 +54,7 @@ msg_error_t test_all(const char *platform_file,
 #define QUA 14
 #define QUI 15
 #define SEX 16
+#define NEW_3_1 17
 
 int BF = 0;
 
@@ -334,6 +335,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             break;
         case SEX:
             h_values[i] = sextic(req[i], cores[i], submit[i]);
+            break;
+        case NEW_3_1:
+            h_values[i] = new_3_1(runtimes[i], cores[i], submit[i]);
             break;
         }
         if (VERBOSE)
@@ -911,6 +915,10 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-sex") == 0)
             {
                 chosen_policy = SEX;
+            }
+            if (strcmp(argv[i], "-new_3_1") == 0)
+            {
+                chosen_policy = NEW_3_1;
             }
             if (strcmp(argv[i], "-nt") == 0)
             {

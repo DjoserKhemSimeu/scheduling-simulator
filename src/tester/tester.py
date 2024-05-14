@@ -86,6 +86,7 @@ policies_flags = {
     "QUA": "-qua",
     "QUI": "-qui",
     "SEX": "-sex",
+    "NEW_3_1": "-new_3_1",
 }
 
 
@@ -205,7 +206,7 @@ def workload_experiments(workloads, policies, sim_types):
 
 if __name__ == "__main__":
     workload_experiments(
-        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["FCFS", "WFP3", "UNICEF", "SPT", "SAF", "F2", "LIN", "QDR", "CUB", "QUA", "QUI", "SEX"],
-        ["ACTUAL", "ESTIMATED"],
+        ["CTC-SP2"],
+        ["FCFS", "WFP3", "UNICEF", "SPT", "SAF", "F2", "LIN", "NEW_3_1"],
+        ["ACTUAL"],
     )
