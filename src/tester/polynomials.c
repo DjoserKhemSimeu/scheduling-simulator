@@ -2,7 +2,7 @@
 #include "polynomials.h"
 #include "parameters.h"
 
-#define PARAMETERS 2
+#define PARAMETERS 0
 #define SECONDS_IN_ONE_HOUR 3600
 
 double linear(double p, double q, double r)

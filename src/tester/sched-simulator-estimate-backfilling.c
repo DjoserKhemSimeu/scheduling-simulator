@@ -55,6 +55,8 @@ msg_error_t test_all(const char *platform_file,
 #define QUI 15
 #define SEX 16
 #define NEW_3_1 17
+#define MEM1 18
+#define MEM2 19
 
 int BF = 0;
 
@@ -279,6 +281,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
     double *req_temp = (double *)calloc(num_arrived_tasks, sizeof(double));
     int *p_temp = (int *)calloc(num_arrived_tasks, sizeof(int));
     int max_arrive = 0;
+    double p_mean = 0;
+    double r_mean = 0;
+    double q_mean = 0;
     for (i = 0; i < num_arrived_tasks; i++)
     {
         if (submit[i] > max_arrive)
@@ -302,6 +307,20 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             break;
         case UNICEF:
             h_values[i] = (task_age + EPSILON) / (log2((double)cores[i] + EPSILON) * req[i]);
+            break;
+        case MEM1:
+            if(i==0){
+                h_values[i] = submit[i];
+            }else{
+                h_values[i] = r_mean + (req[i]-p_mean)+(cores[i]-q_mean);
+            }
+            break;
+        case MEM2:
+            if(i==0){
+                h_values[i] = submit[i];
+            }else{
+                h_values[i] = r_mean + ((req[i]*cores[i])-(p_mean*q_mean));
+            }
             break;
         case F4:
             h_values[i] = (0.0056500287 * req[i]) * (0.0000024814 * sqrt(cores[i])) + (0.0074444355 * log10(submit[i])); // 256nodes
@@ -337,9 +356,19 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             h_values[i] = sextic(req[i], cores[i], submit[i]);
             break;
         case NEW_3_1:
-            h_values[i] = new_3_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = new_3_1(req[i], cores[i], submit[i]);
             break;
         }
+        if(i==0){
+            r_mean=submit[i];
+            p_mean=req[i];
+            q_mean=cores[i];
+        }else{
+            r_mean= ((i*r_mean)/(i+1))+(submit[i]/(i+1));
+            p_mean= ((i*p_mean)/(i+1))+(req[i]/(i+1));
+            q_mean= ((i*q_mean)/(i+1))+(cores[i]/(i+1));
+        }
+        
         if (VERBOSE)
             XBT_INFO("Score for \"Task_%d\" [r=%.1f,c=%d,s=%d,est=%.1f]=%.7f", orig_pos[i], runtimes[i], cores[i], submit[i], req[i], h_values[i]);
     }
@@ -867,6 +896,14 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-unicef") == 0)
             {
                 chosen_policy = UNICEF;
+            }
+            if (strcmp(argv[i], "-mem1") == 0)
+            {
+                chosen_policy = MEM1;
+            }
+            if (strcmp(argv[i], "-mem2") == 0)
+            {
+                chosen_policy = MEM2;
             }
             if (strcmp(argv[i], "-easy") == 0)
             {

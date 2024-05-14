@@ -903,4 +903,30 @@ As we can see by comparing the different regression methods with the new one, ou
 + improve the performance of the model: reduce the AVGBoundedSlowdown
 *** First Idea : Defining a scheduling policy based on the memory mechanism and show that the AVGBoundedSlowdown with this method is lower than with other methods
 + this approach can show that the serialsm can be take in account to schedule
-+ Which memory mechanism?
++ Which memory mechanism? online algorithm? https://www.ime.usp.br/~yw/papers/online/Online-algorithms-albers-survey.pdf
+*** Approach choosed
+I decide to use the tester code to test a method based on the memeory mecanism such as :
+#+begin_example
+MEM1:priority = r + (p-p_mean) + (q- q_mean)
+MEM2:priority = r + ((p*q) - (p_mean * q_mean)) (area)
+#+end_example
+the implementation is the following :
+#+begin_example
+case MEM1:
+            if(i==0){
+                h_values[i] = submit[i];
+            }else{
+                h_values[i] = r_mean + (req[i]-p_mean)+(cores[i]-q_mean);
+            }
+            break;
+case MEM2:
+            if(i==0){
+                h_values[i] = submit[i];
+            }else{
+                h_values[i] = r_mean + ((req[i]*cores[i])-(p_mean*q_mean));
+            }
+            break;
+#+end_example
+**** Results
+[[file:images/Final_Tester_analysis.png]]
+As we can see the scheduling policy based on the memory mecanism M provide a lower average bounded slowdown than the FCFS and WFP3  policies, MEM2 provide the lowest AVGBoundedSlowdown ist really interesting! I must find a way to infer on the utilty of the task serialism.
