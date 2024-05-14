@@ -907,8 +907,8 @@ As we can see by comparing the different regression methods with the new one, ou
 *** Approach choosed
 I decide to use the tester code to test a method based on the memeory mecanism such as :
 #+begin_example
-MEM1:priority = r + (p-p_mean) + (q- q_mean)
-MEM2:priority = r + ((p*q) - (p_mean * q_mean)) (area)
+MEM1:priority = r_mean + (p-p_mean) + (q- q_mean)
+MEM2:priority = r_mean + ((p*q) - (p_mean * q_mean)) (area)
 #+end_example
 the implementation is the following :
 #+begin_example
@@ -931,4 +931,11 @@ case MEM2:
 #+begin_center
 [[file:images/Final_Tester_analysis.png]]
 #+end_center
-As we can see the scheduling policy based on the memory mecanism M provide a lower average bounded slowdown than the FCFS and WFP3  policies, MEM2 provide the lowest AVGBoundedSlowdown ist really interesting! I must find a way to infer on the utilty of the task serialism.
+As we can see the scheduling policy based on the memory mecanism MEM1 provide a lower average bounded slowdown than the FCFS and WFP3  policies, MEM2 provide the lowest AVGBoundedSlowdown ist really interesting! I must find a way to infer on the utilty of the task serialism.
+** Work for the next time
++ In can define a MEM3 based also on the priority previousely given
++ parallelize the computation of the grid search
++ try to construct a grid search also based on the serialism
++ understand how to improve the results of the NEW_3_1 model
++ boxplot seaborn
++ 5 meilleur vif
