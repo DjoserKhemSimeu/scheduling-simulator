@@ -928,5 +928,7 @@ case MEM2:
             break;
 #+end_example
 **** Results
+#+begin_center
 [[file:images/Final_Tester_analysis.png]]
+#+end_center
 As we can see the scheduling policy based on the memory mecanism M provide a lower average bounded slowdown than the FCFS and WFP3  policies, MEM2 provide the lowest AVGBoundedSlowdown ist really interesting! I must find a way to infer on the utilty of the task serialism.
