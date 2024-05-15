@@ -57,7 +57,16 @@ msg_error_t test_all(const char *platform_file,
 #define NEW_3_1 17
 #define MEM1 18
 #define MEM2 19
-
+#define NEW_3_2 20
+#define NEW_3_3 21
+#define NEW_3_4 22
+#define NEW_3_5 23
+#define SER_1 24
+#define NEW_3_6 25
+#define NEW_3_7 26
+#define NEW_3_8 27
+#define NEW_3_9 28
+#define NEW_3_10 29
 
 int number_of_tasks = 0;
 
@@ -419,6 +428,36 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
             break;
         case NEW_3_1:
             h_values[i] = new_3_1(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_2:
+            h_values[i] = new_3_2(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_3:
+            h_values[i] = new_3_3(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_4:
+            h_values[i] = new_3_4(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_5:
+            h_values[i] = new_3_5(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_6:
+            h_values[i] = new_3_6(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_7:
+            h_values[i] = new_3_7(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_8:
+            h_values[i] = new_3_8(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_9:
+            h_values[i] = new_3_9(runtimes[i], cores[i], submit[i]);
+            break;
+        case NEW_3_10:
+            h_values[i] = new_3_10(runtimes[i], cores[i], submit[i]);
+            break;
+        case SER_1:
+            h_values[i] = ser_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
             break;
         }
         if(i==0){
@@ -1008,6 +1047,46 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-new_3_1") == 0)
             {
                 chosen_policy = NEW_3_1;
+            }
+            if (strcmp(argv[i], "-new_3_2") == 0)
+            {
+                chosen_policy = NEW_3_2;
+            }
+            if (strcmp(argv[i], "-new_3_3") == 0)
+            {
+                chosen_policy = NEW_3_3;
+            }
+            if (strcmp(argv[i], "-new_3_4") == 0)
+            {
+                chosen_policy = NEW_3_4;
+            }
+            if (strcmp(argv[i], "-new_3_5") == 0)
+            {
+                chosen_policy = NEW_3_5;
+            }
+            if (strcmp(argv[i], "-new_3_6") == 0)
+            {
+                chosen_policy = NEW_3_6;
+            }
+            if (strcmp(argv[i], "-new_3_7") == 0)
+            {
+                chosen_policy = NEW_3_7;
+            }
+            if (strcmp(argv[i], "-new_3_8") == 0)
+            {
+                chosen_policy = NEW_3_8;
+            }
+            if (strcmp(argv[i], "-new_3_9") == 0)
+            {
+                chosen_policy = NEW_3_9;
+            }
+            if (strcmp(argv[i], "-new_3_10") == 0)
+            {
+                chosen_policy = NEW_3_10;
+            }
+            if (strcmp(argv[i], "-ser_1") == 0)
+            {
+                chosen_policy = SER_1;
             }
             if (strcmp(argv[i], "-nt") == 0)
             {

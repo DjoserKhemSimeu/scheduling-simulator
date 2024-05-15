@@ -87,8 +87,18 @@ policies_flags = {
     "QUI": "-qui",
     "SEX": "-sex",
     "NEW_3_1": "-new_3_1",
+    "NEW_3_2": "-new_3_2",
+    "NEW_3_3": "-new_3_3",
+    "NEW_3_4": "-new_3_4",
+    "NEW_3_5": "-new_3_5",
+    "NEW_3_6": "-new_3_6",
+    "NEW_3_7": "-new_3_7",
+    "NEW_3_8": "-new_3_8",
+    "NEW_3_9": "-new_3_9",
+    "NEW_3_10": "-new_3_10",
     "MEM1": "-mem1",
     "MEM2": "-mem2",
+    "SER_1":"-ser_1",
 }
 
 
@@ -208,7 +218,7 @@ def workload_experiments(workloads, policies, sim_types):
 
 if __name__ == "__main__":
     workload_experiments(
-        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["FCFS", "WFP3", "UNICEF", "SPT", "SAF", "F2", "LIN", "NEW_3_1","MEM1","MEM2"],
-        ["ACTUAL", "ESTIMATED"],
+        ["CTC-SP2"],
+        ["LIN","NEW_3_1","NEW_3_2","NEW_3_3","NEW_3_4","NEW_3_5","NEW_3_6","NEW_3_7","NEW_3_8","NEW_3_9","NEW_3_10"],
+        ["ACTUAL"],
     )

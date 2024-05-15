@@ -8,6 +8,19 @@ extern double default_qua_parameters[19];
 extern double default_qui_parameters[26];
 extern double default_sex_parameters[34];
 extern double default_new_3_1_parameters[4];
+extern double default_new_3_2_parameters[4];
+extern double default_new_3_3_parameters[4];
+extern double default_new_3_4_parameters[4];
+extern double default_new_3_5_parameters[4];
+extern double default_new_3_6_parameters[4];
+extern double default_new_3_7_parameters[4];
+extern double default_new_3_8_parameters[4];
+extern double default_new_3_9_parameters[4];
+extern double default_new_3_10_parameters[4];
+extern double default_ser_1_parameters[7];
+
+
+
 
 extern double temporal_normalized_lin_parameters[4];
 extern double temporal_normalized_qdr_parameters[8];

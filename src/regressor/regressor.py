@@ -7,8 +7,9 @@ from polynomials import *
 DATA_DIR = pathlib.Path(__file__).parent.parent.parent / "data"
 TRAINING_DIR = pathlib.Path(__file__).parent / "simulator" / "training-data"
 SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA.csv"
+SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM.csv"
 REPORT_FILE = DATA_DIR / "regression_report.json"
-FUNCTIONS = [lin, new_2_1,new_2_2,new_2_3,new_2_4,new_2_5,new_3_1,new_3_2,new_3_3,new_3_4,new_3_5]
+FUNCTIONS = [lin,new_2, new_2_1,new_2_2,new_2_3,new_2_4,new_2_5,new_3_1,new_3_2,new_3_3,new_3_4,new_3_5,new_3_6,new_3_7,new_3_8,new_3_9,new_3_10,ser_1,ser_2]
 
 
 class Regressor:
@@ -17,7 +18,7 @@ class Regressor:
     using a set of functions.
     """
 
-    def __init__(self, data_file, functions):
+    def __init__(self, data_file,data_file_mem, functions):
         """9.003280802672648e-22,
         Initialize the regressor.
 
@@ -30,6 +31,7 @@ class Regressor:
         """
         self.functions = functions
         self.data_set = self._read_data_set(data_file)
+        self.data_set_mem = self._read_data_set_mem(data_file_mem)
         self.number_of_samples = self.data_set.shape[0]
 
     def _read_data_set(self, filename):
@@ -52,7 +54,31 @@ class Regressor:
             dtype=[np.uintc, np.uintc, np.uintc, np.double],
             names=["p", "q", "r", "score"],
         )
-        return data_set
+        return data_set[1:]
+
+    def _read_data_set_mem(self, filename):
+        """
+        Read the data set from a given file.
+
+        Parameters
+        ----------
+        filename : str
+            The path to the file containing the data set.
+
+        Returns
+        -------
+        array
+            The data set.
+        """
+        data_set = np.genfromtxt(
+            filename,
+            delimiter=",",
+            dtype=[np.uintc, np.uintc, np.uintc,np.double,np.double,np.double, np.double],
+            names=["p", "q", "r","p_mean","q_mean","r_mean", "score"],
+        )
+
+
+        return data_set[1:]
 
     def _compute_weights(self):
         """
@@ -75,13 +101,24 @@ class Regressor:
         tuple
             The optimal parameters and the covariance matrix.
         """
-        optimal_parameters, optimal_covariance = curve_fit(
+        if function == ser_1 or function == ser_2:
+            optimal_parameters, optimal_covariance = curve_fit(
             function,
-            (self.data_set["p"], self.data_set["q"], self.data_set["r"]),
-            self.data_set["score"],
+            (self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"]),
+            self.data_set_mem["score"],
+            #method='trf',
             #sigma=self._compute_weights(),
             #absolute_sigma=True,
-        )
+            )
+        else :
+            optimal_parameters, optimal_covariance = curve_fit(
+                function,
+                (self.data_set["p"], self.data_set["q"], self.data_set["r"]),
+                self.data_set["score"],
+                #method='trf',
+                #sigma=self._compute_weights(),
+                #absolute_sigma=True,
+            )
 
         return optimal_parameters, optimal_covariance
 
@@ -101,9 +138,14 @@ class Regressor:
         array
             The predicted values of y.
         """
-        p = lambda x: function(x, *optimal_parameters)
-        x_data = zip(self.data_set["p"], self.data_set["q"], self.data_set["r"])
-        predicted_y = np.array([p(x) for x in x_data])
+        if function == ser_1 or function == ser_2:
+            p = lambda x: function(x, *optimal_parameters)
+            x_data = zip(self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"])
+            predicted_y = np.array([p(x) for x in x_data])
+        else:
+            p = lambda x: function(x, *optimal_parameters)
+            x_data = zip(self.data_set["p"], self.data_set["q"], self.data_set["r"])
+            predicted_y = np.array([p(x) for x in x_data])
 
         return predicted_y
 
@@ -193,7 +235,7 @@ class Regressor:
 
 if __name__ == "__main__":
     print("Performing the regression...")
-    regressor = Regressor(SCORE_DISTRIBUTION, FUNCTIONS)
+    regressor = Regressor(SCORE_DISTRIBUTION,SCORE_DISTRIBUTION_MEM, FUNCTIONS)
     regressor.regression(REPORT_FILE)
     print("Done!")
     print("Regression report saved to '{}'".format(REPORT_FILE))

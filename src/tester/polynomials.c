@@ -232,3 +232,83 @@ double new_3_1 (double p, double q, double r)
     return theta[0] \
             + theta[1]*pow(r,4) + theta[2]*pow(q,4)*p + theta[3]*pow(p,4)*r;
 }
+double new_3_2 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,4) + theta[2]*pow(q,3)*p + theta[3]*pow(p,4)*r;
+}
+double new_3_3 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(r,4) + theta[3]*pow(q,4)*p;
+}
+double new_3_4 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(q,4) + theta[3]*pow(r,4);
+}
+double new_3_5 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_5_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(q,4)*p + theta[3]*pow(r,4)*p;
+}
+double new_3_6 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_6_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(r,4) + theta[3]*pow(q,3)*p;
+}
+double new_3_7 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_7_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(q,3)*p + theta[3]*pow(r,4)*p;
+}
+double new_3_8 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_8_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,4) + theta[2]*pow(q,2)*p + theta[3]*pow(p,4)*r;
+}
+double new_3_9 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_9_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(r,3)*p + theta[3]*pow(q,4)*p;
+}
+double new_3_10 (double p, double q, double r)
+{
+    double *theta;
+    theta = default_new_3_10_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,4) + theta[2]*pow(p,3)*r + theta[3]*pow(q,4)*p;
+}
+double ser_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_1_parameters;
+
+    return theta[0] \
+            + theta[1]*p + theta[2]*q + theta[3]*r+theta[4]*p_mean+theta[5]*q_mean+theta[6]*r_mean;
+    
+}

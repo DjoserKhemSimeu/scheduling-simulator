@@ -939,3 +939,49 @@ As we can see the scheduling policy based on the memory mecanism MEM1 provide a 
 + understand how to improve the results of the NEW_3_1 model
 + boxplot seaborn
 + 5 meilleur vif
+* Mercredi 15 mai
+** Boxplot replace line plot
+for better visualization, by adding the 5 combination of pqr with the lowest vif I didn't found a big difference with New_3_1
+** Serialism
+*** dataset generation
+I used the cumulative average to add the mean of p q and r in the dataset:
+#+begin_example
+import numpy as np
+import pandas as pd
+df=pd.read_csv('global_training_data_GA.csv',names=['p','q','r','y'])
+df = df.iloc[1:].reset_index(drop=True)
+print(len(df))
+res=pd.DataFrame()
+for start in range(0, len(df), 32):
+    data = df[start:start+32]
+    sorted_data = data.sort_values(by='r', ascending=True)
+    shifted_values = sorted_data['p'].shift(1)
+    sorted_data['p_mean'] = shifted_values.expanding().mean()
+    shifted_values = sorted_data['q'].shift(1)
+    sorted_data['q_mean'] = shifted_values.expanding().mean()
+    shifted_values = sorted_data['r'].shift(1)
+    sorted_data['r_mean'] = shifted_values.expanding().mean()
+    sorted_data
+    res=pd.concat([res,sorted_data])
+res['p_mean'] = res['p_mean'].fillna(res['p'])
+res['q_mean'] = res['q_mean'].fillna(res['q'])
+res['r_mean'] = res['r_mean'].fillna(res['r'])
+res = res.sample(frac=1).reset_index(drop=True)
+print(res)
+res.to_csv('global_training_data_GA_MEM.csv', index=False)
+#+end_example
+*** Modification made to compute a regression function with the means
+I succeed to train a regression function based on the serialism of the jobs but the result are not good in must check in the trainning dataset have a problem
+#+begin_center
+[[file:images/Final_Tester_analysis_SER.png]]
+#+end_center
+By observing the results and the results of the training of the models, i conclude that we have direct link between the MSE and the average bounded slowdown observed in the boxplot.
+** Reduce the training MSE
+I modified the grid search to save the 10 lowest VIFs
+#+begin_example
+[('r4', 'q4p', 'p4r'), ('r4', 'q3p', 'p4r'), ('p4', 'r4', 'q4p'), ('p4', 'q4', 'r4'), ('p4', 'q4p', 'r4p'), ('p4', 'r4', 'q3p'), ('p4', 'q3p', 'r4p'), ('r4', 'q2p', 'p4r'), ('p4', 'r3p', 'q4p'), ('r4', 'p3r', 'q4p')]
+#+end_example
+#+begin_center
+[[file:images/10_models_analysis.png]]
+#+end_center
+As we can see on the graph, the 10 differents model provide us heterogeneous results but stay in average with an higher AVGBoundedSlowdown than the simple Linear regression.

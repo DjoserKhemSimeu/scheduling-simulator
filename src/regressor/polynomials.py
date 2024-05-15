@@ -61,7 +61,10 @@ def sex(
             + t32*(p**2)*(q**4) + t33*p*(q**5))
 
     return qui_term + sex_term
-
+def new_2(x, t0, t1, t2):
+    p, q, r = x
+    lin_term = (t0 + t1*(p*q) + t2*r)
+    return lin_term
 def new_2_1(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**4)*q)
@@ -101,4 +104,32 @@ def new_3_4(x, t0, t1, t2,t3):
 def new_3_5(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(q**4)*p +t3*(r**4)*p)
+    return lin_term
+def new_3_6(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(r**4) +t3*(q**3)*p)
+    return lin_term
+def new_3_7(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(q**3)*p +t3*(r**4)*p)
+    return lin_term
+def new_3_8(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**4) + t2*(q**2)*p +t3*(p**4)*r)
+    return lin_term
+def new_3_9(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(r**3)*p +t3*(q**4)*p)
+    return lin_term
+def new_3_10(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**4) + t2*(p**3)*r +t3*(q**4)*p)
+    return lin_term
+def ser_1(x, t0, t1, t2,t3,t4,t5,t6):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*p + t2*q +t3*r+t4*p_mean+t5*q_mean+t6*r_mean)
+    return lin_term
+def ser_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*p*q +t2*r+t3*p_mean*q_mean+t4*r_mean)
     return lin_term
