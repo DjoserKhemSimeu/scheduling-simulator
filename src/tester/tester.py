@@ -218,7 +218,7 @@ def workload_experiments(workloads, policies, sim_types):
 
 if __name__ == "__main__":
     workload_experiments(
-        ["CTC-SP2"],
-        ["LIN","NEW_3_1","NEW_3_2","NEW_3_3","NEW_3_4","NEW_3_5","NEW_3_6","NEW_3_7","NEW_3_8","NEW_3_9","NEW_3_10"],
-        ["ACTUAL"],
+        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
+        ["LIN","NEW_3_7"],
+        ["ACTUAL", "ESTIMATED"],
     )

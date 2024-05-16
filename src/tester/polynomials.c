@@ -278,7 +278,7 @@ double new_3_7 (double p, double q, double r)
     theta = default_new_3_7_parameters;
 
     return theta[0] \
-            + theta[1]*pow(p,4) + theta[2]*pow(q,3)*p + theta[3]*pow(r,4)*p;
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*p;
 }
 double new_3_8 (double p, double q, double r)
 {

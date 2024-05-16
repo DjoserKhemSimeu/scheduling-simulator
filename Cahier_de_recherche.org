@@ -1069,4 +1069,10 @@ if __name__ == "__main__":
 ** Results
 #+begin_center
 [[file:images/3D_MSE_4_10_20_45.png]]
+[[file:images/3D_MSE_4_10_0_0.png]]
+[[file:images/3D_MSE_4_10_0_90.png]]
+
 #+end_center
+As we can see on the resuting 3D graph, the plane contruct by the described method, is not perfectly smooth, it can be due to the differences in the informations provide by the parameters of each function. But this representation is enough representative provide to us a deeper understanding of the impact of the AVGD and the VIF on the MSE :
++ the plane is not horizontal, on the AVGD axis, it means tht by increasing the AVGD we also increase the MSE obtained
++ the plane is also not totally horizontal on the VIF axis, we can see that the MSE increase for a If value between 1 and an 4, but after 4 the MSE slope decrese for the observationwith a low AVGD. We can imagine that with higher value for the vif threshold the MSE will continue to decrease.

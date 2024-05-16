@@ -9,7 +9,7 @@ TRAINING_DIR = pathlib.Path(__file__).parent / "simulator" / "training-data"
 SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA.csv"
 SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM.csv"
 REPORT_FILE = DATA_DIR / "regression_report.json"
-FUNCTIONS = [new_3_7]
+FUNCTIONS = [lin]
 
 
 class Regressor:
@@ -235,21 +235,8 @@ class Regressor:
 
 if __name__ == "__main__":
 
-    funct=[[vif_1_deg_1,vif_1_deg_3,vif_1_deg_4],
-           [vif_2_deg_1,vif_2_deg_2,vif_2_deg_3,vif_2_deg_4],
-           [vif_3_deg_1,vif_3_deg_2,vif_3_deg_3,vif_3_deg_4],
-           [vif_4_deg_1,vif_4_deg_2,vif_4_deg_3,vif_4_deg_4],
-           [vif_5_deg_1,vif_5_deg_2,vif_5_deg_3,vif_5_deg_4],
-           [vif_6_deg_1,vif_6_deg_2,vif_6_deg_3],
-           [vif_7_deg_1,vif_7_deg_2,vif_7_deg_3,vif_7_deg_4],
-           [vif_8_deg_1,vif_8_deg_2,vif_8_deg_3,vif_8_deg_4],
-           [vif_9_deg_1,vif_9_deg_2,vif_9_deg_3,vif_9_deg_4],
-           [vif_10_deg_1,vif_10_deg_2,vif_10_deg_3,vif_10_deg_4]]
-
-    for i in range (6,10):
-        print(f"Performing the regression {i+1}")
-        regressor = Regressor(SCORE_DISTRIBUTION, SCORE_DISTRIBUTION_MEM, funct[i])
-        report = f"vif_{i+1}_report.json"
-        regressor.regression(report)
-        print("Done!")
-        print("Regression report saved to '{}'".format(report))
+    print(f"Performing the regression")
+    regressor = Regressor(SCORE_DISTRIBUTION, SCORE_DISTRIBUTION_MEM, FUNCTIONS)
+    regressor.regression(REPORT_FILE)
+    print("Done!")
+    print("Regression report saved to '{}'".format(REPORT_FILE))
