@@ -985,3 +985,39 @@ I modified the grid search to save the 10 lowest VIFs
 [[file:images/10_models_analysis.png]]
 #+end_center
 As we can see on the graph, the 10 differents model provide us heterogeneous results but stay in average with an higher AVGBoundedSlowdown than the simple Linear regression.
+** Approach to explore next tomorrow
+to observe the behavior of the MSE, A 3D representation can be helpful:
+*** First idea
++ x = The maximum degree of the parameters (Max = 10 , step = 1, start = 1)
++ y = The number of parameters (Max = 10 , step = 1 , start = 2)
++ z = The MSE obtained by the regression
+*** Second idea
+replace y by the vif score obtained by the function and use only function with 3 parameters (simplify the computation)
+* Jeudi 16 mai
+** 3D MSE Visualisation
+As I discussed last time a 3D representation of the MSE in function of the degree of the parameters and the vif score of the parameters
+*** VIF score computation
+To select the parameters of the observations of the 3D representation, I modify the code of the grid search previously defined to add a threshold parameter. The grid search the combination of p,q,r which have the best vif score but only if their score is higher than the threshold.
+#+begin_example
+ if max<best and max>=threshold:
+#+end_example
+*** Degree of the parameters
+I decided to take into account in the representation the average degree (AVGD) of the parameters to understand the impact of the polinomiliaty of the parameters on the MSE obtained. To discretized the AVGD, I defined 4 level of AVGD in function of the observations (1=lowest , ... , 4=highest), we can have somme overlapping between levels be the most important property to satisfy is :
+#+begin_example
+for all i include in VIF_levels : F(i,1) < F(i,2) < F(i,3) < F(i,4)
+#+end_example
+Where F (i,j) represent the observation with i as Vif level and j as AVGD level.
+*** Implementation
+By observing the results of the grid search with a threshold for each VIF level, I selected combinaison of parameter satisfysing the AVGD levels.
+
+| VIF\AVGD | 1                        | 2                 | 3                 | 4                 |
+|        1 | p,q,r   (1)              | X                 | r3,q2p,p3r (3.3)  | new_3_5 (>4)      |
+|        2 | sqrt(p),pq,qr (1,...)    | q,r2q,q3p (2.6)   | p2q,p3r,p4q (4)   | p4,p4r,r4q (4.6)  |
+|        3 | r,pq,p2q (2)             | p2q,r2q,p3q (3.3) | r2q,q3p,q3r (3.6) | q2,q4p,r4p  (4)   |
+|        4 | pr,qr,q3r (2.6)          | q2,q2r,q3r (3.3)  | q4,r2q,q3r (3.6)  | r2q,p4r,r4q (4.3) |
+|        5 | sqrt(q),q,r2p (1,..)     | p2r,r2q,r4q (3.6) | r2q,r3p,r4q (4)   | r2q,r4p,r4q (4.3) |
+|        6 | q,pq,q3p (2.3)           | qr,q2r,p3r (3)    | p2r,p3r,q4p (4)   | X                 |
+|        7 | sqrt(p),qr,q2r (1,..)    | q3,pq,p2q (3)     | qr,q2r,q4p (3.3)  | p2r,p3r,p4q (4)   |
+|        8 | sqrt(p),p,pr (1,..)      | r2,qr,q2r (2.3)   | r2p,r3p,q3r (3.6) | p3q,p4q,p4r (4.6) |
+|        9 | sqrt(r),pq,q2p           | pq,pr,q2p (2.3)   | pq,q2p,q3r (3)    | p3q,p4q,r4q (4.6) |
+|       10 | sqrt(p),sqrt(r),p (0,..) | q,pq,p2q (2)      | qr,p3q,p4q (3.6)  | q2r,p3q,p4q (4)    |

@@ -1,3 +1,4 @@
+from math import *
 def lin(x, t0, t1, t2, t3):
     p, q, r = x
     lin_term = (t0 + t1*p + t2*q + t3*r)
@@ -61,75 +62,313 @@ def sex(
             + t32*(p**2)*(q**4) + t33*p*(q**5))
 
     return qui_term + sex_term
+
+#####################################################################################################
+#FUNCTION DEFINED BY THE VIF GRID SEARCH
+#####################################################################################################
+############################## 2 PARAMETERS #########################################
+
 def new_2(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(p*q) + t2*r)
     return lin_term
+
 def new_2_1(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**4)*q)
     return lin_term
+
 def new_2_2(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**3)*q)
     return lin_term
+
 def new_2_3(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(r**4) + t2*(p**4)*q)
     return lin_term
+
 def new_2_4(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(p**4)*q + t2*(r**4)*q)
     return lin_term
+
 def new_2_5(x, t0, t1, t2):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**4))
     return lin_term
+############################## 3 PARAMETERS #########################################
 def new_3_1(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(r**4) + t2*(q**4)*p +t3*(p**4)*r)
     return lin_term
+
 def new_3_2(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(r**4) + t2*(q**3)*p +t3*(p**4)*r)
     return lin_term
+
 def new_3_3(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**4) +t3*(q**4)*p)
     return lin_term
+
 def new_3_4(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(q**4) +t3*(r**4))
     return lin_term
+
 def new_3_5(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(q**4)*p +t3*(r**4)*p)
     return lin_term
+
 def new_3_6(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**4) +t3*(q**3)*p)
     return lin_term
-def new_3_7(x, t0, t1, t2,t3):
+    
+def new_3_7(x, t0, t1, t2,t3,t4):
     p, q, r = x
-    lin_term = (t0 + t1*(p**4) + t2*(q**3)*p +t3*(r**4)*p)
+    lin_term = (t0 + t1*p + t2*q +t3*r +t4*(p**7)*q)
     return lin_term
+
 def new_3_8(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(r**4) + t2*(q**2)*p +t3*(p**4)*r)
     return lin_term
+
 def new_3_9(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(p**4) + t2*(r**3)*p +t3*(q**4)*p)
     return lin_term
+
 def new_3_10(x, t0, t1, t2,t3):
     p, q, r = x
     lin_term = (t0 + t1*(r**4) + t2*(p**3)*r +t3*(q**4)*p)
     return lin_term
+
+############################## INTRODUCTION OF SERIALISM #########################################
 def ser_1(x, t0, t1, t2,t3,t4,t5,t6):
     p, q, r, p_mean , q_mean , r_mean= x
     lin_term = (t0 + t1*p + t2*q +t3*r+t4*p_mean+t5*q_mean+t6*r_mean)
     return lin_term
+
 def ser_2(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
     lin_term = (t0 + t1*p*q +t2*r+t3*p_mean*q_mean+t4*r_mean)
+    return lin_term
+
+################################################################################################
+#3D MSE VISUALISATION
+################################################################################################
+
+######### VIF ~ 1 ###########
+
+def vif_1_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*p + t2*q +t3*r)
+    return lin_term
+
+def vif_1_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**3) + t2*(q**2)*p +t3*(p**3)*r)
+    return lin_term
+
+def vif_1_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(q**4)*p +t3*(r**4)*p)
+    return lin_term
+
+######### VIF ~ 2 ###########
+
+def vif_2_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**(1/2)) + t2*p*q +t3*q*r)
+    return lin_term
+
+def vif_2_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*q + t2*(r**2)*q +t3*(q**3)*p)
+    return lin_term
+
+def vif_2_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**2)*q + t2*(p**3)*r +t3*(p**4)*q)
+    return lin_term
+
+def vif_2_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**4) + t2*(p**4)*r +t3*(r**4)*q)
+    return lin_term
+
+######### VIF ~ 3 ###########
+
+def vif_3_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*r + t2*p*q +t3*(p**2)*q)
+    return lin_term
+
+def vif_3_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**2)*q + t2*(r**2)*q +t3*(p**3)*q)
+    return lin_term
+
+def vif_3_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**2)*q + t2*(q**3)*p +t3*(q**3)*r)
+    return lin_term
+
+def vif_3_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(q**2) + t2*(q**4)*p +t3*(r**4)*p)
+    return lin_term
+
+######### VIF ~ 4 ###########
+
+def vif_4_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*p*r + t2*q*r +t3*(q**3)*r)
+    return lin_term
+
+def vif_4_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(q**2) + t2*(q**2)*r +t3*(q**3)*p)
+    return lin_term
+
+def vif_4_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(q**4) + t2*(r**2)*q +t3*(q**3)*r)
+    return lin_term
+
+def vif_4_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**2)*q + t2*(p**4)*r +t3*(r**4)*q)
+    return lin_term
+
+######### VIF ~ 5 ###########
+
+def vif_5_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(q**(1/2)) + t2*q +t3*(r**2)*q)
+    return lin_term
+
+def vif_5_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**2)*r + t2*(r**2)*q +t3*(r**4)*q)
+    return lin_term
+
+def vif_5_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**2)*q + t2*(r**3)*p +t3*(r**4)*q)
+    return lin_term
+
+def vif_5_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**2)*q + t2*(r**4)*p +t3*(r**4)*q)
+    return lin_term
+
+######### VIF ~ 6 ###########
+
+def vif_6_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*q + t2*p*q +t3*(q**3)*p)
+    return lin_term
+
+def vif_6_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*q*r + t2*(q**2)*r +t3*(p**3)*r)
+    return lin_term
+
+def vif_6_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**2)*r + t2*(p**3)*r +t3*(q**4)*p)
+    return lin_term
+
+######### VIF ~ 7 ###########
+
+def vif_7_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**(1/2)) + t2*q*r +t3*(q**2)*r)
+    return lin_term
+
+def vif_7_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(q**3) + t2*p*q +t3*(p**2)*q)
+    return lin_term
+
+def vif_7_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*q*r + t2*(q**2)*r +t3*(q**4)*p)
+    return lin_term
+
+def vif_7_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**2)*r + t2*(p**3)*r +t3*(p**4)*q)
+    return lin_term
+
+######### VIF ~ 8 ###########
+
+def vif_8_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**(1/2)) + t2*p +t3*p*r)
+    return lin_term
+
+def vif_8_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**2) + t2*q*r +t3*(q**2)*r)
+    return lin_term
+
+def vif_8_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**2)*p + t2*(r**3)*p +t3*(q**3)*r)
+    return lin_term
+
+def vif_8_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**3)*q + t2*(p**4)*q +t3*(p**4)*r)
+    return lin_term
+
+######### VIF ~ 9 ###########
+
+def vif_9_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(r**(1/2)) + t2*p*q +t3*(q**2)*p)
+    return lin_term
+
+def vif_9_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*p*q + t2*p*r +t3*(q**2)*p)
+    return lin_term
+
+def vif_9_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*p*q + t2*(q**2)*p +t3*(q**3)*r)
+    return lin_term
+
+def vif_9_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**3)*q + t2*(p**4)*q +t3*(r**4)*q)
+    return lin_term
+
+######### VIF ~ 10 ###########
+
+def vif_10_deg_1(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(p**(1/2)) + t2*(r**(1/2)) +t3*p)
+    return lin_term
+
+def vif_10_deg_2(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*q + t2*p*q +t3*(p**2)*q)
+    return lin_term
+
+def vif_10_deg_3(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*q*r + t2*(p**3)*q +t3*(p**4)*q)
+    return lin_term
+
+def vif_10_deg_4(x, t0, t1, t2,t3):
+    p, q, r = x
+    lin_term = (t0 + t1*(q**2)*r + t2*(p**3)*q +t3*(p**4)*q)
     return lin_term
