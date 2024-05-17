@@ -304,6 +304,18 @@ double new_3_10 (double p, double q, double r)
     return theta[0] \
             + theta[1]*pow(r,4) + theta[2]*pow(p,3)*r + theta[3]*pow(q,4)*p;
 }
+/// @brief TEST ON THE BEST VIF
+/// @param p 
+/// @param q 
+/// @param r 
+/// @return 
+double s4_vif_7_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_4_vif_7_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*r+theta[4]*pow(q,4);
+}
 double ser_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
     double *theta;
     theta = default_ser_1_parameters;

@@ -17,6 +17,7 @@ extern double default_new_3_7_parameters[4];
 extern double default_new_3_8_parameters[4];
 extern double default_new_3_9_parameters[4];
 extern double default_new_3_10_parameters[4];
+extern double default_s_4_vif_7_1_parameters[5];
 extern double default_ser_1_parameters[7];
 
 

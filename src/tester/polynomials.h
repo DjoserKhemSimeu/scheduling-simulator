@@ -17,5 +17,6 @@ double new_3_7(double p, double q, double r);
 double new_3_8(double p, double q, double r);
 double new_3_9(double p, double q, double r);
 double new_3_10(double p, double q, double r);
+double s4_vif_7_1(double p, double q, double r);
 double ser_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
 #endif

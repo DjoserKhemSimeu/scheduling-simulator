@@ -192,6 +192,14 @@ double default_ser_1_parameters[] = {
     -0.0004199392895490203,
     -3.262757457843899e-06
 };
+
+double default_s_4_vif_7_1_parameters[] = {
+    0.19743286039621077,
+    0.002135405661206186,
+    0.001957849042981819,
+    -2.7093961049337116e-06,
+    8.078300829766182e-11
+};
 // NORMALIZED
 
 double temporal_normalized_lin_parameters[] = {

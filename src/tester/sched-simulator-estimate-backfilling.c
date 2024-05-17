@@ -67,6 +67,7 @@ msg_error_t test_all(const char *platform_file,
 #define NEW_3_8 27
 #define NEW_3_9 28
 #define NEW_3_10 29
+#define S4_V7_D1 30
 
 int BF = 0;
 
@@ -394,6 +395,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             break;
         case NEW_3_10:
             h_values[i] = new_3_10(req[i], cores[i], submit[i]);
+            break;
+        case S4_V7_D1:
+            h_values[i] = s4_vif_7_1(req[i], cores[i], submit[i]);
             break;
         case SER_1:
             h_values[i] = ser_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
@@ -1036,6 +1040,10 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-ser_1") == 0)
             {
                 chosen_policy = SER_1;
+            }
+            if (strcmp(argv[i], "-s4_v7_d1") == 0)
+            {
+                chosen_policy = S4_V7_D1;
             }
             if (strcmp(argv[i], "-nt") == 0)
             {

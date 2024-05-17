@@ -1068,7 +1068,6 @@ if __name__ == "__main__":
 #+end_example
 ** Results
 #+begin_center
-[[file:images/3D_MSE_4_10_20_45.png]]
 [[file:images/3D_MSE_4_10_0_0.png]]
 [[file:images/3D_MSE_4_10_0_90.png]]
 
@@ -1092,3 +1091,32 @@ To validate the behavior of the MSE seen in the first 3D representation, I exten
 |        8 | ('sqrt(p)', 'p1', 'q1r', 'q2r') (1,..)       | ('sqrt(r)', 'p2', 'p3', 'r2p') (2,..)   | ('p2', 'p3', 'p2r', 'p3q') (3)          | ('r2q', 'r3p', 'q4r', 'r4q') (>4)       |
 |        9 | ('sqrt(q)', 'q1', 'p4', 'p1q') (1,..)        | ('sqrt(p)', 'q3', 'p1q', 'q3p') (2,..)  | ('q3', 'r3', 'p2q', 'q2p')(3)           | ('r2p', 'r2q', 'q4r', 'r4q') (4)        |
 |       10 | ('sqrt(p)', 'sqrt(r)', 'p1', 'p3q') (1,..)   | ('q1', 'q2', 'p1r', 'q2p') (2)          | ('q3', 'p4', 'p2q', 'q2p') (3,..)       | ('p3q', 'p4q', 'q4r', 'r4q') (>4)       |
+** Results
+#+begin_center
+[[file:images/3D_MSE_s4_20_40.png]]
+[[file:images/3D_MSE_s4_0_0.png]]
+[[file:images/3D_MSE_s4_0_90.png]]
+#+end_center
+The 3D representation is very similar to the previous representation with three parameters. I also find that 7_1 have the lowest MSE so we tried it with the tester.
+#+begin_center
+[[file:images/LIN_VS_S4_V7_D1.png]]
+#+end_center
+As we can see the linear regression is always better than the best regression we found in the previous step in a testing context
+** About our train-test assumption
+about the training :
+#+begin_example
+MSE(LIN)=0.21669054758575446
+MSE(S4_V7_D1)=0.20868988347079592
+MSE(LIN)>MSE(S4_V7_D1)
+#+end_example
+but in the testing process:
+#+begin_example
+for all testing context : AVGBoundedSlowdown(LIN)<AVGBoundedSlowdown(S4_V7_D1)
+#+end_example
+By this fact we can't continue to take the train-test assumpution (lowest MSE ~ lowest AVGBoundedSlowdown)
+*** Some way to explain this phenomenon
++ trainning dataset unrealistic
++ overfitting of the S4_V7_D1 model
+** For next time
++ Try with other regression with a high MSE to see the behavior of the previous phenomenom
++ ask Danilo for that
