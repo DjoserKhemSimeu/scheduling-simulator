@@ -1076,3 +1076,19 @@ if __name__ == "__main__":
 As we can see on the resuting 3D graph, the plane contruct by the described method, is not perfectly smooth, it can be due to the differences in the informations provide by the parameters of each function. But this representation is enough representative provide to us a deeper understanding of the impact of the AVGD and the VIF on the MSE :
 + the plane is not horizontal, on the AVGD axis, it means tht by increasing the AVGD we also increase the MSE obtained
 + the plane is also not totally horizontal on the VIF axis, we can see that the MSE increase for a If value between 1 and an 4, but after 4 the MSE slope decrese for the observationwith a low AVGD. We can imagine that with higher value for the vif threshold the MSE will continue to decrease.
+* Vendredi 17 main
+** Second 3D analysis
+To validate the behavior of the MSE seen in the first 3D representation, I extend the exprerimental analysis by trying with 4 parameter instead of 3. To minimize the computational complexity of the comparison of VIF score for 4 parameters, i used random.sample python function to bound the number of trial to compute to 5000.
+** Implementation
+
+| VIF\AVGD | 1                                            | 2                                       | 3                                       | 4                                       |
+|        1 | X                                            | ('sqrt(r)', 'p2', 'q4', 'r4') (2,...)   | ('sqrt(p)', 'p3', 'q4', 'r4p') (3,..)   | ('sqrt(r)', 'q4', 'p4q', 'r4p') (3,...) |
+|        2 | ('sqrt(q)', 'p2', 'p1q', 'q1r') (1,..)       | ('q1', 'r1', 'r2q', 'q4p') (2,5)        | ('q1', 'q2r', 'p3q', 'q4p') (3,..)      | ('r4', 'r3q', 'p4q', 'q4r')(>4)         |
+|        3 | ('sqrt(p)', 'sqrt(r)', 'q1r', 'r2q') (1,...) | ('sqrt(p)', 'q3', 'r3', 'p1q') (2,..)   | ('q2', 'p1q', 'p2r', 'r4p') (3)         | ('q2', 'p2r', 'r3p', 'q4p')  (>3)       |
+|        4 | X                                            | ('q1', 'p1q', 'p3q', 'q4r') (2,5)       | ('q1', 'q1r', 'q4p', 'q4r') (3,..)      | ('r2', 'r4', 'r4p', 'q4r') (4)          |
+|        5 | ('sqrt(p)', 'q1', 'q3', 'q1r') (1,..)        | ('sqrt(q)', 'q1', 'p3', 'p3r') (2,..)   | ('p1q', 'p1r', 'q3p', 'r3p') (3)        | ('q3', 'p2q', 'r3p', 'q4p')(>3)         |
+|        6 | ('sqrt(r)', 'p1', 'r1', 'q3') (1,..)         | ('sqrt(q)', 'p1', 'r2q', 'r4q') (2,..)  | ('sqrt(q)', 'r2q', 'p4r', 'r4q') (3,..) | X                                       |
+|        7 | ('sqrt(p)', 'sqrt(r)', 'r1', 'q4') (1.5)     | ('sqrt(p)', 'q1r', 'p2q', 'q2r') (2,..) | ('q1', 'q2', 'q3r', 'p4r') (3)          | ('r2', 'p2r', 'p3r', 'r4q') (>3)        |
+|        8 | ('sqrt(p)', 'p1', 'q1r', 'q2r') (1,..)       | ('sqrt(r)', 'p2', 'p3', 'r2p') (2,..)   | ('p2', 'p3', 'p2r', 'p3q') (3)          | ('r2q', 'r3p', 'q4r', 'r4q') (>4)       |
+|        9 | ('sqrt(q)', 'q1', 'p4', 'p1q') (1,..)        | ('sqrt(p)', 'q3', 'p1q', 'q3p') (2,..)  | ('q3', 'r3', 'p2q', 'q2p')(3)           | ('r2p', 'r2q', 'q4r', 'r4q') (4)        |
+|       10 | ('sqrt(p)', 'sqrt(r)', 'p1', 'p3q') (1,..)   | ('q1', 'q2', 'p1r', 'q2p') (2)          | ('q3', 'p4', 'p2q', 'q2p') (3,..)       | ('p3q', 'p4q', 'q4r', 'r4q') (>4)       |
