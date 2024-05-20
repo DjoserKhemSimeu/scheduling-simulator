@@ -1120,3 +1120,36 @@ By this fact we can't continue to take the train-test assumpution (lowest MSE ~ 
 ** For next time
 + Try with other regression with a high MSE to see the behavior of the previous phenomenom
 + ask Danilo for that
+* Lundi 20 mai
+** Understand the reason of the non-correlation between the MAE and the AVGBoundedSlowdown
+I must highlight this non correlation by using statistical correlation metrics.
+*** Pearson test
+The Pearson coef is a metrics weich represent the linear relation between two continious varibles.
++ X1 = MAE of all the each attibutes combination
++ X2 = mean of the AVGBoundedSlowdown of all experiment contexts for each attibutes combination
++ H0 = Independence of X1 and X2
+**** Interpretation
+#+begin_example
+from scipy.stats import pearsonr
+pd.DataFrame(pearsonr(X1,X2),index = ['pearson_coeff','p_value'],columns = ['test_result'])
+#+end_example
+#+begin_example
+if p_value < 0.05 : dependance (reject H0)
+if pearson_coeff ~ 1 : X1 and X2 are positively corrolated
+if pearson_coeff ~ 0 : X1 and X2 are non corrolated
+if pearson_coeff ~ -1 : X1 and X2 are negatively corrolated
+#+end_example
+**** Implementation
+***** TODO :: Select the attributes combinations to evaluate
+***** TODO :: Performing the Pearson test
+**** Citation
+#+begin_example
+@article{plackett1983karl,
+  title={Karl Pearson and the chi-squared test},
+  author={Plackett, Robin L},
+  journal={International statistical review/revue internationale de statistique},
+  pages={59--72},
+  year={1983},
+  publisher={JSTOR}
+}
+#+end_example

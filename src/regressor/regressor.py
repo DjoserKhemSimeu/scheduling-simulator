@@ -107,8 +107,8 @@ class Regressor:
             (self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"]),
             self.data_set_mem["score"],
             #method='trf',
-            #sigma=self._compute_weights(),
-            #absolute_sigma=True,
+            sigma=self._compute_weights(),
+            absolute_sigma=True,
             )
         else :
             optimal_parameters, optimal_covariance = curve_fit(
