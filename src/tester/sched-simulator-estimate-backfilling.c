@@ -67,7 +67,17 @@ msg_error_t test_all(const char *platform_file,
 #define NEW_3_8 27
 #define NEW_3_9 28
 #define NEW_3_10 29
-#define S4_V7_D1 30
+//CORRELATION ANALYSIS
+#define S3_V1_D3 31
+#define S3_V2_D1 32
+#define S3_V10_D1 33
+#define S3_V10_D4 34
+
+#define S4_V7_D1 35
+#define S4_V4_D3 36
+#define S4_V9_D2 37
+#define S4_V3_D1 38
+#define S4_V9_D4 39
 
 int BF = 0;
 
@@ -396,11 +406,37 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
         case NEW_3_10:
             h_values[i] = new_3_10(req[i], cores[i], submit[i]);
             break;
+        case SER_1:
+            h_values[i] = ser_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        // CORRELATION ANALYSIS
+        case S3_V1_D3:
+            h_values[i] = s3_vif_1_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V2_D1:
+            h_values[i] = s3_vif_2_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V10_D1:
+            h_values[i] = s3_vif_10_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V10_D4:
+            h_values[i] = s3_vif_10_4(req[i], cores[i], submit[i]);
+            break;
+
         case S4_V7_D1:
             h_values[i] = s4_vif_7_1(req[i], cores[i], submit[i]);
             break;
-        case SER_1:
-            h_values[i] = ser_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+        case S4_V4_D3:
+            h_values[i] = s4_vif_4_3(req[i], cores[i], submit[i]);
+            break;
+        case S4_V9_D2:
+            h_values[i] = s4_vif_9_2(req[i], cores[i], submit[i]);
+            break;
+        case S4_V3_D1:
+            h_values[i] = s4_vif_3_1(req[i], cores[i], submit[i]);
+            break;
+        case S4_V9_D4:
+            h_values[i] = s4_vif_9_4(req[i], cores[i], submit[i]);
             break;
         }
         if(i==0){
@@ -1041,10 +1077,47 @@ int main(int argc, char *argv[])
             {
                 chosen_policy = SER_1;
             }
+            // CORRELATION ANALYSIS
+            if (strcmp(argv[i], "-s3_v1_d3") == 0)
+            {
+                chosen_policy = S3_V1_D3;
+            }
+            if (strcmp(argv[i], "-s3_v2_d1") == 0)
+            {
+                chosen_policy = S3_V2_D1;
+            }
+            if (strcmp(argv[i], "-s3_v10_d1") == 0)
+            {
+                chosen_policy = S3_V10_D1;
+            }
+            if (strcmp(argv[i], "-s3_v10_d4") == 0)
+            {
+                chosen_policy = S3_V10_D4;
+            }
+
+
             if (strcmp(argv[i], "-s4_v7_d1") == 0)
             {
                 chosen_policy = S4_V7_D1;
             }
+            if (strcmp(argv[i], "-s4_v4_d3") == 0)
+            {
+                chosen_policy = S4_V4_D3;
+            }
+            if (strcmp(argv[i], "-s4_v9_d2") == 0)
+            {
+                chosen_policy = S4_V9_D2;
+            }
+            if (strcmp(argv[i], "-s4_v3_d1") == 0)
+            {
+                chosen_policy = S4_V3_D1;
+            }
+            if (strcmp(argv[i], "-s4_v9_d4") == 0)
+            {
+                chosen_policy = S4_V9_D4;
+            }
+
+
             if (strcmp(argv[i], "-nt") == 0)
             {
                 number_of_tasks = atoi(argv[i + 1]);

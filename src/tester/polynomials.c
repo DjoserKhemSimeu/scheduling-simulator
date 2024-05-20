@@ -304,18 +304,8 @@ double new_3_10 (double p, double q, double r)
     return theta[0] \
             + theta[1]*pow(r,4) + theta[2]*pow(p,3)*r + theta[3]*pow(q,4)*p;
 }
-/// @brief TEST ON THE BEST VIF
-/// @param p 
-/// @param q 
-/// @param r 
-/// @return 
-double s4_vif_7_1(double p, double q, double r){
-    double *theta;
-    theta =default_s_4_vif_7_1_parameters;
 
-    return theta[0] \
-            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*r+theta[4]*pow(q,4);
-}
+
 double ser_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
     double *theta;
     theta = default_ser_1_parameters;
@@ -323,4 +313,71 @@ double ser_1(double p, double q, double r, double p_mean, double q_mean, double 
     return theta[0] \
             + theta[1]*p + theta[2]*q + theta[3]*r+theta[4]*p_mean+theta[5]*q_mean+theta[6]*r_mean;
     
+}
+// CORRELATION ANALYSIS
+double s3_vif_1_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_1_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,3) + theta[2]*pow(q,2)*p + theta[3]*pow(p,3)*r;
+}
+double s3_vif_2_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_2_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*p*q + theta[3]*q*r;
+}
+double s3_vif_10_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_10_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*p;
+}
+double s3_vif_10_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_10_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,2)*r + theta[2]*pow(p,3)*q + theta[3]*pow(p,4)*q;
+}
+
+
+
+double s4_vif_7_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_4_vif_7_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*r+theta[4]*pow(q,4);
+}
+double s4_vif_4_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_4_vif_4_3_parameters;
+
+    return theta[0] \
+            + theta[1]*q + theta[2]*q*r + theta[3]*pow(q,4)*p+theta[4]*pow(q,4)*r;
+}
+double s4_vif_9_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_4_vif_9_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(q,3) + theta[3]*p*q+theta[4]*pow(q,3)*p;
+}
+double s4_vif_3_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_4_vif_3_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*q*r+theta[4]*pow(r,2)*q;
+}
+double s4_vif_9_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_4_vif_9_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*q*r+theta[4]*pow(r,2)*q;
 }

@@ -17,9 +17,19 @@ extern double default_new_3_7_parameters[4];
 extern double default_new_3_8_parameters[4];
 extern double default_new_3_9_parameters[4];
 extern double default_new_3_10_parameters[4];
-extern double default_s_4_vif_7_1_parameters[5];
 extern double default_ser_1_parameters[7];
 
+
+extern double default_s_3_vif_1_3_parameters[4];
+extern double default_s_3_vif_2_1_parameters[4];
+extern double default_s_3_vif_10_1_parameters[4];
+extern double default_s_3_vif_10_4_parameters[4];
+
+extern double default_s_4_vif_7_1_parameters[5];
+extern double default_s_4_vif_4_3_parameters[5];
+extern double default_s_4_vif_9_2_parameters[5];
+extern double default_s_4_vif_3_1_parameters[5];
+extern double default_s_4_vif_9_4_parameters[5];
 
 
 

@@ -1158,3 +1158,41 @@ for attrbutes combinations of size 4 = S4_V7_D1, S4_V4_D3, S4_V9_D2, S4_V3_D1, S
   publisher={JSTOR}
 }
 #+end_example
+**** Results
+***** MAE
+#+begin_example
+[0.21717980982772267,
+ 0.2409854268393933,
+ 0.21693984120016557,
+ 0.21089234508925758,
+ 0.243989158857399,
+ 0.20902869180559244,
+ 0.23105163006866702,
+ 0.21469804751448088,
+ 0.21222638918450404,
+ 0.24586482431455228]
+#+end_example
+***** AVGBoundedSlowdown
+#+begin_center
+[[file:images/Corr_analysis_SER.png]]
+#+end_center
+
+Average Bounded slowdown for all the experimental context :
+#+begin_example
+LIN          1164.351312
+S3_V1_D3     1786.410008
+S3_V2_D1      257.833541
+S3_V10_D1    4468.807476
+S3_V10_D4     542.374548
+S4_V7_D1      411.896122
+S4_V4_D3     1888.208262
+S4_V9_D2      920.520924
+S4_V3_D1     2285.110092
+S4_V9_D4      362.901237
+#+end_example
+***** Pearson test results
+#+begin_center
+[[file:images/pearson_coeff.png]]
+#+end_center
+***** Analysis
+As we can see the p-value of the pearson test is higher than 0.05 so i can conclude that the MAE provide after the training is independent to the AVGBSLD provide by the tester.

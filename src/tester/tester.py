@@ -99,7 +99,15 @@ policies_flags = {
     "MEM1": "-mem1",
     "MEM2": "-mem2",
     "SER_1":"-ser_1",
+    "S3_V1_D3":"-s3_v1_d3",
+    "S3_V2_D1":"-s3_v2_d1",
+    "S3_V10_D1":"-s3_v10_d1",
+    "S3_V10_D4":"-s3_v10_d4",
     "S4_V7_D1":"-s4_v7_d1",
+    "S4_V4_D3":"-s4_v4_d3",
+    "S4_V9_D2":"-s4_v9_d2",
+    "S4_V3_D1":"-s4_v3_d1",
+    "S4_V9_D4":"-s4_v9_d4",
 }
 
 
@@ -220,6 +228,6 @@ def workload_experiments(workloads, policies, sim_types):
 if __name__ == "__main__":
     workload_experiments(
         ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["LIN","S4_V7_D1"],
+        ["LIN","S3_V1_D3","S3_V2_D1","S3_V10_D1","S3_V10_D4","S4_V7_D1","S4_V4_D3","S4_V9_D2","S4_V3_D1","S4_V9_D4"],
         ["ACTUAL", "ESTIMATED"],
     )
