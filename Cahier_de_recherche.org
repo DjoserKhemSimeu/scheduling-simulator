@@ -1196,3 +1196,53 @@ S4_V9_D4      362.901237
 #+end_center
 ***** Analysis
 As we can see the p-value of the pearson test is higher than 0.05 so i can conclude that the MAE provide after the training is independent to the AVGBSLD provide by the tester.
+* mardi 21 mai
+** About the Pearson test
+I think the result provide by the pearson test is only for MAE with little difference (+ ou - 0.02), obviously with MAE of 0.2 and MAE of 0.8 we will observe some difference. It can be due to the way which we choosed to construct the trainning dataset, which is not totally realistic :
++ just take into account the position of the job in the best permutation of Q to compute the priority
+** What to do next ?
+here we have two choice :
++ Make more realistic the construction of the dataset to increase the correlation between MAE and AVGBoundedSlowdown
++ Try with the serial version of the trainning dataset to make model that ensure the seriality of the jobs
+** Comparison of our models to SAF and F2
+#+begin_example
+LIN          1164.351312
+S3_V2_D1      257.833541
+S3_V10_D4     542.374548
+S4_V7_D1      411.896122
+S4_V9_D2      920.520924
+S4_V9_D4      362.901237
+SAF           223.991682
+F2            165.814373
+#+end_example
+S3_V2_D1 is close to beat them
+** New 3D représentation
++ MAE
++ VIF
++ AVGBoundedSlowdown
++ AVGD
+Modifications of the tester.py code
+#+begin_example
+if __name__ == "__main__":
+    workload_experiments(
+        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
+        ["LIN","S3_V1_D3","S3_V1_D4",
+         "S3_V2_D1","S3_V2_D2","S3_V2_D3","S3_V2_D4",
+         "S3_V3_D1","S3_V3_D2","S3_V3_D3","S3_V3_D4",
+         "S3_V4_D1","S3_V4_D2","S3_V4_D3","S3_V4_D4",
+         "S3_V5_D1","S3_V5_D2","S3_V5_D3","S3_V5_D4",
+         "S3_V6_D1","S3_V6_D2","S3_V6_D3",
+         "S3_V7_D1","S3_V7_D2","S3_V7_D3","S3_V7_D4",
+         "S3_V8_D1","S3_V8_D2","S3_V8_D3","S3_V8_D4",
+         "S3_V9_D1","S3_V9_D2","S3_V9_D3","S3_V9_D4",
+         "S3_V10_D1","S3_V10_D2","S3_V10_D3","S3_V10_D4"],
+        ["ACTUAL", "ESTIMATED"],
+    )
+#+end_example
+** Results
+#+begin_center
+[[file:images/4D_MSE.png]]
+#+end_center
+** TODO :: Implement MEM4 which take in the memory system the info about the current task an compare it with MEM2
+** TODO :: Do the 4D plot for each experimental context
+** TODO :: Use the backfilling parameter in the tester now
