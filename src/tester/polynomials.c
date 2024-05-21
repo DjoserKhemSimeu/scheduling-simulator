@@ -322,6 +322,13 @@ double s3_vif_1_3(double p, double q, double r){
     return theta[0] \
             + theta[1]*pow(r,3) + theta[2]*pow(q,2)*p + theta[3]*pow(p,3)*r;
 }
+double s3_vif_1_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_1_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4) + theta[2]*pow(q,4)*p + theta[3]*pow(r,4)*p;
+}
 double s3_vif_2_1(double p, double q, double r){
     double *theta;
     theta =default_s_3_vif_2_1_parameters;
@@ -329,12 +336,237 @@ double s3_vif_2_1(double p, double q, double r){
     return theta[0] \
             + theta[1]*pow(p,(1/2)) + theta[2]*p*q + theta[3]*q*r;
 }
+double s3_vif_2_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_2_2_parameters;
+
+    return theta[0] \
+            + theta[1]*q + theta[2]*pow(r,2)*q + theta[3]*pow(q,3)*p;
+}
+double s3_vif_2_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_2_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*q + theta[2]*pow(p,3)*r + theta[3]*pow(p,4)*q;
+}
+double s3_vif_2_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_2_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,4)+ theta[2]*pow(p,4)*r + theta[3]*pow(r,4)*q;
+}
+double s3_vif_3_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_3_1_parameters;
+
+    return theta[0] \
+            + theta[1]*r+ theta[2]*p*q + theta[3]*pow(p,2)*q;
+}
+double s3_vif_3_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_3_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*q+ theta[2]*pow(r,2)*q + theta[3]*pow(p,3)*q;
+}
+double s3_vif_3_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_3_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)*q+ theta[2]*pow(q,3)*p + theta[3]*pow(q,3)*r;
+}
+double s3_vif_3_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_3_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,2)+ theta[2]*pow(q,4)*p + theta[3]*pow(r,4)*p;
+}
+double s3_vif_4_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_4_1_parameters;
+
+    return theta[0] \
+            + theta[1]*p*r+ theta[2]*q*r + theta[3]*pow(q,3)*r;
+}
+double s3_vif_4_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_4_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,2)+ theta[2]*pow(q,2)*r + theta[3]*pow(q,3)*r;
+}
+double s3_vif_4_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_4_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,4)+ theta[2]*pow(r,2)*q + theta[3]*pow(q,3)*r;
+}
+double s3_vif_4_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_4_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)*q+ theta[2]*pow(p,4)*r + theta[3]*pow(r,4)*q;
+}
+double s3_vif_5_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_5_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,(1/2))+ theta[2]*q + theta[3]*pow(r,2)*p;
+}
+double s3_vif_5_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_5_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*r+ theta[2]*pow(r,2)*q + theta[3]*pow(r,4)*q;
+}
+
+double s3_vif_5_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_5_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)*q+ theta[2]*pow(r,3)*p + theta[3]*pow(r,4)*q;
+}
+double s3_vif_5_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_5_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)*q+ theta[2]*pow(r,4)*p + theta[3]*pow(r,4)*q;
+}
+double s3_vif_6_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_6_1_parameters;
+
+    return theta[0] \
+            + theta[1]*q+ theta[2]*p*q + theta[3]*pow(q,3)*p;
+}
+double s3_vif_6_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_6_2_parameters;
+
+    return theta[0] \
+            + theta[1]*q*r+ theta[2]*pow(q,2)*r + theta[3]*pow(p,3)*r;
+}
+double s3_vif_6_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_6_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*r+ theta[2]*pow(p,3)*r + theta[3]*pow(q,4)*p;
+}
+double s3_vif_7_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_7_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2))+ theta[2]*q*r + theta[3]*pow(q,2)*r;
+}
+double s3_vif_7_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_7_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,3)+ theta[2]*p*q + theta[3]*pow(p,2)*q;
+}
+double s3_vif_7_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_7_3_parameters;
+
+    return theta[0] \
+            + theta[1]*q*r+ theta[2]*pow(q,2)*r + theta[3]*pow(q,4)*p;
+}
+double s3_vif_7_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_7_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*r+ theta[2]*pow(p,3)*r + theta[3]*pow(p,4)*q;
+}
+double s3_vif_8_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_8_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2))*r+ theta[2]*p + theta[3]*p*r;
+}
+double s3_vif_8_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_8_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)+ theta[2]*q*r + theta[3]*pow(q,2)*r;
+}
+double s3_vif_8_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_8_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)*p+ theta[2]*pow(r,3)*p+ + theta[3]*pow(q,3)*r;
+}
+double s3_vif_8_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_8_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,3)*q+ theta[2]*pow(p,4)*q+ + theta[3]*pow(p,4)*r;
+}
+double s3_vif_9_1(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_9_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,(1/2))*r+ theta[2]*p*q + theta[3]*pow(q,2)*p;
+}
+double s3_vif_9_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_9_2_parameters;
+
+    return theta[0] \
+            + theta[1]*p*q+ theta[2]*p*r + theta[3]*pow(q,2)*p;
+}
+double s3_vif_9_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_9_3_parameters;
+
+    return theta[0] \
+            + theta[1]*p*q+ theta[2]*pow(q,2)*p+ + theta[3]*pow(q,3)*r;
+}
+double s3_vif_9_4(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_9_4_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,3)*q+ theta[2]*pow(p,4)*q+ + theta[3]*pow(r,4)*q;
+}
 double s3_vif_10_1(double p, double q, double r){
     double *theta;
     theta =default_s_3_vif_10_1_parameters;
 
     return theta[0] \
             + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*p;
+}
+double s3_vif_10_2(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_10_2_parameters;
+
+    return theta[0] \
+            + theta[1]*q + theta[2]*p*q + theta[3]*pow(p,2)*q;
+}
+double s3_vif_10_3(double p, double q, double r){
+    double *theta;
+    theta =default_s_3_vif_10_3_parameters;
+
+    return theta[0] \
+            + theta[1]*q*r + theta[2]*pow(p,3)*q + theta[3]*pow(p,4)*q;
 }
 double s3_vif_10_4(double p, double q, double r){
     double *theta;

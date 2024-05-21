@@ -69,15 +69,49 @@ msg_error_t test_all(const char *platform_file,
 #define NEW_3_10 29
 //CORRELATION ANALYSIS
 #define S3_V1_D3 31
-#define S3_V2_D1 32
-#define S3_V10_D1 33
-#define S3_V10_D4 34
+#define S3_V1_D4 32
+#define S3_V2_D1 33
+#define S3_V2_D2 34
+#define S3_V2_D3 35
+#define S3_V2_D4 36
+#define S3_V3_D1 37
+#define S3_V3_D2 38
+#define S3_V3_D3 39
+#define S3_V3_D4 40
+#define S3_V4_D1 41
+#define S3_V4_D2 42
+#define S3_V4_D3 43
+#define S3_V4_D4 44
+#define S3_V5_D1 45
+#define S3_V5_D2 46
+#define S3_V5_D3 47
+#define S3_V5_D4 48
+#define S3_V6_D1 49
+#define S3_V6_D2 50
+#define S3_V6_D3 51
+#define S3_V7_D1 52
+#define S3_V7_D2 53
+#define S3_V7_D3 54
+#define S3_V7_D4 55
+#define S3_V8_D1 56
+#define S3_V8_D2 57
+#define S3_V8_D3 58
+#define S3_V8_D4 59
+#define S3_V9_D1 60
+#define S3_V9_D2 61
+#define S3_V9_D3 62
+#define S3_V9_D4 63
+#define S3_V10_D1 64
+#define S3_V10_D2 65
+#define S3_V10_D3 66
+#define S3_V10_D4 67
 
-#define S4_V7_D1 35
-#define S4_V4_D3 36
-#define S4_V9_D2 37
-#define S4_V3_D1 38
-#define S4_V9_D4 39
+#define S4_V7_D1 68
+#define S4_V4_D3 69
+#define S4_V9_D2 70
+#define S4_V3_D1 71
+#define S4_V9_D4 72
+#define MEM3 73
 
 int BF = 0;
 
@@ -343,6 +377,13 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
                 h_values[i] = r_mean + ((req[i]*cores[i])-(p_mean*q_mean));
             }
             break;
+        case MEM3:
+            if(i==0){
+                h_values[i] = submit[i];
+            }else{
+                h_values[i] = submit[i] + ((req[i]*cores[i])-(p_mean*q_mean));
+            }
+            break;
         case F4:
             h_values[i] = (0.0056500287 * req[i]) * (0.0000024814 * sqrt(cores[i])) + (0.0074444355 * log10(submit[i])); // 256nodes
             break;
@@ -413,11 +454,110 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
         case S3_V1_D3:
             h_values[i] = s3_vif_1_3(req[i], cores[i], submit[i]);
             break;
+        case S3_V1_D4:
+            h_values[i] = s3_vif_1_4(req[i], cores[i], submit[i]);
+            break;
         case S3_V2_D1:
             h_values[i] = s3_vif_2_1(req[i], cores[i], submit[i]);
             break;
+        case S3_V2_D2:
+            h_values[i] = s3_vif_2_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V2_D3:
+            h_values[i] = s3_vif_2_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V2_D4:
+            h_values[i] = s3_vif_2_4(req[i], cores[i], submit[i]);
+            break;
+        case S3_V3_D1:
+            h_values[i] = s3_vif_3_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V3_D2:
+            h_values[i] = s3_vif_3_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V3_D3:
+            h_values[i] = s3_vif_3_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V3_D4:
+            h_values[i] = s3_vif_3_4(req[i], cores[i], submit[i]);
+            break;
+        case S3_V4_D1:
+            h_values[i] = s3_vif_4_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V4_D2:
+            h_values[i] = s3_vif_4_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V4_D3:
+            h_values[i] = s3_vif_4_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V4_D4:
+            h_values[i] = s3_vif_4_4(req[i], cores[i], submit[i]);
+            break;
+        case S3_V5_D1:
+            h_values[i] = s3_vif_5_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V5_D2:
+            h_values[i] = s3_vif_5_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V5_D3:
+            h_values[i] = s3_vif_5_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V5_D4:
+            h_values[i] = s3_vif_5_4(req[i], cores[i], submit[i]);
+            break;
+        case S3_V6_D1:
+            h_values[i] = s3_vif_6_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V6_D2:
+            h_values[i] = s3_vif_6_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V6_D3:
+            h_values[i] = s3_vif_6_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V7_D1:
+            h_values[i] = s3_vif_7_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V7_D2:
+            h_values[i] = s3_vif_7_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V7_D3:
+            h_values[i] = s3_vif_7_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V7_D4:
+            h_values[i] = s3_vif_7_4(req[i], cores[i], submit[i]);
+            break;
+        case S3_V8_D1:
+            h_values[i] = s3_vif_8_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V8_D2:
+            h_values[i] = s3_vif_8_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V8_D3:
+            h_values[i] = s3_vif_8_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V8_D4:
+            h_values[i] = s3_vif_8_4(req[i], cores[i], submit[i]);
+            break;
+        case S3_V9_D1:
+            h_values[i] = s3_vif_9_1(req[i], cores[i], submit[i]);
+            break;
+        case S3_V9_D2:
+            h_values[i] = s3_vif_9_2(req[i], cores[i], submit[i]);
+            break;
+        case S3_V9_D3:
+            h_values[i] = s3_vif_9_3(req[i], cores[i], submit[i]);
+            break;
+        case S3_V9_D4:
+            h_values[i] = s3_vif_9_4(req[i], cores[i], submit[i]);
+            break;
         case S3_V10_D1:
             h_values[i] = s3_vif_10_1(req[i], cores[i], submit[i]);
+            break;
+         case S3_V10_D2:
+            h_values[i] = s3_vif_10_2(req[i], cores[i], submit[i]);
+            break;
+         case S3_V10_D3:
+            h_values[i] = s3_vif_10_3(req[i], cores[i], submit[i]);
             break;
         case S3_V10_D4:
             h_values[i] = s3_vif_10_4(req[i], cores[i], submit[i]);
@@ -985,6 +1125,10 @@ int main(int argc, char *argv[])
             {
                 chosen_policy = MEM2;
             }
+            if (strcmp(argv[i], "-mem3") == 0)
+            {
+                chosen_policy = MEM3;
+            }
             if (strcmp(argv[i], "-easy") == 0)
             {
                 chosen_policy = EASY;
@@ -1082,13 +1226,145 @@ int main(int argc, char *argv[])
             {
                 chosen_policy = S3_V1_D3;
             }
+            if (strcmp(argv[i], "-s3_v1_d4") == 0)
+            {
+                chosen_policy = S3_V1_D4;
+            }
             if (strcmp(argv[i], "-s3_v2_d1") == 0)
             {
                 chosen_policy = S3_V2_D1;
             }
+            if (strcmp(argv[i], "-s3_v2_d2") == 0)
+            {
+                chosen_policy = S3_V2_D2;
+            }
+            if (strcmp(argv[i], "-s3_v2_d3") == 0)
+            {
+                chosen_policy = S3_V2_D3;
+            }
+            if (strcmp(argv[i], "-s3_v2_d4") == 0)
+            {
+                chosen_policy = S3_V2_D4;
+            }
+            if (strcmp(argv[i], "-s3_v3_d1") == 0)
+            {
+                chosen_policy = S3_V3_D1;
+            }
+            if (strcmp(argv[i], "-s3_v3_d2") == 0)
+            {
+                chosen_policy = S3_V3_D2;
+            }
+            if (strcmp(argv[i], "-s3_v3_d3") == 0)
+            {
+                chosen_policy = S3_V3_D3;
+            }
+            if (strcmp(argv[i], "-s3_v3_d4") == 0)
+            {
+                chosen_policy = S3_V3_D4;
+            }
+            if (strcmp(argv[i], "-s3_v4_d1") == 0)
+            {
+                chosen_policy = S3_V4_D1;
+            }
+            if (strcmp(argv[i], "-s3_v4_d2") == 0)
+            {
+                chosen_policy = S3_V4_D2;
+            }
+            if (strcmp(argv[i], "-s3_v4_d3") == 0)
+            {
+                chosen_policy = S3_V4_D3;
+            }
+            if (strcmp(argv[i], "-s3_v4_d4") == 0)
+            {
+                chosen_policy = S3_V4_D4;
+            }
+            if (strcmp(argv[i], "-s3_v5_d1") == 0)
+            {
+                chosen_policy = S3_V5_D1;
+            }
+            if (strcmp(argv[i], "-s3_v5_d2") == 0)
+            {
+                chosen_policy = S3_V5_D2;
+            }
+            if (strcmp(argv[i], "-s3_v5_d3") == 0)
+            {
+                chosen_policy = S3_V5_D3;
+            }
+            if (strcmp(argv[i], "-s3_v5_d4") == 0)
+            {
+                chosen_policy = S3_V5_D4;
+            }
+            if (strcmp(argv[i], "-s3_v6_d1") == 0)
+            {
+                chosen_policy = S3_V6_D1;
+            }
+            if (strcmp(argv[i], "-s3_v6_d2") == 0)
+            {
+                chosen_policy = S3_V6_D2;
+            }
+            if (strcmp(argv[i], "-s3_v6_d3") == 0)
+            {
+                chosen_policy = S3_V6_D3;
+            }
+            if (strcmp(argv[i], "-s3_v7_d1") == 0)
+            {
+                chosen_policy = S3_V7_D1;
+            }
+            if (strcmp(argv[i], "-s3_v7_d2") == 0)
+            {
+                chosen_policy = S3_V7_D2;
+            }
+            if (strcmp(argv[i], "-s3_v7_d3") == 0)
+            {
+                chosen_policy = S3_V7_D3;
+            }
+            if (strcmp(argv[i], "-s3_v7_d4") == 0)
+            {
+                chosen_policy = S3_V7_D4;
+            }
+            if (strcmp(argv[i], "-s3_v8_d1") == 0)
+            {
+                chosen_policy = S3_V8_D1;
+            }
+            if (strcmp(argv[i], "-s3_v8_d2") == 0)
+            {
+                chosen_policy = S3_V8_D2;
+            }
+            if (strcmp(argv[i], "-s3_v8_d3") == 0)
+            {
+                chosen_policy = S3_V8_D3;
+            }
+            if (strcmp(argv[i], "-s3_v8_d4") == 0)
+            {
+                chosen_policy = S3_V8_D4;
+            }
+            if (strcmp(argv[i], "-s3_v9_d1") == 0)
+            {
+                chosen_policy = S3_V9_D1;
+            }
+            if (strcmp(argv[i], "-s3_v9_d2") == 0)
+            {
+                chosen_policy = S3_V9_D2;
+            }
+            if (strcmp(argv[i], "-s3_v9_d3") == 0)
+            {
+                chosen_policy = S3_V9_D3;
+            }
+            if (strcmp(argv[i], "-s3_v9_d4") == 0)
+            {
+                chosen_policy = S3_V9_D4;
+            }
             if (strcmp(argv[i], "-s3_v10_d1") == 0)
             {
                 chosen_policy = S3_V10_D1;
+            }
+            if (strcmp(argv[i], "-s3_v10_d2") == 0)
+            {
+                chosen_policy = S3_V10_D2;
+            }
+            if (strcmp(argv[i], "-s3_v10_d3") == 0)
+            {
+                chosen_policy = S3_V10_D3;
             }
             if (strcmp(argv[i], "-s3_v10_d4") == 0)
             {
