@@ -112,6 +112,7 @@ msg_error_t test_all(const char *platform_file,
 #define S4_V3_D1 71
 #define S4_V9_D4 72
 #define MEM3 73
+#define MEM4 74
 
 int number_of_tasks = 0;
 
@@ -400,6 +401,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
     double p_mean = 0;
     double r_mean = 0;
     double q_mean = 0;
+    double p_mean_4 = 0;
+    double r_mean_4 = 0;
+    double q_mean_4 = 0;
     for (i = 0; i < num_arrived_tasks; i++)
     {
         if (submit[i] > max_arrive)
@@ -407,6 +411,15 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
             max_arrive = submit[i];
         }
     }
+    if(i==0){
+            r_mean_4=submit[i];
+            p_mean_4=runtimes[i];
+            q_mean_4=cores[i];
+        }else{
+            r_mean_4= ((i*r_mean_4)/(i+1))+(submit[i]/(i+1));
+            p_mean_4= ((i*p_mean_4)/(i+1))+(runtimes[i]/(i+1));
+            q_mean_4= ((i*q_mean_4)/(i+1))+(cores[i]/(i+1));
+        }
 
     // printf("%d\n", max_arrive);
     int task_age = 0;
@@ -444,6 +457,11 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
             }else{
                 h_values[i] = submit[i] + ((runtimes[i]*cores[i])-(p_mean*q_mean));
             }
+            break;
+        case MEM4:
+            
+            h_values[i] = r_mean_4 + ((runtimes[i]*cores[i])-(p_mean_4*q_mean_4));
+           
             break;
         case F4:
             h_values[i] = (0.0056500287 * runtimes[i]) * (0.0000024814 * sqrt(cores[i])) + (0.0074444355 * log10(submit[i])); // 256nodes
@@ -1179,6 +1197,10 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-mem3") == 0)
             {
                 chosen_policy = MEM3;
+            }
+            if (strcmp(argv[i], "-mem4") == 0)
+            {
+                chosen_policy = MEM4;
             }
             if (strcmp(argv[i], "-easy") == 0)
             {

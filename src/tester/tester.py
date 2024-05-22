@@ -99,6 +99,7 @@ policies_flags = {
     "MEM1": "-mem1",
     "MEM2": "-mem2",
     "MEM3": "-mem3",
+    "MEM4": "-mem4",
     "SER_1":"-ser_1",
     "S3_V1_D3":"-s3_v1_d3",
     "S3_V1_D4":"-s3_v1_d4",
@@ -262,6 +263,6 @@ def workload_experiments(workloads, policies, sim_types):
 if __name__ == "__main__":
     workload_experiments(
         ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["MEM2","MEM3"],
-        ["ACTUAL", "ESTIMATED"],
+        ["MEM2","MEM4"],
+        ["ACTUAL", "ESTIMATED","BACKFILLING"],
     )

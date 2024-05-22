@@ -1246,3 +1246,19 @@ if __name__ == "__main__":
 ** TODO :: Implement MEM4 which take in the memory system the info about the current task an compare it with MEM2
 ** TODO :: Do the 4D plot for each experimental context
 ** TODO :: Use the backfilling parameter in the tester now
+* mercredi 22 mai
+** Work on the memory regressions
++ x = p_mean
++ w = q_mean
++ z = r_mean
+| VIF\AVGD | 1                                          | 2                               | 3                                   | 4 |
+|        1 | ('sqrt(p)', 'sqrt(w)', 'x2', 'z2q') (1,5)  | ('q1', 'w1', 'p2x', 'z2r') (2)  | ('x2p', 'q2r', 'w2q', 'r2z') (3)    | X |
+|        2 | ('sqrt(z)', 'p1q', 'p1r', 'q1x') (1,..)    | ('r1', 'x2', 'z2', 'x2q') (2)   | ('r2p', 'q2x', 'q2w', 'r2z') (3)    | X |
+|        3 | ('sqrt(x)', 'p1q', 'r1w', 'p2q') (1.75)    | ('r1', 'q1z', 'r1x', 'z2q') (2) | ('p2r', 'w2p', 'z2r', 'z2x') (3)    | X |
+|        4 | ('sqrt(w)', 'sqrt(z)', 'p1', 'w2x') (1.25) | ('w1', 'p1x', 'p1w', 'p2w') (2) | ('w2p', 'r2x', 'w2r', 'z2x') (3)    | X |
+|        5 | ('sqrt(r)', 'sqrt(x)', 'x1w', 'r2z') (1.5) | ('r1', 'z2', 'r1w', 'p2q') (2)  | ('p2w', 'q2z', 'z2r', 'z2w') (3)    | X |
+|        6 | ('sqrt(q)', 'sqrt(r)', 'z1', 'p1z') (1)    | ('r2', 'p1z', 'r1z', 'x1z') (2) | ('w2p', 'q2r', 'x2q', 'q2z') (3)    | X |
+|        7 | ('sqrt(x)', 'sqrt(w)', 'q1', 'x1z') (1)    | ('x1', 'q1r', 'q1w', 'q2r') (2) | ('p2r', 'q2r', 'q2w', 'w2q') (3)    | X |
+|        8 | ('sqrt(q)', 'sqrt(z)', 'z1', 'r1w') (1)    | ('r1', 'p1q', 'r1w', 'w2z') (2) | ('q1x', 'q2p', 'q2r', 'q2x') (2.75) | X |
+|        9 | ('sqrt(p)', 'sqrt(w)', 'w1', 'q2') (1)     | ('q1', 'q1x', 'w1z', 'x2q')(2)  | ('p1q', 'q2p', 'x2p', 'p2w') (2.75) | X |
+|       10 | ('sqrt(r)', 'sqrt(w)', 'x1', 'z1') (0.75)  | ('r1', 'z1', 'p2', 'r1z') (2)   | ('p2r', 'w2p', 'p2z', 'w2x') (3)    | X |
