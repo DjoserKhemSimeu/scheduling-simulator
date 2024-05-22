@@ -148,16 +148,6 @@ def new_3_10(x, t0, t1, t2,t3):
     lin_term = (t0 + t1*(r**4) + t2*(p**3)*r +t3*(q**4)*p)
     return lin_term
 
-############################## INTRODUCTION OF SERIALISM #########################################
-def ser_1(x, t0, t1, t2,t3,t4,t5,t6):
-    p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*p + t2*q +t3*r+t4*p_mean+t5*q_mean+t6*r_mean)
-    return lin_term
-
-def ser_2(x, t0, t1, t2,t3,t4):
-    p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*p*q +t2*r+t3*p_mean*q_mean+t4*r_mean)
-    return lin_term
 
 ################################################################################################
 #3D MSE VISUALISATION
@@ -581,4 +571,166 @@ def s_4_vif_10_deg_3(x, t0, t1, t2,t3,t4):
 def s_4_vif_10_deg_4(x, t0, t1, t2,t3,t4):
     p, q, r = x
     lin_term = (t0 + t1*(p**3)*q + t2*(p**4)*q +t3*(q**4)*r+t4*(r**4)*q)
+    return lin_term
+
+#################### SERIAL REGRESSIONS ####################
+
+############### VIF ~ 1 ###############
+def ser_1_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p**(1/2)) +t2*(q_mean**(1/2))+t3*(p_mean**2)+t4*(r_mean**2)*q)
+    return lin_term
+
+def ser_1_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*q +t2*q_mean+t3*(p**2)*p_mean+t4*(r_mean**2)*r)
+    return lin_term
+
+def ser_1_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p_mean**2)*p +t2*(q**2)*r+t3*(q_mean**2)*q+t4*(r**2)*r_mean)
+    return lin_term
+
+############### VIF ~ 2 ###############
+def ser_2_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(r_mean**(1/2)) +t2*p*q+t3*p*r+t4*q*p_mean)
+    return lin_term
+
+def ser_2_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*r +t2*(p_mean**2)+t3*(r_mean**2)+t4*(p_mean**2)*q)
+    return lin_term
+
+def ser_2_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(r**2)*p +t2*(q**2)*p_mean+t3*(q**2)*q_mean+t4*(r**2)*r_mean)
+    return lin_term
+
+############### VIF ~ 3 ###############
+def ser_3_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p_mean**(1/2)) +t2*p*q+t3*r*q_mean+t4*(p**2)*q)
+    return lin_term
+
+def ser_3_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*r +t2*q*r_mean+t3*r*p_mean+t4*(r_mean**2)*q)
+    return lin_term
+
+def ser_3_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p**2)*r +t2*(q_mean**2)*p_mean+t3*(r_mean**2)*r+t4*(r_mean**2)*p_mean)
+    return lin_term
+
+############### VIF ~ 4 ###############
+def ser_4_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(q_mean**(1/2)) +t2*(r_mean**(1/2))+t3*p+t4*(q_mean**(1/2))*p_mean)
+    return lin_term
+
+def ser_4_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*q_mean +t2*p*p_mean+t3*p*q_mean+t4*(p**2)*q_mean)
+    return lin_term
+
+def ser_4_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(q_mean**2)*p +t2*(r**2)*p_mean+t3*(q_mean**2)*r+t4*(r_mean**2)*p_mean)
+    return lin_term
+
+############### VIF ~ 5 ###############
+def ser_5_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(r**(1/2)) +t2*(p_mean**(1/2))+t3*p_mean*q_mean+t4*(r**2)*r_mean)
+    return lin_term
+
+def ser_5_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*r +t2*(r_mean**2)+t3*r*q_mean+t4*(p**2)*q)
+    return lin_term
+
+def ser_5_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p**2)*q_mean +t2*(q**2)*r_mean+t3*(r_mean**2)*r+t4*(r_mean**2)*q_mean)
+    return lin_term
+
+############### VIF ~ 6 ###############
+def ser_6_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(q**(1/2)) +t2*(r**(1/2))+t3*r_mean+t4*p*r_mean)
+    return lin_term
+
+def ser_6_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(r**2) +t2*p*r_mean+t3*r*r_mean+t4*p_mean*r_mean)
+    return lin_term
+
+def ser_6_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(q_mean**2)*p +t2*(q**2)*r+t3*(p_mean**2)*q+t4*(q**2)*r_mean)
+    return lin_term
+
+############### VIF ~ 7 ###############
+def ser_7_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p_mean**(1/2)) +t2*(q_mean**(1/2))+t3*q+t4*p_mean*r_mean)
+    return lin_term
+
+def ser_7_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*p_mean +t2*q*r+t3*q*q_mean+t4*(q**2)*r)
+    return lin_term
+
+def ser_7_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p**2)*r +t2*(q**2)*r+t3*(q**2)*q_mean+t4*(q_mean**2)*q)
+    return lin_term
+
+############### VIF ~ 8 ###############
+def ser_8_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(q**(1/2)) +t2*(r_mean**(1/2))+t3*r_mean+t4*r*q_mean)
+    return lin_term
+
+def ser_8_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*r +t2*p*q+t3*r*q_mean+t4*(q_mean**2)*r_mean)
+    return lin_term
+
+def ser_8_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*q*p_mean +t2*(q**2)*p+t3*(q**2)*r+t4*(q**2)*p_mean)
+    return lin_term
+
+############### VIF ~ 9 ###############
+def ser_9_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p**(1/2)) +t2*(q_mean**(1/2))+t3*q_mean+t4*r*(q**2))
+    return lin_term
+
+def ser_9_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*q +t2*q*p_mean+t3*q_mean*r_mean+t4*(p_mean**2)*q)
+    return lin_term
+
+def ser_9_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*p*q +t2*(q**2)*p+t3*(p_mean**2)*p+t4*(p**2)*q_mean)
+    return lin_term
+
+############### VIF ~ 10 ###############
+def ser_10_1(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(r**(1/2)) +t2*(q_mean**(1/2))+t3*p_mean+t4*r_mean)
+    return lin_term
+
+def ser_10_2(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*r+t2*r_mean+t3*(p**2)+t4*r*r_mean)
+    return lin_term
+
+def ser_10_3(x, t0, t1, t2,t3,t4):
+    p, q, r, p_mean , q_mean , r_mean= x
+    lin_term = (t0 + t1*(p**2)*r +t2*(q_mean**2)*p+t3*(p**2)*r_mean+t4*(q_mean**2)*p_mean)
     return lin_term

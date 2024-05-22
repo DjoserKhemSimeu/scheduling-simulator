@@ -9,6 +9,18 @@ TRAINING_DIR = pathlib.Path(__file__).parent / "simulator" / "training-data"
 SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA.csv"
 SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM.csv"
 REPORT_FILE = DATA_DIR / "regression_report.json"
+SERIAL_FUNCTIONS =[
+    ser_1_1, ser_1_2, ser_1_3,
+    ser_2_1, ser_2_2, ser_2_3,
+    ser_3_1, ser_3_2, ser_3_3,
+    ser_4_1, ser_4_2, ser_4_3,
+    ser_5_1, ser_5_2, ser_5_3,
+    ser_6_1, ser_6_2, ser_6_3,
+    ser_7_1, ser_7_2, ser_7_3,
+    ser_8_1, ser_8_2, ser_8_3,
+    ser_9_1, ser_9_2, ser_9_3,
+    ser_10_1, ser_10_2, ser_10_3
+]
 FUNCTIONS = [lin]
 
 
@@ -101,7 +113,7 @@ class Regressor:
         tuple
             The optimal parameters and the covariance matrix.
         """
-        if function == ser_1 or function == ser_2:
+        if function in SERIAL_FUNCTIONS:
             optimal_parameters, optimal_covariance = curve_fit(
             function,
             (self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"]),
@@ -138,7 +150,8 @@ class Regressor:
         array
             The predicted values of y.
         """
-        if function == ser_1 or function == ser_2:
+        if function in SERIAL_FUNCTIONS:
+            print("cc")
             p = lambda x: function(x, *optimal_parameters)
             x_data = zip(self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"])
             predicted_y = np.array([p(x) for x in x_data])
@@ -237,42 +250,21 @@ if __name__ == "__main__":
 
     
     print("___________SIZE = 3______________")
-    funct=[[vif_1_deg_1,vif_1_deg_3,vif_1_deg_4],
-           [vif_2_deg_1,vif_2_deg_2,vif_2_deg_3,vif_2_deg_4],
-           [vif_3_deg_1,vif_3_deg_2,vif_3_deg_3,vif_3_deg_4],
-           [vif_4_deg_1,vif_4_deg_2,vif_4_deg_3,vif_4_deg_4],
-           [vif_5_deg_1,vif_5_deg_2,vif_5_deg_3,vif_5_deg_4],
-           [vif_6_deg_1,vif_6_deg_2,vif_6_deg_3],
-           [vif_7_deg_1,vif_7_deg_2,vif_7_deg_3,vif_7_deg_4],
-           [vif_8_deg_1,vif_8_deg_2,vif_8_deg_3,vif_8_deg_4],
-           [vif_9_deg_1,vif_9_deg_2,vif_9_deg_3,vif_9_deg_4],
-           [vif_10_deg_1,vif_10_deg_2,vif_10_deg_3,vif_10_deg_4]]
+    funct=[[ ser_1_1 , ser_1_2 , ser_1_3 ],
+           [ ser_2_1 , ser_2_2 , ser_2_3 ],
+           [ ser_3_1 , ser_3_2 , ser_3_3 ],
+           [ ser_4_1 , ser_4_2 , ser_4_3 ],
+           [ ser_5_1 , ser_5_2 , ser_5_3 ],
+           [ ser_6_1 , ser_6_2 , ser_6_3 ],
+           [ ser_7_1 , ser_7_2 , ser_7_3 ],
+           [ ser_8_1 , ser_8_2 , ser_8_3 ],
+           [ ser_9_1 , ser_9_2 , ser_9_3 ],
+           [ ser_10_1 , ser_10_2 , ser_10_3 ]]
 
     for i in range (0,10):
         print(f"Performing the regression {i+1}")
         regressor = Regressor(SCORE_DISTRIBUTION, SCORE_DISTRIBUTION_MEM, funct[i])
-        report = f"vif_data/s3_vif_{i+1}_report.json"
-        regressor.regression(report)
-        print("Done!")
-        print("Regression report saved to '{}'".format(report))
-
-    
-    print("___________SIZE = 4______________")
-    funct=[[s_4_vif_1_deg_2,s_4_vif_1_deg_3,s_4_vif_1_deg_4],
-           [s_4_vif_2_deg_1,s_4_vif_2_deg_2,s_4_vif_2_deg_3,s_4_vif_2_deg_4],
-           [s_4_vif_3_deg_1,s_4_vif_3_deg_2,s_4_vif_3_deg_3,s_4_vif_3_deg_4],
-           [s_4_vif_4_deg_2,s_4_vif_4_deg_3,s_4_vif_4_deg_4],
-           [s_4_vif_5_deg_1,s_4_vif_5_deg_2,s_4_vif_5_deg_3,s_4_vif_5_deg_4],
-           [s_4_vif_6_deg_1,s_4_vif_6_deg_2,s_4_vif_6_deg_3],
-           [s_4_vif_7_deg_1,s_4_vif_7_deg_2,s_4_vif_7_deg_3,s_4_vif_7_deg_4],
-           [s_4_vif_8_deg_1,s_4_vif_8_deg_2,s_4_vif_8_deg_3,s_4_vif_8_deg_4],
-           [s_4_vif_9_deg_1,s_4_vif_9_deg_2,s_4_vif_9_deg_3,s_4_vif_9_deg_4],
-           [s_4_vif_10_deg_1,s_4_vif_10_deg_2,s_4_vif_10_deg_3,s_4_vif_10_deg_4]]
-
-    for i in range (0,10):
-        print(f"Performing the regression {i+1}")
-        regressor = Regressor(SCORE_DISTRIBUTION, SCORE_DISTRIBUTION_MEM, funct[i])
-        report = f"vif_data/s4_vif_{i+1}_report.json"
+        report = f"vif_data/ser_vif_{i+1}_report.json"
         regressor.regression(report)
         print("Done!")
         print("Regression report saved to '{}'".format(report))

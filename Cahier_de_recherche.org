@@ -1247,6 +1247,16 @@ if __name__ == "__main__":
 ** TODO :: Do the 4D plot for each experimental context
 ** TODO :: Use the backfilling parameter in the tester now
 * mercredi 22 mai
+** Comparison of MEM4 and MEM2
+#+begin_center
+[[file:images/MEM2_VS_MEM4+Back.png]]
+#+end_center
+Mean:
+#+begin_example
+MEM2    121.377152
+MEM4    211.353406
+#+end_example
+As we can see MEM2 have a lowest AVGBoundedSlowdown than MEM4, it can be due to the fact that MEM4 smooth the effect of the "memory mechanism" by taking in account the information about the current task.
 ** Work on the memory regressions
 + x = p_mean
 + w = q_mean
@@ -1262,3 +1272,7 @@ if __name__ == "__main__":
 |        8 | ('sqrt(q)', 'sqrt(z)', 'z1', 'r1w') (1)    | ('r1', 'p1q', 'r1w', 'w2z') (2) | ('q1x', 'q2p', 'q2r', 'q2x') (2.75) | X |
 |        9 | ('sqrt(p)', 'sqrt(w)', 'w1', 'q2') (1)     | ('q1', 'q1x', 'w1z', 'x2q')(2)  | ('p1q', 'q2p', 'x2p', 'p2w') (2.75) | X |
 |       10 | ('sqrt(r)', 'sqrt(w)', 'x1', 'z1') (0.75)  | ('r1', 'z1', 'p2', 'r1z') (2)   | ('p2r', 'w2p', 'p2z', 'w2x') (3)    | X |
+
+** TODO :: Select the 10% best parameters and analyse them
+** TODO :: Understand the error of MEM4 SAF
+** TODO :: Run the tester on all the serial methods
