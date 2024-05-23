@@ -113,6 +113,36 @@ msg_error_t test_all(const char *platform_file,
 #define S4_V9_D4 72
 #define MEM3 73
 #define MEM4 74
+#define SER_1_1 75
+#define SER_1_2 76
+#define SER_1_3 77
+#define SER_2_1 78
+#define SER_2_2 79
+#define SER_2_3 80
+#define SER_3_1 81
+#define SER_3_2 82
+#define SER_3_3 83
+#define SER_4_1 84
+#define SER_4_2 85
+#define SER_4_3 86
+#define SER_5_1 87
+#define SER_5_2 88
+#define SER_5_3 89
+#define SER_6_1 90
+#define SER_6_2 91
+#define SER_6_3 92
+#define SER_7_1 93
+#define SER_7_2 94
+#define SER_7_3 95
+#define SER_8_1 96
+#define SER_8_2 97
+#define SER_8_3 98
+#define SER_9_1 99
+#define SER_9_2 100
+#define SER_9_3 101
+#define SER_10_1 102
+#define SER_10_2 103
+#define SER_10_3 104
 
 int number_of_tasks = 0;
 
@@ -526,9 +556,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
         case NEW_3_10:
             h_values[i] = new_3_10(runtimes[i], cores[i], submit[i]);
             break;
-        case SER_1:
-            h_values[i] = ser_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
-            break;
+        
         // CORRELATION ANALYSIS
         case S3_V1_D3:
             h_values[i] = s3_vif_1_3(runtimes[i], cores[i], submit[i]);
@@ -656,6 +684,96 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
             break;
         case S4_V9_D4:
             h_values[i] = s4_vif_9_4(runtimes[i], cores[i], submit[i]);
+            break;
+        case SER_1_1:
+            h_values[i] = ser_1_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_1_2:
+            h_values[i] = ser_1_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_1_3:
+            h_values[i] = ser_1_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_2_1:
+            h_values[i] = ser_2_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_2_2:
+            h_values[i] = ser_2_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_2_3:
+            h_values[i] = ser_2_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_3_1:
+            h_values[i] = ser_3_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_3_2:
+            h_values[i] = ser_3_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_3_3:
+            h_values[i] = ser_3_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_4_1:
+            h_values[i] = ser_4_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_4_2:
+            h_values[i] = ser_4_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_4_3:
+            h_values[i] = ser_4_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_5_1:
+            h_values[i] = ser_5_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_5_2:
+            h_values[i] = ser_5_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_5_3:
+            h_values[i] = ser_5_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_6_1:
+            h_values[i] = ser_6_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_6_2:
+            h_values[i] = ser_6_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_6_3:
+            h_values[i] = ser_6_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_7_1:
+            h_values[i] = ser_7_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_7_2:
+            h_values[i] = ser_7_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_7_3:
+            h_values[i] = ser_7_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_8_1:
+            h_values[i] = ser_8_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_8_2:
+            h_values[i] = ser_8_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_8_3:
+            h_values[i] = ser_8_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_9_1:
+            h_values[i] = ser_9_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_9_2:
+            h_values[i] = ser_9_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_9_3:
+            h_values[i] = ser_9_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_10_1:
+            h_values[i] = ser_10_1(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_10_2:
+            h_values[i] = ser_10_2(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            break;
+        case SER_10_3:
+            h_values[i] = ser_10_3(runtimes[i], cores[i], submit[i],p_mean,q_mean,r_mean);
             break;
         }
         if(i==0){
@@ -1290,10 +1408,7 @@ int main(int argc, char *argv[])
             {
                 chosen_policy = NEW_3_10;
             }
-            if (strcmp(argv[i], "-ser_1") == 0)
-            {
-                chosen_policy = SER_1;
-            }
+           
             // CORRELATION ANALYSIS
             if (strcmp(argv[i], "-s3_v1_d3") == 0)
             {
@@ -1465,6 +1580,129 @@ int main(int argc, char *argv[])
             {
                 chosen_policy = S4_V9_D4;
             }
+
+            /// SERIAL REGRESSION
+            if (strcmp(argv[i], "-ser_1_1") == 0)
+            {
+                chosen_policy = SER_1_1;
+            }
+            if (strcmp(argv[i], "-ser_1_2") == 0)
+            {
+                chosen_policy = SER_1_2;
+            }
+            if (strcmp(argv[i], "-ser_1_3") == 0)
+            {
+                chosen_policy = SER_1_3;
+            }
+            if (strcmp(argv[i], "-ser_2_1") == 0)
+            {
+                chosen_policy = SER_2_1;
+            }
+            if (strcmp(argv[i], "-ser_2_2") == 0)
+            {
+                chosen_policy = SER_2_2;
+            }
+            if (strcmp(argv[i], "-ser_2_3") == 0)
+            {
+                chosen_policy = SER_1_3;
+            }
+            if (strcmp(argv[i], "-ser_3_1") == 0)
+            {
+                chosen_policy = SER_3_1;
+            }
+            if (strcmp(argv[i], "-ser_3_2") == 0)
+            {
+                chosen_policy = SER_3_2;
+            }
+            if (strcmp(argv[i], "-ser_3_3") == 0)
+            {
+                chosen_policy = SER_3_3;
+            }
+            if (strcmp(argv[i], "-ser_4_1") == 0)
+            {
+                chosen_policy = SER_4_1;
+            }
+            if (strcmp(argv[i], "-ser_4_2") == 0)
+            {
+                chosen_policy = SER_4_2;
+            }
+            if (strcmp(argv[i], "-ser_4_3") == 0)
+            {
+                chosen_policy = SER_1_3;
+            }
+            if (strcmp(argv[i], "-ser_5_1") == 0)
+            {
+                chosen_policy = SER_5_1;
+            }
+            if (strcmp(argv[i], "-ser_5_2") == 0)
+            {
+                chosen_policy = SER_5_2;
+            }
+            if (strcmp(argv[i], "-ser_5_3") == 0)
+            {
+                chosen_policy = SER_5_3;
+            }
+            if (strcmp(argv[i], "-ser_6_1") == 0)
+            {
+                chosen_policy = SER_6_1;
+            }
+            if (strcmp(argv[i], "-ser_6_2") == 0)
+            {
+                chosen_policy = SER_6_2;
+            }
+            if (strcmp(argv[i], "-ser_6_3") == 0)
+            {
+                chosen_policy = SER_6_3;
+            }
+            if (strcmp(argv[i], "-ser_7_1") == 0)
+            {
+                chosen_policy = SER_7_1;
+            }
+            if (strcmp(argv[i], "-ser_7_2") == 0)
+            {
+                chosen_policy = SER_7_2;
+            }
+            if (strcmp(argv[i], "-ser_7_3") == 0)
+            {
+                chosen_policy = SER_7_3;
+            }
+            if (strcmp(argv[i], "-ser_8_1") == 0)
+            {
+                chosen_policy = SER_8_1;
+            }
+            if (strcmp(argv[i], "-ser_8_2") == 0)
+            {
+                chosen_policy = SER_8_2;
+            }
+            if (strcmp(argv[i], "-ser_8_3") == 0)
+            {
+                chosen_policy = SER_8_3;
+            }
+            if (strcmp(argv[i], "-ser_9_1") == 0)
+            {
+                chosen_policy = SER_9_1;
+            }
+            if (strcmp(argv[i], "-ser_9_2") == 0)
+            {
+                chosen_policy = SER_9_2;
+            }
+            if (strcmp(argv[i], "-ser_9_3") == 0)
+            {
+                chosen_policy = SER_9_3;
+            }
+            if (strcmp(argv[i], "-ser_10_1") == 0)
+            {
+                chosen_policy = SER_10_1;
+            }
+            if (strcmp(argv[i], "-ser_10_2") == 0)
+            {
+                chosen_policy = SER_10_2;
+            }
+            if (strcmp(argv[i], "-ser_10_3") == 0)
+            {
+                chosen_policy = SER_10_3;
+            }
+
 
 
             if (strcmp(argv[i], "-nt") == 0)

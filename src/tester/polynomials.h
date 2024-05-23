@@ -64,4 +64,46 @@ double s4_vif_4_3(double p, double q, double r);
 double s4_vif_9_2(double p, double q, double r);
 double s4_vif_3_1(double p, double q, double r);
 double s4_vif_9_4(double p, double q, double r);
+
+// SERIAL REGRESSION
+
+double ser_1_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_1_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_1_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_2_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_2_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_2_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_3_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_3_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_3_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_4_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_4_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_4_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_5_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_5_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_5_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_6_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_6_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_6_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_7_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_7_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_7_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_8_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_8_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_8_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_9_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_9_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_9_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_10_1(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_10_2(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+double ser_10_3(double p, double q, double r, double p_mean, double q_mean, double r_mean);
+
+
+
+
+
+
+
+
+
 #endif

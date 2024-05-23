@@ -305,15 +305,6 @@ double new_3_10 (double p, double q, double r)
             + theta[1]*pow(r,4) + theta[2]*pow(p,3)*r + theta[3]*pow(q,4)*p;
 }
 
-
-double ser_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
-    double *theta;
-    theta = default_ser_1_parameters;
-
-    return theta[0] \
-            + theta[1]*p + theta[2]*q + theta[3]*r+theta[4]*p_mean+theta[5]*q_mean+theta[6]*r_mean;
-    
-}
 // CORRELATION ANALYSIS
 double s3_vif_1_3(double p, double q, double r){
     double *theta;
@@ -612,4 +603,293 @@ double s4_vif_9_4(double p, double q, double r){
 
     return theta[0] \
             + theta[1]*pow(p,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*q*r+theta[4]*pow(r,2)*q;
+}
+// SERIAL REGRESSION
+double ser_1_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_1_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(q_mean,(1/2)) + theta[3]*pow(p_mean,2)+theta[4]*pow(r_mean,2)*q;
+    
+}
+
+double ser_1_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_1_2_parameters;
+
+    return theta[0] \
+            + theta[1]*q + theta[2]*q_mean + theta[3]*pow(p,2)*p_mean+theta[4]*pow(r_mean,2)*r;
+    
+}
+
+double ser_1_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_1_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p_mean,2)*p + theta[2]*pow(q,2)*r + theta[3]*pow(q_mean,2)*q+theta[4]*pow(r,2)*r_mean;
+    
+}
+
+double ser_2_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_2_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r_mean,(1/2)) + theta[2]*p*q + theta[3]*p*r +theta[4]*q*p_mean;
+    
+}
+
+double ser_2_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_2_2_parameters;
+
+    return theta[0] \
+            + theta[1]*r + theta[2]*pow(p_mean,2) + theta[3]*pow(r_mean,2)+theta[4]*pow(p_mean,2)*q;
+    
+}
+
+double ser_2_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_2_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2)*p  + theta[2]*pow(q,2)*p_mean + theta[3]*pow(q,2)*q_mean+theta[4]*pow(r,2)*r_mean;
+    
+}
+
+double ser_3_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_3_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p_mean,(1/2)) + theta[2]*p*q + theta[3]*r*q_mean +theta[4]*pow(p,2)*q;
+    
+}
+
+double ser_3_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_3_2_parameters;
+
+    return theta[0] \
+            + theta[1]*r + theta[2]*q*r_mean + theta[3]*r*p_mean+theta[4]*pow(r_mean,2)*q;
+    
+}
+
+double ser_3_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_3_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*r  + theta[2]*pow(q_mean,2)*p_mean+ theta[3]*pow(r_mean,2)*r+theta[4]*pow(r_mean,2)*p_mean;
+    
+}
+
+double ser_4_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_4_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q_mean,(1/2)) + theta[2]*pow(r_mean,(1/2)) + theta[3]*p +theta[4]*pow(q_mean,2)*p_mean;
+    
+}
+
+double ser_4_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_4_2_parameters;
+
+    return theta[0] \
+            + theta[1]*q_mean + theta[2]*p*p_mean + theta[3]*p*q_mean +theta[4]*pow(p,2)*q_mean;
+    
+}
+
+double ser_4_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_4_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q_mean,2)*p  + theta[2]*pow(r,2)*p_mean+ theta[3]*pow(q_mean,2)*r+theta[4]*pow(r_mean,2)*p_mean;
+    
+}
+
+double ser_5_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_5_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,(1/2)) + theta[2]*pow(p_mean,(1/2)) + theta[3]*p_mean*q_mean + theta[4]*pow(r,2)*r_mean;
+    
+}
+
+double ser_5_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_5_2_parameters;
+
+    return theta[0] \
+            + theta[1]*r+ theta[2]*pow(r_mean,2) + theta[3]*r*q_mean +theta[4]*pow(p,2)*q;
+    
+}
+
+double ser_5_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_5_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*q_mean + theta[2]*pow(q,2)*r_mean+ theta[3]*pow(r_mean,2)*r+theta[4]*pow(r_mean,2)*q_mean;
+    
+}
+
+
+
+double ser_6_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_6_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,(1/2)) + theta[2]*pow(r,(1/2)) + theta[3]*r_mean + theta[4]*p*r_mean;
+    
+}
+
+double ser_6_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_6_2_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,2) + theta[2]*p*r_mean + theta[3]*r*r_mean +theta[4]*p_mean*r_mean;
+    
+}
+
+double ser_6_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_6_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q_mean,2)*p + theta[2]*pow(q,2)*r+ theta[3]*pow(p_mean,2)*q+theta[4]*pow(q,2)*r_mean;
+    
+}
+
+
+
+double ser_7_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_7_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p_mean,(1/2)) + theta[2]*pow(q_mean,(1/2)) + theta[3]*q + theta[4]*p_mean*r_mean;
+    
+}
+
+double ser_7_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_7_2_parameters;
+
+    return theta[0] \
+            + theta[1]*p_mean + theta[2]*q*r + theta[3]*q*q_mean +theta[4]*pow(q,2)*r;
+    
+}
+
+double ser_7_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_7_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*r + theta[2]*pow(q,2)*r+ theta[3]*pow(q,2)*q_mean+theta[4]*pow(q_mean,2)*q;
+    
+}
+
+
+
+
+
+double ser_8_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_8_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(q,(1/2)) + theta[2]*pow(r_mean,(1/2)) + theta[3]*r_mean + theta[4]*r*q_mean;
+    
+}
+
+double ser_8_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_8_2_parameters;
+
+    return theta[0] \
+            + theta[1]*r + theta[2]*p*q + theta[3]*r*q_mean +theta[4]*pow(q_mean,2)*r_mean;
+    
+}
+
+double ser_8_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_8_3_parameters;
+
+    return theta[0] \
+            + theta[1]*q*p_mean + theta[2]*pow(q,2)*p + theta[3]*pow(q,2)*r+theta[4]*pow(q,2)*p_mean;
+    
+}
+
+
+
+
+
+
+double ser_9_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_9_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,(1/2)) + theta[2]*pow(q_mean,(1/2)) + theta[3]*q_mean + theta[4]*pow(q,2);
+    
+}
+
+double ser_9_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_9_2_parameters;
+
+    return theta[0] \
+            + theta[1]*q + theta[2]*q*p_mean + theta[3]*q_mean*r_mean +theta[4]*pow(p_mean,2)*q;
+    
+}
+
+double ser_9_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_9_3_parameters;
+
+    return theta[0] \
+            + theta[1]*p*q + theta[2]*pow(q,2)*p + theta[3]*pow(p_mean,2)*p+theta[4]*pow(p,2)*q_mean;
+    
+}
+
+
+
+
+
+
+
+double ser_10_1(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_10_1_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(r,(1/2)) + theta[2]*pow(q_mean,(1/2)) + theta[3]*p_mean + theta[4]*r_mean;
+    
+}
+
+double ser_10_2(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_10_2_parameters;
+
+    return theta[0] \
+            + theta[1]*r + theta[2]*r_mean + theta[3]*pow(p,2) +theta[4]*r*r_mean;
+    
+}
+
+double ser_10_3(double p, double q, double r, double p_mean, double q_mean, double r_mean){
+    double *theta;
+    theta = default_ser_10_3_parameters;
+
+    return theta[0] \
+            + theta[1]*pow(p,2)*r + theta[2]*pow(q_mean,2)*p + theta[3]*pow(p,2)*r_mean+theta[4]*pow(q_mean,2)*p_mean;
+    
 }

@@ -64,6 +64,37 @@ extern double default_s_4_vif_9_2_parameters[5];
 extern double default_s_4_vif_3_1_parameters[5];
 extern double default_s_4_vif_9_4_parameters[5];
 
+extern double default_ser_1_1_parameters[5];
+extern double default_ser_1_2_parameters[5];
+extern double default_ser_1_3_parameters[5];
+extern double default_ser_2_1_parameters[5];
+extern double default_ser_2_2_parameters[5];
+extern double default_ser_2_3_parameters[5];
+extern double default_ser_3_1_parameters[5];
+extern double default_ser_3_2_parameters[5];
+extern double default_ser_3_3_parameters[5];
+extern double default_ser_4_1_parameters[5];
+extern double default_ser_4_2_parameters[5];
+extern double default_ser_4_3_parameters[5];
+extern double default_ser_5_1_parameters[5];
+extern double default_ser_5_2_parameters[5];
+extern double default_ser_5_3_parameters[5];
+extern double default_ser_6_1_parameters[5];
+extern double default_ser_6_2_parameters[5];
+extern double default_ser_6_3_parameters[5];
+extern double default_ser_7_1_parameters[5];
+extern double default_ser_7_2_parameters[5];
+extern double default_ser_7_3_parameters[5];
+extern double default_ser_8_1_parameters[5];
+extern double default_ser_8_2_parameters[5];
+extern double default_ser_8_3_parameters[5];
+extern double default_ser_9_1_parameters[5];
+extern double default_ser_9_2_parameters[5];
+extern double default_ser_9_3_parameters[5];
+extern double default_ser_10_1_parameters[5];
+extern double default_ser_10_2_parameters[5];
+extern double default_ser_10_3_parameters[5];
+
 
 
 extern double temporal_normalized_lin_parameters[4];

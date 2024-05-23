@@ -1275,4 +1275,151 @@ As we can see MEM2 have a lowest AVGBoundedSlowdown than MEM4, it can be due to 
 
 ** TODO :: Select the 10% best parameters and analyse them
 ** TODO :: Understand the error of MEM4 SAF
-** TODO :: Run the tester on all the serial methods
+** TODO :: Run the tester on all the serial methodsa
+* jeudi 23 mai
+** Training of the serial regression
+#+begin_example
+if __name__ == "__main__":
+    workload_experiments(
+        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
+        ["SER_1_1","SER_1_2","SER_1_3",
+         "SER_2_1","SER_2_2","SER_2_3",
+         "SER_3_1","SER_3_2","SER_3_3",
+         "SER_4_1","SER_4_2","SER_4_3",
+         "SER_5_1","SER_5_2","SER_5_3",
+         "SER_6_1","SER_6_2","SER_6_3",
+         "SER_7_1","SER_7_2","SER_7_3",
+         "SER_8_1","SER_8_2","SER_8_3",
+         "SER_9_1","SER_9_2","SER_9_3",
+         "SER_10_1","SER_10_2","SER_10_3",],
+        ["ACTUAL", "ESTIMATED"],
+    )
+
+#+end_example
+** Results
+#+begin_example
+SER_1_1      150.910976
+SER_1_2      446.512847
+SER_1_3      526.965793
+SER_2_1      934.296270
+SER_2_2     1190.285571
+SER_2_3      526.965793
+SER_3_1     2191.533502
+SER_3_2     3660.277173
+SER_3_3     1632.353521
+SER_4_1      769.367045
+SER_4_2     1525.473970
+SER_4_3      526.965793
+SER_5_1      299.680841
+SER_5_2     1142.967936
+SER_5_3      133.453425
+SER_6_1     1705.915417
+SER_6_2     1695.603977
+SER_6_3      111.020040
+SER_7_1     1073.313382
+SER_7_2      572.695671
+SER_7_3     1225.136452
+SER_8_1     3150.080252
+SER_8_2      391.366782
+SER_8_3      172.269608
+SER_9_1       92.051732
+SER_9_2     3166.653109
+SER_9_3      825.255875
+SER_10_1    1887.726092
+SER_10_2     905.714689
+SER_10_3    1608.875335
+#+end_example
+
+#+begin_center
+ [[file:images/Serial+Back.png]]
+#+end_center
+as we can see, some of the regression parameters found provide a lower AVGBoundedSlowdown than MEM2 it's really interesting.
+** Observing the composition of the 25% best regresion parameters
+*** Classic Regression
+#+begin_example
+S3_V3_D3     164.048508
+S3_V2_D1     257.833541
+S3_V9_D3     333.022067
+S3_V4_D3     512.305078
+S3_V10_D4    542.374548
+S3_V10_D2    551.544911
+S3_V2_D2     582.963584
+S3_V10_D3    667.106018
+S3_V7_D2     744.552530
+#+end_example
+Which correspond to :
+#+begin_example
+1 : ['r2q', 'q3p', 'q3r']
+2 : ['sqrt(p)', 'pq', 'qr']
+3 : ['pq', 'q2p', 'q3r']
+4 : ['q4', 'r2q', 'q3r']
+5 : ['q2r', 'p3q', 'p4q']
+6 : ['q', 'pq', 'p2q']
+7 : ['q', 'r2q', 'q3p']
+8 : ['qr', 'p3q', 'p4q']
+9 : ['q3', 'pq', 'p2q']
+#+end_example
+number of occurence :
+#+begin_example
+pq: 4
+r2q: 3
+q3r: 3
+q3p: 2
+qr: 2
+p3q: 2
+p4q: 2
+q: 2
+p2q: 2
+sqrt(p): 1
+q2p: 1
+q4: 1
+q2r: 1
+q3: 1
+#+end_example
+*** Serial regression
+#+begin_example
+SER_9_1     92.051732
+SER_6_3    111.020040
+SER_5_3    133.453425
+SER_1_1    150.910976
+SER_8_3    172.269608
+SER_5_1    299.680841
+SER_8_2    391.366782
+#+end_example
+Which correspond to :
+#+begin_example
+1 : [‘sqrt(p)’, ‘sqrt(w)’, ‘w1’, ‘q2’]
+2 : [‘w2p’, ‘q2r’, ‘x2q’, ‘q2z’]
+3 : [‘p2w’, ‘q2z’, ‘z2r’, ‘z2w’]
+4 : [‘sqrt(p)’, ‘sqrt(w)’, ‘x2’, ‘z2q’]
+5 : [‘q1x’, ‘q2p’, ‘q2r’, ‘q2x’]
+6 : [‘sqrt(r)’, ‘sqrt(x)’, ‘x1w’, ‘r2z’]
+7 : [‘r1’, ‘p1q’, ‘r1w’, ‘w2z’]
+#+end_example
+ occurence :
+ #+begin_example
+ sqrt(p): 2
+sqrt(w): 2
+q2r: 2
+q2z: 2
+w1: 1
+q2: 1
+w2p: 1
+x2q: 1
+p2w: 1
+z2r: 1
+z2w: 1
+x2: 1
+z2q: 1
+q1x: 1
+q2p: 1
+q2x: 1
+sqrt(r): 1
+sqrt(x): 1
+x1w: 1
+r2z: 1
+r1: 1
+p1q: 1
+r1w: 1
+w2z: 1
+ #+end_example

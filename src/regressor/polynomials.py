@@ -626,7 +626,7 @@ def ser_3_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 4 ###############
 def ser_4_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(q_mean**(1/2)) +t2*(r_mean**(1/2))+t3*p+t4*(q_mean**(1/2))*p_mean)
+    lin_term = (t0 + t1*(q_mean**(1/2)) +t2*(r_mean**(1/2))+t3*p+t4*(q_mean**2)*p_mean)
     return lin_term
 
 def ser_4_2(x, t0, t1, t2,t3,t4):
@@ -706,7 +706,7 @@ def ser_8_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 9 ###############
 def ser_9_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(p**(1/2)) +t2*(q_mean**(1/2))+t3*q_mean+t4*r*(q**2))
+    lin_term = (t0 + t1*(p**(1/2)) +t2*(q_mean**(1/2))+t3*q_mean+t4*(q**2))
     return lin_term
 
 def ser_9_2(x, t0, t1, t2,t3,t4):
