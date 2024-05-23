@@ -1423,3 +1423,8 @@ p1q: 1
 r1w: 1
 w2z: 1
  #+end_example
+** For next time
+*** TODO :: Analysis of the coefficients of the two type of regression
+*** TODO :: Better explenation of the proof
+*** TODO :: See with Danilo the structure of my report
+*** TODO :: Start writting the report
