@@ -1428,3 +1428,80 @@ w2z: 1
 *** TODO :: Better explenation of the proof
 *** TODO :: See with Danilo the structure of my report
 *** TODO :: Start writting the report
+* vendredi 24 mai
+** Coefficients analysis
+For simple regression :
+#+begin_example
+0        pq  1.841762e-07
+1       r2q  1.873930e-14
+2       q3r  5.425881e-14
+3       q3p  6.633693e-13
+4        qr  2.181016e-08
+5       p3q  5.550288e-17
+6       p4q -3.946426e-22
+7         q  1.682512e-03
+8       p2q -2.282537e-12
+9   sqrt(p)  1.903428e-03
+10      q2p -9.078381e-10
+11       q4  1.286885e-10
+12      q2r  1.068002e-10
+13       q3 -1.031709e-08
+#+end_example
+For serial regression :
+#+begin_example
+0   sqrt(p)  2.283907e-03
+1   sqrt(w)  4.428031e-02
+2       q2r  6.450893e-11
+3       q2z  2.181773e-10
+4        w1 -6.625939e-03
+5        q2  7.181069e-06
+6       w2p  3.414944e-11
+7       x2q  6.040093e-12
+8       p2w  1.805373e-12
+9       z2r -4.365767e-18
+10      z2w -2.514778e-14
+11       x2  3.447719e-10
+12      z2q  3.284765e-14
+13      q1x  4.334514e-07
+14      q2p  3.704890e-10
+15      q2x -1.498224e-09
+16  sqrt(r)  8.984147e-04
+17  sqrt(x)  7.019601e-04
+18      x1w -1.491502e-08
+19      r2z -1.920150e-17
+20       r1  9.988922e-07
+21      p1q  1.405508e-07
+22      r1w  1.328544e-08
+23      w2z -2.303089e-10
+#+end_example
+** internship report strtucture
+*** Abstract
+*** Introduction
+*** Preliminary Concepts
+**** Job attributes
+**** Bounded Slowdown
+**** Starvation
+**** Regression models
+*** Related works
+**** Scheduling methods
+**** Genetic algorithm
+*** Dataset generation and Schduling policies
+**** Training dataset Generation
+***** Random Search approach
+***** Genetic algorithm approach
+***** Analysis
+**** Scheduling policies
+***** A first machine learning approach
+***** Finding the best models inputs with a machine learning analysis
+****** VIF/AVGD table
+******* VIF
+******* AVGD
+****** A serial point of view of the jobs
+******* "Memory" mecanism
+******* Modifications of the training datase
+*** Analysis of regression results
+**** Results
+**** Parameters analysis
+**** Starvation analysis
+**** MAE analysis
+*** Cunclusion and discussion
