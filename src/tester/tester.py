@@ -292,6 +292,6 @@ def workload_experiments(workloads, policies, sim_types):
 if __name__ == "__main__":
     workload_experiments(
         ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["SER_9_1","SER_6_3","F2","MEM2"],
+        ["LIN","S3_V3_D3","S3_V2_D1","SER_9_1","SER_6_3","MEM2","MEM1","SAF","F2"],
         ["ACTUAL", "ESTIMATED","BACKFILLING"],
     )

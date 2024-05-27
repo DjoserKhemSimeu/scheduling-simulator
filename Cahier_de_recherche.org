@@ -1505,3 +1505,17 @@ For serial regression :
 **** Starvation analysis
 **** MAE analysis
 *** Cunclusion and discussion
+* lundi 27 mai
+** New Structure
+*** Abstract
+*** Intro
+*** Preliminary concepts
+*** Methods
+**** Using ML to understand the heuristics
++ Dataset generation + Classical linear regression
+**** Adding the dimension of serialism
++ MEM 2 + SER regression
+*** Conclusion and discussion
+** TODO :: Next time
++ Graph about the inputs of the 10% lowest AVGBSLD for all the experimental context for S3 and SER
++ Re construct the repport
