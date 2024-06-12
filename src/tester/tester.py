@@ -3,6 +3,7 @@ import sys
 import pathlib
 import subprocess
 import pandas as pd
+from sklearn.preprocessing import StandardScaler,MinMaxScaler
 
 # Add the src directory to the path so we can import the tools
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "src")))
@@ -198,6 +199,17 @@ def workload_experiments(workloads, policies, sim_types):
             number_of_policies = len(policies)
 
             workload_jobs = ReaderSWF(workload_file)
+            df=pd.DataFrame.from_dict(workload_jobs.jobs_info)
+            scaler1=StandardScaler()
+            #scaler2=MinMaxScaler()
+            arr2=scaler1.fit_transform(df)
+            #arr3=scaler2.fit_transform(df)
+
+            df_norm_std=pd.DataFrame(arr2, columns = ["p","~p","q","r"])
+            #df_norm_minmax=pd.DataFrame(arr3, columns = ["p","~p","q","r"])
+            #dict_minmax=df_norm_minmax.to_dict('list')
+            dict_std=df_norm_std.to_dict('list')
+            
 
             print(
                 f"Performing scheduling performance test for the workload trace {workload_trace}.\nConfiguration: {sim_type}"
@@ -215,6 +227,7 @@ def workload_experiments(workloads, policies, sim_types):
 
                 state_jobs = {"p": [], "~p": [], "q": [], "r": []}
                 for idx in range(STATE_SIZE):
+                    
                     state_jobs["p"].append(workload_jobs.jobs_info["p"][choose + idx])
                     state_jobs["q"].append(workload_jobs.jobs_info["q"][choose + idx])
                     state_jobs["r"].append(workload_jobs.jobs_info["r"][choose + idx] - earliest_submit)
@@ -232,8 +245,10 @@ def workload_experiments(workloads, policies, sim_types):
                 queue_jobs = {"p": [], "~p": [], "q": [], "r": []}
                 idx = 0
                 while (
+                   
                     workload_jobs.jobs_info["r"][choose + STATE_SIZE + idx] - earliest_submit
                 ) <= SECONDS_IN_A_DAY * SIM_NUM_DAYS:
+                    
                     queue_jobs["p"].append(workload_jobs.jobs_info["p"][STATE_SIZE + choose + idx])
                     queue_jobs["q"].append(workload_jobs.jobs_info["q"][STATE_SIZE + choose + idx])
                     queue_jobs["r"].append(workload_jobs.jobs_info["r"][STATE_SIZE + choose + idx] - earliest_submit)
@@ -266,6 +281,7 @@ def workload_experiments(workloads, policies, sim_types):
                             policy_flag,
                             "-nt",
                             str(number_of_jobs),
+                             #"-verbose",
                         ],
                         stdout=_buffer,
                         cwd=EXPERIMENTS_DIR,
@@ -290,8 +306,18 @@ def workload_experiments(workloads, policies, sim_types):
 
 
 if __name__ == "__main__":
+    
     workload_experiments(
-        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["LIN","S3_V3_D3","S3_V2_D1","SER_9_1","SER_6_3","MEM2","MEM1","SAF","F2"],
+        [ "SDSC-BLUE", "LUBLIN 256"],
+        ["LIN","S3_V1_D3","S3_V1_D4",
+         "S3_V2_D1","S3_V2_D2","S3_V2_D3","S3_V2_D4",
+         "S3_V3_D1","S3_V3_D2","S3_V3_D3","S3_V3_D4",
+         "S3_V4_D1","S3_V4_D2","S3_V4_D3","S3_V4_D4",
+         "S3_V5_D1","S3_V5_D2","S3_V5_D3","S3_V5_D4",
+         "S3_V6_D1","S3_V6_D2","S3_V6_D3",
+         "S3_V7_D1","S3_V7_D2","S3_V7_D3","S3_V7_D4",
+         "S3_V8_D1","S3_V8_D2","S3_V8_D3","S3_V8_D4",
+         "S3_V9_D1","S3_V9_D2","S3_V9_D3","S3_V9_D4",
+         "S3_V10_D1","S3_V10_D2","S3_V10_D3","S3_V10_D4"],
         ["ACTUAL", "ESTIMATED","BACKFILLING"],
     )

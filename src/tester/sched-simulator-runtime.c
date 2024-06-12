@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <math.h>
 #include <limits.h>
 #include <string.h>
@@ -18,7 +20,7 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_test,
                              "Messages specific for this msg example");
 
 void backFill(double *runtimes, int *cores, int *submit, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
-void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
+void sortTasksQueue(double *runtimes, int *cores, int *submit,double* runtimes_norm,double* cores_norm,double* submit_norm, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
 const char *getfield(char *line, int num);
 void readModelFile(void);
 int master(int argc, char *argv[]);
@@ -192,7 +194,56 @@ double *sched_task_placement;
 // int* tasks_per_worker;
 // int number_of_tasks = QUEUE_NUM_TASKS + NUM_TASKS_STATE;
 double t0 = 0.0f;
+double* convertIntToDouble(int* tableau, int taille) {
+    double* tableauDouble = (double*)malloc(taille * sizeof(double));
+    if (tableauDouble == NULL) {
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < taille; i++) {
+        tableauDouble[i] = (double)tableau[i];
+    }
+    return tableauDouble;
+}
+double computeMean(double* tableau, int taille) {
+    double somme = 0.0;
+    for (int i = 0; i < taille; i++) {
+        somme += tableau[i];
+    }
+    //XBT_INFO("tab = %f",tableau[0]);
+    return somme / ((double)taille);
+}
 
+// Fonction pour calculer l'écart-type d'un tableau
+double computeSigma(double* tableau, int taille, double moyenne) {
+    float somme = 0.0;
+    for (int i = 0; i < taille; i++) {
+        somme += pow(tableau[i] - moyenne, 2);
+    }
+    return sqrt(somme / ((double)taille));
+}
+
+// Fonction pour normaliser le tableau
+double* stdNorm(double* tableau, int taille) {
+    double moyenne = computeMean(tableau, taille);
+    double ecartType = computeSigma(tableau, taille, moyenne);
+    
+   //XBT_INFO("Mean = %f",moyenne);
+    //XBT_INFO("STD = %f",ecartType);
+    
+    double* tableauNormalise = (double*)malloc(taille * sizeof(double));
+    if (tableauNormalise == NULL) {
+        // Si l'allocation de mémoire échoue
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < taille; i++) {
+        tableauNormalise[i] = (tableau[i] - moyenne) / ecartType;
+    }
+
+    return tableauNormalise;
+}
 void backFill(double *runtimes, int *cores, int *submit, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
 {
     int i, j;
@@ -289,8 +340,12 @@ void backFill(double *runtimes, int *cores, int *submit, int *orig_pos, int poli
     }
 }
 
-void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
+void sortTasksQueue(double *runtimes, int *cores, int *submit,double* runtimes_norm,double* cores_norm,double* submit_norm, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
 {
+    const char* filename = "out.txt";
+    
+    int fd = open(filename, O_WRONLY);
+    FILE* output_file = fopen(filename, "w+");
     int i, j;
     int curr_time = MSG_get_clock();
     int num_arrived_tasks = 0;
@@ -434,6 +489,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
     double p_mean_4 = 0;
     double r_mean_4 = 0;
     double q_mean_4 = 0;
+    
     for (i = 0; i < num_arrived_tasks; i++)
     {
         if (submit[i] > max_arrive)
@@ -559,115 +615,115 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
         
         // CORRELATION ANALYSIS
         case S3_V1_D3:
-            h_values[i] = s3_vif_1_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_1_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V1_D4:
-            h_values[i] = s3_vif_1_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_1_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D1:
-            h_values[i] = s3_vif_2_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D2:
-            h_values[i] = s3_vif_2_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D3:
-            h_values[i] = s3_vif_2_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D4:
-            h_values[i] = s3_vif_2_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D1:
-            h_values[i] = s3_vif_3_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D2:
-            h_values[i] = s3_vif_3_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D3:
-            h_values[i] = s3_vif_3_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D4:
-            h_values[i] = s3_vif_3_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D1:
-            h_values[i] = s3_vif_4_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D2:
-            h_values[i] = s3_vif_4_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D3:
-            h_values[i] = s3_vif_4_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D4:
-            h_values[i] = s3_vif_4_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D1:
-            h_values[i] = s3_vif_5_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D2:
-            h_values[i] = s3_vif_5_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D3:
-            h_values[i] = s3_vif_5_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D4:
-            h_values[i] = s3_vif_5_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V6_D1:
-            h_values[i] = s3_vif_6_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_6_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V6_D2:
-            h_values[i] = s3_vif_6_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_6_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V6_D3:
-            h_values[i] = s3_vif_6_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_6_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D1:
-            h_values[i] = s3_vif_7_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D2:
-            h_values[i] = s3_vif_7_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D3:
-            h_values[i] = s3_vif_7_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D4:
-            h_values[i] = s3_vif_7_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D1:
-            h_values[i] = s3_vif_8_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D2:
-            h_values[i] = s3_vif_8_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D3:
-            h_values[i] = s3_vif_8_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D4:
-            h_values[i] = s3_vif_8_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D1:
-            h_values[i] = s3_vif_9_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D2:
-            h_values[i] = s3_vif_9_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D3:
-            h_values[i] = s3_vif_9_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D4:
-            h_values[i] = s3_vif_9_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V10_D1:
-            h_values[i] = s3_vif_10_1(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
          case S3_V10_D2:
-            h_values[i] = s3_vif_10_2(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
          case S3_V10_D3:
-            h_values[i] = s3_vif_10_3(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V10_D4:
-            h_values[i] = s3_vif_10_4(runtimes[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
             break;
 
         case S4_V7_D1:
@@ -786,7 +842,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
             q_mean= ((i*q_mean)/(i+1))+(cores[i]/(i+1));
         }
         if (VERBOSE)
-            XBT_INFO("Score for \"Task_%d\" [r=%.1f,c=%d,s=%d]=%.7f", orig_pos[i], runtimes[i], cores[i], submit[i], h_values[i]);
+            XBT_INFO("Score for \"Task_%d\" [r=%f,c=%f,s=%f]=%.7f", orig_pos[i], runtimes_norm[i], cores_norm[i], submit_norm[i], h_values[i]);
     }
     if (policy == WFP3 || policy == UNICEF)
     {
@@ -820,8 +876,15 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
             min_index = 0;
             for (j = 0; j < num_arrived_tasks; j++)
             {
+                    /*char text[50];
+                    sprintf(text, "%f\n", h_values[j]);
+                    //fwrite("coucou",1,strlen(text),output_file);
+                    write(fd, text, strlen(text));*/
+                    
                 if (h_values[j] < min_val)
                 {
+                    
+
                     min_val = h_values[j];
                     min_index = j;
                 }
@@ -846,6 +909,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, int *orig_pos, in
     free(s_temp);
     free(p_temp);
     free(h_values);
+    
 }
 
 const char *getfield(char *line, int num)
@@ -963,7 +1027,13 @@ int master(int argc, char *argv[])
         // tasks_comm_sizes = (double**) malloc(number_of_tasks * sizeof(double*));
         // tasks_allocation = (int**) malloc(number_of_tasks * sizeof(int*));
         // tasks_workers = xbt_new0(msg_host_t**, number_of_tasks);
-
+        //XBT_INFO("P :");
+        double * runtimes_norm = stdNorm(all_runtimes,number_of_tasks);
+        //XBT_INFO("Q :");
+        double * cores_norm = stdNorm(convertIntToDouble(all_cores,number_of_tasks),number_of_tasks);
+        //XBT_INFO("R :");
+        double * submit_norm = stdNorm(convertIntToDouble(all_submit,number_of_tasks),number_of_tasks);
+        //XBT_INFO("cores : %d",all_cores[0]);
         for (i = 0; i < number_of_tasks; i++)
         {
 
@@ -972,7 +1042,7 @@ int master(int argc, char *argv[])
             {
                 if (i >= NUM_TASKS_STATE)
                 {
-                    sortTasksQueue(&all_runtimes[i], &all_cores[i], &all_submit[i], &orig_task_positions[i], chosen_policy, number_of_tasks - i >= QUEUE_NUM_TASKS ? QUEUE_NUM_TASKS : number_of_tasks - i, i);
+                    sortTasksQueue(&all_runtimes[i], &all_cores[i], &all_submit[i],&runtimes_norm[i],&cores_norm[i],&submit_norm[i], &orig_task_positions[i], chosen_policy, number_of_tasks - i >= QUEUE_NUM_TASKS ? QUEUE_NUM_TASKS : number_of_tasks - i, i);
                 }
 
                 while (MSG_get_clock() < all_submit[i])
@@ -1194,6 +1264,11 @@ int taskMonitor(int argc, char *argv[])
 msg_error_t test_all(const char *platform_file,
                      const char *application_file)
 {
+    
+    const char* filename = "out.txt";
+    
+    int fd = open(filename, O_WRONLY);
+    FILE* output_file = fopen(filename, "w+");
     msg_error_t res = MSG_OK;
     int i;
 
@@ -1234,6 +1309,10 @@ msg_error_t test_all(const char *platform_file,
         double quocient = runTime >= TAO ? runTime : TAO;
         double slow = (waitTime + runTime) / quocient;
         slowdown[_count] = slow >= 1.0f ? slow : 1.0f;
+        /*char text[50];
+        sprintf(text, "%f\n", runTime);
+        //fwrite("coucou",1,strlen(text),output_file);
+        write(fd, text, slowdown[_count]);*/
         sumSlowdown += slowdown[_count];
         // printf("%.2f\n", waitTime);
         // printf("[%.2f %.2f %.2f %d] ", waitTime, slowdown[_count], runTime, task_queue[i].numNodes);

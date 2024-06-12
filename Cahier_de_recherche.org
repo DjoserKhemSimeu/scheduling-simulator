@@ -1519,3 +1519,116 @@ For serial regression :
 ** TODO :: Next time
 + Graph about the inputs of the 10% lowest AVGBSLD for all the experimental context for S3 and SER
 + Re construct the repport
+* Dimanche 2 juin
+** Work on the normalisation of the dataset
+the goal is to put the job attributesin the same scale increase the coherence of the coefficient analysis
+*** Training part
++ Modification of the training dataset:
+  #+begin_example
+
+  #+end_example
++ I observed really strange coefficient running the training on full normalized data
+  #+begin_example
+  #+end_example
+* Mercredi 12 juin
+** Work on the normalization
+Implementation in the c scheduling code of the normalization method.
+#+begin_example
+double computeMean(double* tableau, int taille) {
+    double somme = 0.0;
+    for (int i = 0; i < taille; i++) {
+        somme += tableau[i];
+    }
+    return somme / taille;
+}
+
+// Fonction pour calculer l'écart-type d'un tableau
+double computeSigma(double* tableau, int taille, double moyenne) {
+    double somme = 0.0;
+    for (int i = 0; i < taille; i++) {
+        somme += pow(tableau[i] - moyenne, 2);
+    }
+    return sqrt(somme / taille);
+}
+
+// Fonction pour normaliser le tableau
+double* stdNorm(double* tableau, int taille) {
+    double moyenne = computeMean(tableau, taille);
+    double ecartType = computeSigma(tableau, taille, moyenne);
+
+    double* tableauNormalise = (double*)malloc(taille * sizeof(double));
+    if (tableauNormalise == NULL) {
+        // Si l'allocation de mémoire échoue
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < taille; i++) {
+        tableauNormalise[i] = (tableau[i] - moyenne) / ecartType;
+    }
+
+    return tableauNormalise;
+}
+#+end_example
+** Debugging
+I observed really strange results and i see by using the verbosity argument that:
+#+begin_example
+[node-0:master:(1) 0.000000] [msg_test/INFO] P :
+[node-0:master:(1) 0.000000] [msg_test/INFO] tab = 11975.000000
+[node-0:master:(1) 0.000000] [msg_test/INFO] Mean = 4584.989086
+[node-0:master:(1) 0.000000] [msg_test/INFO] STD = 7768.798152
+[node-0:master:(1) 0.000000] [msg_test/INFO] Q :
+[node-0:master:(1) 0.000000] [msg_test/INFO] tab = 0.000000
+[node-0:master:(1) 0.000000] [msg_test/INFO] Mean = 0.000000
+[node-0:master:(1) 0.000000] [msg_test/INFO] STD = 0.000000
+[node-0:master:(1) 0.000000] [msg_test/INFO] R :
+[node-0:master:(1) 0.000000] [msg_test/INFO] tab = 0.000000
+[node-0:master:(1) 0.000000] [msg_test/INFO] Mean = 0.000000
+[node-0:master:(1) 0.000000] [msg_test/INFO] STD = 0.000000
+
+#+end_example
+** observation
+#+begin_center
+[[file:images/results_norm.png]]
+#+end_center
+As we can see on the graph we can now observe differents results for all the scheduling methods for the lublin dataset but the results provide are really high compare to the other scheduling methods:
+#+begin_example
+LIN          5893.194787
+S3_V1_D3     3685.973657
+S3_V1_D4     3057.119365
+S3_V2_D1     3233.989603
+S3_V2_D2     3801.127168
+S3_V2_D3     3198.229417
+S3_V2_D4     3443.098364
+S3_V3_D1     3407.309286
+S3_V3_D2     3084.233719
+S3_V3_D3     3204.898610
+S3_V3_D4     3215.370874
+S3_V4_D1     2534.065462
+S3_V4_D2     2395.700678
+S3_V4_D3     4123.725868
+S3_V4_D4     3652.948055
+S3_V5_D1     3252.368926
+S3_V5_D2     3183.210339
+S3_V5_D3     3821.676253
+S3_V5_D4     3884.712590
+S3_V6_D1     3185.301810
+S3_V6_D2     2555.112653
+S3_V6_D3     3287.161620
+S3_V7_D1     2561.623333
+S3_V7_D2     3155.655555
+S3_V7_D3     2589.753530
+S3_V7_D4     3359.185889
+S3_V8_D1     3576.356939
+S3_V8_D2     2616.409522
+S3_V8_D3     2845.925984
+S3_V8_D4     3138.401424
+S3_V9_D1     3296.902480
+S3_V9_D2     2959.389152
+S3_V9_D3     3046.445468
+S3_V9_D4     3059.937601
+S3_V10_D1    3242.462925
+S3_V10_D2    3237.958102
+S3_V10_D3    3047.941632
+S3_V10_D4    3033.934288
+#+end_example
