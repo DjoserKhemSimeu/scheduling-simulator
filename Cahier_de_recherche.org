@@ -1587,11 +1587,26 @@ I observed really strange results and i see by using the verbosity argument that
 [node-0:master:(1) 0.000000] [msg_test/INFO] STD = 0.000000
 
 #+end_example
+*** Solution
+the q and r values are int so we must define a function to transform them:
+#+begin_example
+double* convertIntToDouble(int* tableau, int taille) {
+    double* tableauDouble = (double*)malloc(taille * sizeof(double));
+    if (tableauDouble == NULL) {
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < taille; i++) {
+        tableauDouble[i] = (double)tableau[i];
+    }
+    return tableauDouble;
+}
+#+end_example
 ** observation
 #+begin_center
 [[file:images/results_norm.png]]
 #+end_center
-As we can see on the graph we can now observe differents results for all the scheduling methods for the lublin dataset but the results provide are really high compare to the other scheduling methods:
+As we can see on the graph we can now observe differents results for all the scheduling methods for the lublin dataset but the AVGBSL results provide are really high compare to the other scheduling methods:
 #+begin_example
 LIN          5893.194787
 S3_V1_D3     3685.973657
@@ -1631,4 +1646,43 @@ S3_V10_D1    3242.462925
 S3_V10_D2    3237.958102
 S3_V10_D3    3047.941632
 S3_V10_D4    3033.934288
+#+end_example
+** Problem highlighted by Danilo
+I normalized my trainning data on the all dataset but in the tester implementation i normalized it on a defined sample of the dataset
+*** First solution use the average number of tasks on the tester to normalized my dataset
+#+begin_example
+import pandas as pd
+import numpy as np
+import math
+from sklearn.preprocessing import StandardScaler
+df = pd.read_csv("../../data/global_training_data_GA.csv")
+df.columns=["p","q","r","y"]
+y_save=df["y"]
+
+df=df[["p","q","r"]]
+# Calcul de la moyenne du nombre de tâches (arrondie à l'entier supérieur)
+num_tasks = [2835, 3836, 4089, 2987, 3079, 3446, 3152, 3554, 4560, 3824,
+             2950, 4127, 3257, 2718, 3157, 4559, 3551, 3559, 3062, 2726,
+             3376, 2773]
+mean_tasks = math.ceil(np.mean(num_tasks))
+
+# Fonction pour diviser un DataFrame en morceaux de taille égale
+def split_dataframe(df, chunk_size):
+    chunks = [df[i:i + chunk_size] for i in range(0, len(df), chunk_size)]
+    return chunks
+
+# Diviser le DataFrame en morceaux de taille égale à la moyenne du nombre de tâches
+chunks = split_dataframe(df, mean_tasks)
+
+# Appliquer la normalisation standard sur chaque DataFrame
+scaler = StandardScaler()
+normalized_chunks = [pd.DataFrame(scaler.fit_transform(chunk), columns=chunk.columns) for chunk in chunks]
+
+# Concaténer de nouveau les morceaux normalisés
+normalized_df = pd.concat(normalized_chunks, ignore_index=True)
+normalized_df=pd.concat([normalized_df,y_save],axis=1)
+# Affichage du DataFrame normalisé
+normalized_df.to_csv("../../data/global_training_data_GA_norm_std.csv",index=False)
+normalized_df
+
 #+end_example
