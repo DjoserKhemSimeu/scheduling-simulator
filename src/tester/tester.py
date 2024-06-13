@@ -308,7 +308,7 @@ def workload_experiments(workloads, policies, sim_types):
 if __name__ == "__main__":
     
     workload_experiments(
-        [ "SDSC-BLUE", "LUBLIN 256"],
+        ["CTC-SP2"],
         ["LIN","S3_V1_D3","S3_V1_D4",
          "S3_V2_D1","S3_V2_D2","S3_V2_D3","S3_V2_D4",
          "S3_V3_D1","S3_V3_D2","S3_V3_D3","S3_V3_D4",
@@ -319,5 +319,5 @@ if __name__ == "__main__":
          "S3_V8_D1","S3_V8_D2","S3_V8_D3","S3_V8_D4",
          "S3_V9_D1","S3_V9_D2","S3_V9_D3","S3_V9_D4",
          "S3_V10_D1","S3_V10_D2","S3_V10_D3","S3_V10_D4"],
-        ["ACTUAL", "ESTIMATED","BACKFILLING"],
+        ["ACTUAL"],
     )

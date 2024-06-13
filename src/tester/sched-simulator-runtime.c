@@ -565,7 +565,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit,double* runtimes_n
             h_values[i] = runtimes[i] * cores[i];
             break;
         case LIN:
-            h_values[i] = linear(runtimes[i], cores[i], submit[i]);
+            h_values[i] = linear( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case QDR:
             h_values[i] = quadratic(runtimes[i], cores[i], submit[i]);
@@ -615,115 +615,115 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit,double* runtimes_n
         
         // CORRELATION ANALYSIS
         case S3_V1_D3:
-            h_values[i] = s3_vif_1_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_1_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V1_D4:
-            h_values[i] = s3_vif_1_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_1_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V2_D1:
-            h_values[i] = s3_vif_2_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_1( runtimes_norm [i], cores_norm [i], submit_norm[i]);
             break;
         case S3_V2_D2:
-            h_values[i] = s3_vif_2_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V2_D3:
-            h_values[i] = s3_vif_2_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V2_D4:
-            h_values[i] = s3_vif_2_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V3_D1:
-            h_values[i] = s3_vif_3_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V3_D2:
-            h_values[i] = s3_vif_3_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V3_D3:
-            h_values[i] = s3_vif_3_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V3_D4:
-            h_values[i] = s3_vif_3_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V4_D1:
-            h_values[i] = s3_vif_4_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V4_D2:
-            h_values[i] = s3_vif_4_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V4_D3:
-            h_values[i] = s3_vif_4_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V4_D4:
-            h_values[i] = s3_vif_4_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V5_D1:
-            h_values[i] = s3_vif_5_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V5_D2:
-            h_values[i] = s3_vif_5_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V5_D3:
-            h_values[i] = s3_vif_5_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V5_D4:
-            h_values[i] = s3_vif_5_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V6_D1:
-            h_values[i] = s3_vif_6_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_6_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V6_D2:
-            h_values[i] = s3_vif_6_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_6_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V6_D3:
-            h_values[i] = s3_vif_6_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_6_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V7_D1:
-            h_values[i] = s3_vif_7_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V7_D2:
-            h_values[i] = s3_vif_7_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V7_D3:
-            h_values[i] = s3_vif_7_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V7_D4:
-            h_values[i] = s3_vif_7_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V8_D1:
-            h_values[i] = s3_vif_8_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V8_D2:
-            h_values[i] = s3_vif_8_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V8_D3:
-            h_values[i] = s3_vif_8_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V8_D4:
-            h_values[i] = s3_vif_8_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V9_D1:
-            h_values[i] = s3_vif_9_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V9_D2:
-            h_values[i] = s3_vif_9_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V9_D3:
-            h_values[i] = s3_vif_9_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V9_D4:
-            h_values[i] = s3_vif_9_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V10_D1:
-            h_values[i] = s3_vif_10_1(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_1( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
          case S3_V10_D2:
-            h_values[i] = s3_vif_10_2(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_2( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
          case S3_V10_D3:
-            h_values[i] = s3_vif_10_3(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_3( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
         case S3_V10_D4:
-            h_values[i] = s3_vif_10_4(runtimes_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_4( runtimes_norm [i], cores_norm [i], submit_norm [i]);
             break;
 
         case S4_V7_D1:
