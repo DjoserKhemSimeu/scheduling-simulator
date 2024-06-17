@@ -18,7 +18,7 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_test,
                              "Messages specific for this msg example");
 
 void backFill(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
-void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req,double* req_norm,double* cores_norm,double* submit_norm, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
+void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
 const char *getfield(char *line, int num);
 void readModelFile(void);
 int master(int argc, char *argv[]);
@@ -345,7 +345,7 @@ void backFill(double *runtimes, int *cores, int *submit, double *req, int *orig_
     }
 }
 
-void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req,double* req_norm,double* cores_norm,double* submit_norm, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
+void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
 {
     int i, j;
     int curr_time = MSG_get_clock();
@@ -499,7 +499,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req,doubl
             h_values[i] = req[i] * cores[i];
             break;
         case LIN:
-            h_values[i] = linear(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = linear(req[i], cores[i], submit[i]);
             break;
         case QDR:
             h_values[i] = quadratic(req[i], cores[i], submit[i]);
@@ -548,115 +548,115 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req,doubl
             break;
         // CORRELATION ANALYSIS
         case S3_V1_D3:
-            h_values[i] = s3_vif_1_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_1_3(req[i], cores[i], submit[i]);
             break;
         case S3_V1_D4:
-            h_values[i] = s3_vif_1_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_1_4(req[i], cores[i], submit[i]);
             break;
         case S3_V2_D1:
-            h_values[i] = s3_vif_2_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_1(req[i], cores[i], submit[i]);
             break;
         case S3_V2_D2:
-            h_values[i] = s3_vif_2_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_2(req[i], cores[i], submit[i]);
             break;
         case S3_V2_D3:
-            h_values[i] = s3_vif_2_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_3(req[i], cores[i], submit[i]);
             break;
         case S3_V2_D4:
-            h_values[i] = s3_vif_2_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_2_4(req[i], cores[i], submit[i]);
             break;
         case S3_V3_D1:
-            h_values[i] = s3_vif_3_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_1(req[i], cores[i], submit[i]);
             break;
         case S3_V3_D2:
-            h_values[i] = s3_vif_3_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_2(req[i], cores[i], submit[i]);
             break;
         case S3_V3_D3:
-            h_values[i] = s3_vif_3_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_3(req[i], cores[i], submit[i]);
             break;
         case S3_V3_D4:
-            h_values[i] = s3_vif_3_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_3_4(req[i], cores[i], submit[i]);
             break;
         case S3_V4_D1:
-            h_values[i] = s3_vif_4_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_1(req[i], cores[i], submit[i]);
             break;
         case S3_V4_D2:
-            h_values[i] = s3_vif_4_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_2(req[i], cores[i], submit[i]);
             break;
         case S3_V4_D3:
-            h_values[i] = s3_vif_4_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_3(req[i], cores[i], submit[i]);
             break;
         case S3_V4_D4:
-            h_values[i] = s3_vif_4_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_4_4(req[i], cores[i], submit[i]);
             break;
         case S3_V5_D1:
-            h_values[i] = s3_vif_5_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_1(req[i], cores[i], submit[i]);
             break;
         case S3_V5_D2:
-            h_values[i] = s3_vif_5_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_2(req[i], cores[i], submit[i]);
             break;
         case S3_V5_D3:
-            h_values[i] = s3_vif_5_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_3(req[i], cores[i], submit[i]);
             break;
         case S3_V5_D4:
-            h_values[i] = s3_vif_5_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_5_4(req[i], cores[i], submit[i]);
             break;
         case S3_V6_D1:
-            h_values[i] = s3_vif_6_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_6_1(req[i], cores[i], submit[i]);
             break;
         case S3_V6_D2:
-            h_values[i] = s3_vif_6_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_6_2(req[i], cores[i], submit[i]);
             break;
         case S3_V6_D3:
-            h_values[i] = s3_vif_6_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_6_3(req[i], cores[i], submit[i]);
             break;
         case S3_V7_D1:
-            h_values[i] = s3_vif_7_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_1(req[i], cores[i], submit[i]);
             break;
         case S3_V7_D2:
-            h_values[i] = s3_vif_7_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_2(req[i], cores[i], submit[i]);
             break;
         case S3_V7_D3:
-            h_values[i] = s3_vif_7_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_3(req[i], cores[i], submit[i]);
             break;
         case S3_V7_D4:
-            h_values[i] = s3_vif_7_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_7_4(req[i], cores[i], submit[i]);
             break;
         case S3_V8_D1:
-            h_values[i] = s3_vif_8_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_1(req[i], cores[i], submit[i]);
             break;
         case S3_V8_D2:
-            h_values[i] = s3_vif_8_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_2(req[i], cores[i], submit[i]);
             break;
         case S3_V8_D3:
-            h_values[i] = s3_vif_8_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_3(req[i], cores[i], submit[i]);
             break;
         case S3_V8_D4:
-            h_values[i] = s3_vif_8_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_8_4(req[i], cores[i], submit[i]);
             break;
         case S3_V9_D1:
-            h_values[i] = s3_vif_9_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_1(req[i], cores[i], submit[i]);
             break;
         case S3_V9_D2:
-            h_values[i] = s3_vif_9_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_2(req[i], cores[i], submit[i]);
             break;
         case S3_V9_D3:
-            h_values[i] = s3_vif_9_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_3(req[i], cores[i], submit[i]);
             break;
         case S3_V9_D4:
-            h_values[i] = s3_vif_9_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_9_4(req[i], cores[i], submit[i]);
             break;
         case S3_V10_D1:
-            h_values[i] = s3_vif_10_1(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_1(req[i], cores[i], submit[i]);
             break;
          case S3_V10_D2:
-            h_values[i] = s3_vif_10_2(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_2(req[i], cores[i], submit[i]);
             break;
          case S3_V10_D3:
-            h_values[i] = s3_vif_10_3(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_3(req[i], cores[i], submit[i]);
             break;
         case S3_V10_D4:
-            h_values[i] = s3_vif_10_4(req_norm[i], cores_norm[i], submit_norm[i]);
+            h_values[i] = s3_vif_10_4(req[i], cores[i], submit[i]);
             break;
 
         case S4_V7_D1:
@@ -963,11 +963,6 @@ int master(int argc, char *argv[])
         // tasks_allocation = (int**) malloc(number_of_tasks * sizeof(int*));
         // tasks_workers = xbt_new0(msg_host_t**, number_of_tasks);
         //XBT_INFO("P :");
-        double * req_norm = stdNorm(all_req_runtimes,number_of_tasks);
-        //XBT_INFO("Q :");
-        double * cores_norm = stdNorm(convertIntToDouble(all_cores,number_of_tasks),number_of_tasks);
-        //XBT_INFO("R :");
-        double * submit_norm = stdNorm(convertIntToDouble(all_submit,number_of_tasks),number_of_tasks);
         for (i = 0; i < number_of_tasks; i++)
         {
 
@@ -976,7 +971,7 @@ int master(int argc, char *argv[])
             {
                 if (i >= NUM_TASKS_STATE)
                 {
-                    sortTasksQueue(&all_runtimes[i], &all_cores[i], &all_submit[i], &all_req_runtimes[i],&req_norm[i],&cores_norm[i],&submit_norm[i], &orig_task_positions[i], chosen_policy, number_of_tasks - i >= QUEUE_NUM_TASKS ? QUEUE_NUM_TASKS : number_of_tasks - i, i);
+                    sortTasksQueue(&all_runtimes[i], &all_cores[i], &all_submit[i], &all_req_runtimes[i], &orig_task_positions[i], chosen_policy, number_of_tasks - i >= QUEUE_NUM_TASKS ? QUEUE_NUM_TASKS : number_of_tasks - i, i);
                 }
 
                 while (MSG_get_clock() < all_submit[i])

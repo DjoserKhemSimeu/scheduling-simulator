@@ -6,8 +6,8 @@ from polynomials import *
 
 DATA_DIR = pathlib.Path(__file__).parent.parent.parent / "data"
 TRAINING_DIR = pathlib.Path(__file__).parent / "simulator" / "training-data"
-SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA_norm_std.csv"
-SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM_norm_std.csv"
+SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA_norm_minmax.csv"
+SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM_norm_minmax.csv"
 REPORT_FILE = DATA_DIR / "regression_report.json"
 SERIAL_FUNCTIONS =[
     ser_1_1, ser_1_2, ser_1_3,
@@ -119,8 +119,8 @@ class Regressor:
             (self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"]),
             self.data_set_mem["score"],
             #method='trf',
-            sigma=self._compute_weights(),
-            absolute_sigma=True,
+            #sigma=self._compute_weights(),
+            #absolute_sigma=True,
             )
         else :
             optimal_parameters, optimal_covariance = curve_fit(
@@ -151,7 +151,7 @@ class Regressor:
             The predicted values of y.
         """
         if function in SERIAL_FUNCTIONS:
-            print("cc")
+            
             p = lambda x: function(x, *optimal_parameters)
             x_data = zip(self.data_set_mem["p"], self.data_set_mem["q"], self.data_set_mem["r"],self.data_set_mem["p_mean"], self.data_set_mem["q_mean"], self.data_set_mem["r_mean"])
             predicted_y = np.array([p(x) for x in x_data])
@@ -248,8 +248,6 @@ class Regressor:
 
 if __name__ == "__main__":
 
-    
-    print("___________SIZE = 3______________")
     funct=[[vif_1_deg_1,vif_1_deg_3,vif_1_deg_4],
            [vif_2_deg_1,vif_2_deg_2,vif_2_deg_3,vif_2_deg_4],
            [vif_3_deg_1,vif_3_deg_2,vif_3_deg_3,vif_3_deg_4],
@@ -259,7 +257,8 @@ if __name__ == "__main__":
            [vif_7_deg_1,vif_7_deg_2,vif_7_deg_3,vif_7_deg_4],
            [vif_8_deg_1,vif_8_deg_2,vif_8_deg_3,vif_8_deg_4],
            [vif_9_deg_1,vif_9_deg_2,vif_9_deg_3,vif_9_deg_4],
-           [vif_10_deg_1,vif_10_deg_2,vif_10_deg_3,vif_10_deg_4]]
+           [vif_10_deg_1,vif_10_deg_2,vif_10_deg_3,vif_10_deg_4]] 
+    print("___________SIZE = 3______________")
 
     for i in range (0,10):
         print(f"Performing the regression {i+1}")

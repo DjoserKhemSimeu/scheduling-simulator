@@ -1686,3 +1686,17 @@ normalized_df.to_csv("../../data/global_training_data_GA_norm_std.csv",index=Fal
 normalized_df
 
 #+end_example
+
+* Lundi 17 juin
+** coefficicient analysis
+I will wait to see danilo to talk about the standardisation while I will start the coefficicent analysis with unstandardize data.
+** New approach
+Select the models with the lowest average bounded slowdowns, and obsever their coeficients arfter the trainning with normalized data,
+#+begin_center
+[[file:images/Reg_coefs_norm_grid.png]]
+#+end_center
+As we can see, we don't have lot of signs variations execpt for : q3 and r2q
+*** TODO :: For next time
++ Find a way to remove the changelments of signs triggered by the normalization.
++ Do the same for the contex-aware models
++ anlysis of the results
