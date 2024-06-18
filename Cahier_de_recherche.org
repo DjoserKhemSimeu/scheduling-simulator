@@ -1700,3 +1700,23 @@ As we can see, we don't have lot of signs variations execpt for : q3 and r2q
 + Find a way to remove the changelments of signs triggered by the normalization.
 + Do the same for the contex-aware models
 + anlysis of the results
+* Mardi 18 juin
+** Coefficient analysis
+By suprressing the models S3_V3_D3 and S3_V7_D2 i succeed to reproduce the same signs as the unnormalized coefficients.
+After anlysing the coefficient after normalization i made 5 major observation:
++ The models applies penalization (+) an prioritization (-)
++ The strongest prioritisaztion applyed by the models is on the area of the tasksb (pq polynomials)
++ The strongest penalisations applyied by the models are on the number of cores needed and the arrival time of the tasks
++ The models consider majoritarly the 3 attributes
++ When r is considered , we always apply a positive coefficicent on it.
+** Changement of approach
+now i use the minmax standardization
+** Coefficient analysis for the contex-aware models
+i performed the minmax normalization on the MEM dataset and i removed the policies affected by the normamlization ("SER_1_2","SER_1_3","SER_5_2","SER_5_3")
+#+begin_center
+[[file:images/Reg_coefs_serial_norm_grid.png]]
+#+end_center
+*** Analysis
++ As for the other models, the models applied penalization (+) and prioritization (-)
++ The strongest penalization applied by the models is on the  tasks scheduled in a scheduling context of task with high computational attributes
++ Majoritarly, the strongest penalization applied by the models is on the task with high computational attributes.

@@ -174,7 +174,7 @@ def vif_1_deg_4(x, t0, t1, t2,t3):
 
 def vif_2_deg_1(x, t0, t1, t2,t3):
     p, q, r = x
-    lin_term = (t0 + t1*(p**(1/2)) + t2*p*q +t3*q*r)
+    lin_term = (t0 + t1*(abs(p)**(1/2)) + t2*p*q +t3*q*r)
     return lin_term
 
 def vif_2_deg_2(x, t0, t1, t2,t3):
@@ -240,7 +240,7 @@ def vif_4_deg_4(x, t0, t1, t2,t3):
 
 def vif_5_deg_1(x, t0, t1, t2,t3):
     p, q, r = x
-    lin_term = (t0 + t1*(q**(1/2)) + t2*q +t3*(r**2)*q)
+    lin_term = (t0 + t1*(abs(q)**(1/2)) + t2*q +t3*(r**2)*q)
     return lin_term
 
 def vif_5_deg_2(x, t0, t1, t2,t3):
@@ -279,7 +279,7 @@ def vif_6_deg_3(x, t0, t1, t2,t3):
 
 def vif_7_deg_1(x, t0, t1, t2,t3):
     p, q, r = x
-    lin_term = (t0 + t1*(p**(1/2)) + t2*q*r +t3*(q**2)*r)
+    lin_term = (t0 + t1*(abs(p)**(1/2)) + t2*q*r +t3*(q**2)*r)
     return lin_term
 
 def vif_7_deg_2(x, t0, t1, t2,t3):
@@ -301,7 +301,7 @@ def vif_7_deg_4(x, t0, t1, t2,t3):
 
 def vif_8_deg_1(x, t0, t1, t2,t3):
     p, q, r = x
-    lin_term = (t0 + t1*(p**(1/2)) + t2*p +t3*p*r)
+    lin_term = (t0 + t1*(abs(p)**(1/2)) + t2*p +t3*p*r)
     return lin_term
 
 def vif_8_deg_2(x, t0, t1, t2,t3):
@@ -323,7 +323,7 @@ def vif_8_deg_4(x, t0, t1, t2,t3):
 
 def vif_9_deg_1(x, t0, t1, t2,t3):
     p, q, r = x
-    lin_term = (t0 + t1*(r**(1/2)) + t2*p*q +t3*(q**2)*p)
+    lin_term = (t0 + t1*(abs(r)**(1/2)) + t2*p*q +t3*(q**2)*p)
     return lin_term
 
 def vif_9_deg_2(x, t0, t1, t2,t3):
@@ -345,7 +345,7 @@ def vif_9_deg_4(x, t0, t1, t2,t3):
 
 def vif_10_deg_1(x, t0, t1, t2,t3):
     p, q, r = x
-    lin_term = (t0 + t1*(p**(1/2)) + t2*(r**(1/2)) +t3*p)
+    lin_term = (t0 + t1*(abs(p)**(1/2)) + t2*(abs(r)**(1/2)) +t3*p)
     return lin_term
 
 def vif_10_deg_2(x, t0, t1, t2,t3):
@@ -578,7 +578,7 @@ def s_4_vif_10_deg_4(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 1 ###############
 def ser_1_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(p**(1/2)) +t2*(q_mean**(1/2))+t3*(p_mean**2)+t4*(r_mean**2)*q)
+    lin_term = (t0 + t1*(abs(p)**(1/2)) +t2*(abs(q_mean)**(1/2))+t3*(p_mean**2)+t4*(r_mean**2)*q)
     return lin_term
 
 def ser_1_2(x, t0, t1, t2,t3,t4):
@@ -594,7 +594,7 @@ def ser_1_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 2 ###############
 def ser_2_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(r_mean**(1/2)) +t2*p*q+t3*p*r+t4*q*p_mean)
+    lin_term = (t0 + t1*(abs(r_mean)**(1/2)) +t2*p*q+t3*p*r+t4*q*p_mean)
     return lin_term
 
 def ser_2_2(x, t0, t1, t2,t3,t4):
@@ -610,7 +610,7 @@ def ser_2_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 3 ###############
 def ser_3_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(p_mean**(1/2)) +t2*p*q+t3*r*q_mean+t4*(p**2)*q)
+    lin_term = (t0 + t1*(abs(p_mean)**(1/2)) +t2*p*q+t3*r*q_mean+t4*(p**2)*q)
     return lin_term
 
 def ser_3_2(x, t0, t1, t2,t3,t4):
@@ -626,7 +626,7 @@ def ser_3_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 4 ###############
 def ser_4_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(q_mean**(1/2)) +t2*(r_mean**(1/2))+t3*p+t4*(q_mean**2)*p_mean)
+    lin_term = (t0 + t1*(abs(q_mean)**(1/2)) +t2*(abs(r_mean)**(1/2))+t3*p+t4*(q_mean**2)*p_mean)
     return lin_term
 
 def ser_4_2(x, t0, t1, t2,t3,t4):
@@ -642,7 +642,7 @@ def ser_4_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 5 ###############
 def ser_5_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(r**(1/2)) +t2*(p_mean**(1/2))+t3*p_mean*q_mean+t4*(r**2)*r_mean)
+    lin_term = (t0 + t1*(abs(r)**(1/2)) +t2*(abs(p_mean)**(1/2))+t3*p_mean*q_mean+t4*(r**2)*r_mean)
     return lin_term
 
 def ser_5_2(x, t0, t1, t2,t3,t4):
@@ -658,7 +658,7 @@ def ser_5_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 6 ###############
 def ser_6_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(q**(1/2)) +t2*(r**(1/2))+t3*r_mean+t4*p*r_mean)
+    lin_term = (t0 + t1*(abs(q)**(1/2)) +t2*(abs(r)**(1/2))+t3*r_mean+t4*p*r_mean)
     return lin_term
 
 def ser_6_2(x, t0, t1, t2,t3,t4):
@@ -674,7 +674,7 @@ def ser_6_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 7 ###############
 def ser_7_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(p_mean**(1/2)) +t2*(q_mean**(1/2))+t3*q+t4*p_mean*r_mean)
+    lin_term = (t0 + t1*(abs(p_mean)**(1/2)) +t2*(abs(q_mean)**(1/2))+t3*q+t4*p_mean*r_mean)
     return lin_term
 
 def ser_7_2(x, t0, t1, t2,t3,t4):
@@ -690,7 +690,7 @@ def ser_7_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 8 ###############
 def ser_8_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(q**(1/2)) +t2*(r_mean**(1/2))+t3*r_mean+t4*r*q_mean)
+    lin_term = (t0 + t1*(abs(q)**(1/2)) +t2*(abs(r_mean)**(1/2))+t3*r_mean+t4*r*q_mean)
     return lin_term
 
 def ser_8_2(x, t0, t1, t2,t3,t4):
@@ -706,7 +706,7 @@ def ser_8_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 9 ###############
 def ser_9_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(p**(1/2)) +t2*(q_mean**(1/2))+t3*q_mean+t4*(q**2))
+    lin_term = (t0 + t1*(abs(p)**(1/2)) +t2*(abs(q_mean)**(1/2))+t3*q_mean+t4*(q**2))
     return lin_term
 
 def ser_9_2(x, t0, t1, t2,t3,t4):
@@ -722,7 +722,7 @@ def ser_9_3(x, t0, t1, t2,t3,t4):
 ############### VIF ~ 10 ###############
 def ser_10_1(x, t0, t1, t2,t3,t4):
     p, q, r, p_mean , q_mean , r_mean= x
-    lin_term = (t0 + t1*(r**(1/2)) +t2*(q_mean**(1/2))+t3*p_mean+t4*r_mean)
+    lin_term = (t0 + t1*(abs(r)**(1/2)) +t2*(abs(q_mean)**(1/2))+t3*p_mean+t4*r_mean)
     return lin_term
 
 def ser_10_2(x, t0, t1, t2,t3,t4):
