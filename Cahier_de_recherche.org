@@ -1720,3 +1720,34 @@ i performed the minmax normalization on the MEM dataset and i removed the polici
 + As for the other models, the models applied penalization (+) and prioritization (-)
 + The strongest penalization applied by the models is on the  tasks scheduled in a scheduling context of task with high computational attributes
 + Majoritarly, the strongest penalization applied by the models is on the task with high computational attributes.
+
+* Vendredi 21 juin
+** Solving the normalization problem
+Before, i didin't take in account the results of the priority function, i change that by :
+#+begin_example
+r_temp[i] = runtimes[min_index];
+            c_temp[i] = cores[min_index];
+            s_temp[i] = submit[min_index];
+            rn_temp[i] = runtimes_norm[min_index];
+            cn_temp[i] = cores_norm[min_index];
+            sn_temp[i] = submit_norm[min_index];
+            p_temp[i] = orig_pos[min_index];
+            h_values[min_index] = 1e20;
+        }
+    }
+    for (i = 0; i < num_arrived_tasks; i++)
+    {
+        runtimes[i] = r_temp[i];
+        cores[i] = c_temp[i];
+        submit[i] = s_temp[i];
+        runtimes_norm[i] = rn_temp[i];
+        cores_norm[i] = cn_temp[i];
+        submit_norm[i] = sn_temp[i];
+        orig_pos[i] = p_temp[i];
+#+end_example
+* Lundi 24 juin
+** Analyzing the results of the normalization
+Now, I must understand the behavior behind our models by comparing their coefficients
+*** TODO :: Use the best normùalized models or the unnormalized ones?
+We observe we have lot of model which uses jobs attributes as : 10*p*q -10 * p²*q , by using a 3D representation of this we can see that the results of this operation is exponantial in function of q, in our anlysis we can interpret that as a strong penalization on the number of cores needed by the jobs.
+We can observe approximatively the same phenomenom in a performant context aware regression model with : 10*q*x-10*q²*x.

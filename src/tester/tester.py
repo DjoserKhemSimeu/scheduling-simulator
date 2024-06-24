@@ -308,17 +308,16 @@ def workload_experiments(workloads, policies, sim_types):
 if __name__ == "__main__":
     
     workload_experiments(
-        ["CTC-SP2", "SDSC-BLUE", "LUBLIN 256"],
-        ["SER_1_1","SER_1_2","SER_1_3",
-         "SER_2_1","SER_2_2","SER_2_3",
-         "SER_3_1","SER_3_2","SER_3_3",
-         "SER_4_1","SER_4_2","SER_4_3",
-         "SER_5_1","SER_5_2","SER_5_3",
-         "SER_6_1","SER_6_2","SER_6_3",
-         "SER_7_1","SER_7_2","SER_7_3",
-         "SER_8_1","SER_8_2","SER_8_3",
-         "SER_9_1","SER_9_2","SER_9_3",
-         "SER_10_1","SER_10_2","SER_10_3",],
-        ["ACTUAL", "ESTIMATED","BACKFILLING"],
-    
+        ["CTC-SP2","SDSC-BLUE","LUBLIN 256"],
+        ["LIN","S3_V1_D3","S3_V1_D4",
+         "S3_V2_D1","S3_V2_D2","S3_V2_D3","S3_V2_D4",
+         "S3_V3_D1","S3_V3_D2","S3_V3_D3","S3_V3_D4",
+         "S3_V4_D1","S3_V4_D2","S3_V4_D3","S3_V4_D4",
+         "S3_V5_D1","S3_V5_D2","S3_V5_D3","S3_V5_D4",
+         "S3_V6_D1","S3_V6_D2","S3_V6_D3",
+         "S3_V7_D1","S3_V7_D2","S3_V7_D3","S3_V7_D4",
+         "S3_V8_D1","S3_V8_D2","S3_V8_D3","S3_V8_D4",
+         "S3_V9_D1","S3_V9_D2","S3_V9_D3","S3_V9_D4",
+         "S3_V10_D1","S3_V10_D2","S3_V10_D3","S3_V10_D4"],
+        ["ESTIMATED","BACKFILLING"],
     )

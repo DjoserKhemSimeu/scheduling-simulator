@@ -18,7 +18,7 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_test,
                              "Messages specific for this msg example");
 
 void backFill(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
-void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
+void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, double * req_norm, double* cores_norm, double * submit_norm ,int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp);
 const char *getfield(char *line, int num);
 void readModelFile(void);
 int master(int argc, char *argv[]);
@@ -27,7 +27,12 @@ msg_error_t test_all(const char *platform_file,
                      const char *application_file);
 
 #define FINALIZE ((void *)221297) /* a magic number to tell people to stop working */
-
+#define P_min 1
+#define Q_min 1
+#define R_min 611
+#define P_max 162192
+#define Q_max 256
+#define R_max 453219
 #define MAX_TASKS 1024
 #define WORKERS_PER_NODE 1
 #define MAX_TASK_TYPES 5
@@ -228,9 +233,11 @@ double computeSigma(double* tableau, int taille, double moyenne) {
 }
 
 // Fonction pour normaliser le tableau
-double* stdNorm(double* tableau, int taille) {
-    double moyenne = computeMean(tableau, taille);
-    double ecartType = computeSigma(tableau, taille, moyenne);
+double* minMaxNorm(double* tableau, int taille,double min, double max) {
+    
+    
+   //XBT_INFO("Mean = %f",moyenne);
+    //XBT_INFO("STD = %f",ecartType);
     
     double* tableauNormalise = (double*)malloc(taille * sizeof(double));
     if (tableauNormalise == NULL) {
@@ -240,7 +247,8 @@ double* stdNorm(double* tableau, int taille) {
     }
 
     for (int i = 0; i < taille; i++) {
-        tableauNormalise[i] = (tableau[i] - moyenne) / ecartType;
+        double X_std= (tableau[i]-min)/(max-min);
+        tableauNormalise[i] = X_std * (max-min)+min;
     }
 
     return tableauNormalise;
@@ -345,7 +353,7 @@ void backFill(double *runtimes, int *cores, int *submit, double *req, int *orig_
     }
 }
 
-void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
+void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, double * req_norm, double* cores_norm, double * submit_norm, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
 {
     int i, j;
     int curr_time = MSG_get_clock();
@@ -416,6 +424,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
     int *c_temp = (int *)calloc(num_arrived_tasks, sizeof(int));
     int *s_temp = (int *)calloc(num_arrived_tasks, sizeof(int));
     double *req_temp = (double *)calloc(num_arrived_tasks, sizeof(double));
+    double *reqn_temp = (double *)calloc(num_arrived_tasks, sizeof(double));
+    double *cn_temp = (double *)calloc(num_arrived_tasks, sizeof(double));
+    double *sn_temp = (double *)calloc(num_arrived_tasks, sizeof(double));
     int *p_temp = (int *)calloc(num_arrived_tasks, sizeof(int));
     int max_arrive = 0;
     double p_mean = 0;
@@ -437,9 +448,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             p_mean_4=req[i];
             q_mean_4=cores[i];
         }else{
-            r_mean_4= ((i*r_mean_4)/(i+1))+(submit[i]/(i+1));
-            p_mean_4= ((i*p_mean_4)/(i+1))+(req[i]/(i+1));
-            q_mean_4= ((i*q_mean_4)/(i+1))+(cores[i]/(i+1));
+            r_mean_4= ((i*r_mean_4)/(i+1))+(submit_norm[i]/(i+1));
+            p_mean_4= ((i*p_mean_4)/(i+1))+(req_norm[i]/(i+1));
+            q_mean_4= ((i*q_mean_4)/(i+1))+(cores_norm[i]/(i+1));
         }
     // printf("%d\n", max_arrive);
     int task_age = 0;
@@ -499,7 +510,7 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             h_values[i] = req[i] * cores[i];
             break;
         case LIN:
-            h_values[i] = linear(req[i], cores[i], submit[i]);
+            h_values[i] = linear(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case QDR:
             h_values[i] = quadratic(req[i], cores[i], submit[i]);
@@ -548,115 +559,115 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             break;
         // CORRELATION ANALYSIS
         case S3_V1_D3:
-            h_values[i] = s3_vif_1_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_1_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V1_D4:
-            h_values[i] = s3_vif_1_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_1_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D1:
-            h_values[i] = s3_vif_2_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D2:
-            h_values[i] = s3_vif_2_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D3:
-            h_values[i] = s3_vif_2_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V2_D4:
-            h_values[i] = s3_vif_2_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_2_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D1:
-            h_values[i] = s3_vif_3_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D2:
-            h_values[i] = s3_vif_3_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D3:
-            h_values[i] = s3_vif_3_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V3_D4:
-            h_values[i] = s3_vif_3_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_3_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D1:
-            h_values[i] = s3_vif_4_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D2:
-            h_values[i] = s3_vif_4_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D3:
-            h_values[i] = s3_vif_4_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V4_D4:
-            h_values[i] = s3_vif_4_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_4_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D1:
-            h_values[i] = s3_vif_5_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D2:
-            h_values[i] = s3_vif_5_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D3:
-            h_values[i] = s3_vif_5_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V5_D4:
-            h_values[i] = s3_vif_5_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_5_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V6_D1:
-            h_values[i] = s3_vif_6_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_6_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V6_D2:
-            h_values[i] = s3_vif_6_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_6_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V6_D3:
-            h_values[i] = s3_vif_6_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_6_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D1:
-            h_values[i] = s3_vif_7_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D2:
-            h_values[i] = s3_vif_7_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D3:
-            h_values[i] = s3_vif_7_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V7_D4:
-            h_values[i] = s3_vif_7_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_7_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D1:
-            h_values[i] = s3_vif_8_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D2:
-            h_values[i] = s3_vif_8_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D3:
-            h_values[i] = s3_vif_8_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V8_D4:
-            h_values[i] = s3_vif_8_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_8_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D1:
-            h_values[i] = s3_vif_9_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D2:
-            h_values[i] = s3_vif_9_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D3:
-            h_values[i] = s3_vif_9_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V9_D4:
-            h_values[i] = s3_vif_9_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_9_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V10_D1:
-            h_values[i] = s3_vif_10_1(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_1(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
          case S3_V10_D2:
-            h_values[i] = s3_vif_10_2(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_2(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
          case S3_V10_D3:
-            h_values[i] = s3_vif_10_3(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_3(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
         case S3_V10_D4:
-            h_values[i] = s3_vif_10_4(req[i], cores[i], submit[i]);
+            h_values[i] = s3_vif_10_4(req_norm[i], cores_norm[i], submit_norm[i]);
             break;
 
         case S4_V7_D1:
@@ -675,104 +686,104 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             h_values[i] = s4_vif_9_4(req[i], cores[i], submit[i]);
             break;
         case SER_1_1:
-            h_values[i] = ser_1_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_1_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_1_2:
-            h_values[i] = ser_1_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_1_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_1_3:
-            h_values[i] = ser_1_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_1_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_2_1:
-            h_values[i] = ser_2_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_2_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_2_2:
-            h_values[i] = ser_2_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_2_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_2_3:
-            h_values[i] = ser_2_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_2_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_3_1:
-            h_values[i] = ser_3_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_3_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_3_2:
-            h_values[i] = ser_3_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_3_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_3_3:
-            h_values[i] = ser_3_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_3_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_4_1:
-            h_values[i] = ser_4_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_4_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_4_2:
-            h_values[i] = ser_4_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_4_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_4_3:
-            h_values[i] = ser_4_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_4_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_5_1:
-            h_values[i] = ser_5_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_5_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_5_2:
-            h_values[i] = ser_5_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_5_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_5_3:
-            h_values[i] = ser_5_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_5_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_6_1:
-            h_values[i] = ser_6_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_6_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_6_2:
-            h_values[i] = ser_6_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_6_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_6_3:
-            h_values[i] = ser_6_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_6_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_7_1:
-            h_values[i] = ser_7_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_7_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_7_2:
-            h_values[i] = ser_7_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_7_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_7_3:
-            h_values[i] = ser_7_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_7_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_8_1:
-            h_values[i] = ser_8_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_8_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_8_2:
-            h_values[i] = ser_8_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_8_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_8_3:
-            h_values[i] = ser_8_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_8_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_9_1:
-            h_values[i] = ser_9_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_9_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_9_2:
-            h_values[i] = ser_9_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_9_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_9_3:
-            h_values[i] = ser_9_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_9_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_10_1:
-            h_values[i] = ser_10_1(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_10_1(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_10_2:
-            h_values[i] = ser_10_2(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_10_2(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         case SER_10_3:
-            h_values[i] = ser_10_3(req[i], cores[i], submit[i],p_mean,q_mean,r_mean);
+            h_values[i] = ser_10_3(req_norm[i], cores_norm[i], submit_norm[i],p_mean,q_mean,r_mean);
             break;
         }
         if(i==0){
-            r_mean=submit[i];
-            p_mean=req[i];
-            q_mean=cores[i];
+            r_mean=submit_norm[i];
+            p_mean=req_norm[i];
+            q_mean=cores_norm[i];
         }else{
-            r_mean= ((i*r_mean)/(i+1))+(submit[i]/(i+1));
-            p_mean= ((i*p_mean)/(i+1))+(req[i]/(i+1));
-            q_mean= ((i*q_mean)/(i+1))+(cores[i]/(i+1));
+            r_mean= ((i*r_mean)/(i+1))+(submit_norm[i]/(i+1));
+            p_mean= ((i*p_mean)/(i+1))+(req_norm[i]/(i+1));
+            q_mean= ((i*q_mean)/(i+1))+(cores_norm[i]/(i+1));
         }
         
         if (VERBOSE)
@@ -821,6 +832,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
             c_temp[i] = cores[min_index];
             s_temp[i] = submit[min_index];
             req_temp[i] = req[min_index];
+            reqn_temp[i] = req_norm[min_index];
+            cn_temp[i] = cores_norm[min_index];
+            sn_temp[i] = submit_norm[min_index];
             p_temp[i] = orig_pos[min_index];
             h_values[min_index] = 1e20;
         }
@@ -831,6 +845,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
         cores[i] = c_temp[i];
         submit[i] = s_temp[i];
         req[i] = req_temp[i];
+        req_norm[i] = reqn_temp[i];
+        cores_norm[i] = cn_temp[i];
+        submit_norm[i] = sn_temp[i];
         orig_pos[i] = p_temp[i];
     }
     if (BF)
@@ -839,6 +856,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, int 
     free(c_temp);
     free(s_temp);
     free(req_temp);
+    free(reqn_temp);
+    free(cn_temp);
+    free(sn_temp);
     free(p_temp);
     free(h_values);
 }
@@ -963,6 +983,12 @@ int master(int argc, char *argv[])
         // tasks_allocation = (int**) malloc(number_of_tasks * sizeof(int*));
         // tasks_workers = xbt_new0(msg_host_t**, number_of_tasks);
         //XBT_INFO("P :");
+          //XBT_INFO("P :");
+        double * req_norm = minMaxNorm(all_req_runtimes,number_of_tasks,P_min,P_max);
+        //XBT_INFO("Q :");
+        double * cores_norm = minMaxNorm(convertIntToDouble(all_cores,number_of_tasks),number_of_tasks,Q_min,Q_max);
+        //XBT_INFO("R :");
+        double * submit_norm = minMaxNorm(convertIntToDouble(all_submit,number_of_tasks),number_of_tasks,R_min,R_max);
         for (i = 0; i < number_of_tasks; i++)
         {
 
@@ -971,7 +997,7 @@ int master(int argc, char *argv[])
             {
                 if (i >= NUM_TASKS_STATE)
                 {
-                    sortTasksQueue(&all_runtimes[i], &all_cores[i], &all_submit[i], &all_req_runtimes[i], &orig_task_positions[i], chosen_policy, number_of_tasks - i >= QUEUE_NUM_TASKS ? QUEUE_NUM_TASKS : number_of_tasks - i, i);
+                    sortTasksQueue(&all_runtimes[i], &all_cores[i], &all_submit[i], &all_req_runtimes[i],&req_norm[i],&cores_norm[i],&submit_norm[i], &orig_task_positions[i], chosen_policy, number_of_tasks - i >= QUEUE_NUM_TASKS ? QUEUE_NUM_TASKS : number_of_tasks - i, i);
                 }
 
                 while (MSG_get_clock() < all_submit[i])

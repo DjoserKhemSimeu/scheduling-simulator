@@ -6,8 +6,8 @@ from polynomials import *
 
 DATA_DIR = pathlib.Path(__file__).parent.parent.parent / "data"
 TRAINING_DIR = pathlib.Path(__file__).parent / "simulator" / "training-data"
-SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA.csv"
-SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM.csv"
+SCORE_DISTRIBUTION = DATA_DIR / "global_training_data_GA_norm_minmax.csv"
+SCORE_DISTRIBUTION_MEM = DATA_DIR / "global_training_data_GA_MEM_norm_minmax.csv"
 REPORT_FILE = DATA_DIR / "regression_report.json"
 SERIAL_FUNCTIONS =[
     ser_1_1, ser_1_2, ser_1_3,
@@ -248,7 +248,10 @@ class Regressor:
 
 if __name__ == "__main__":
 
-    funct=[[ser_1_1, ser_1_2, ser_1_3],
+    
+    print("___________SIZE = 3______________")
+    funct=[
+    [ser_1_1, ser_1_2, ser_1_3],
     [ser_2_1, ser_2_2, ser_2_3],
     [ser_3_1, ser_3_2, ser_3_3],
     [ser_4_1, ser_4_2, ser_4_3],
@@ -257,9 +260,8 @@ if __name__ == "__main__":
     [ser_7_1, ser_7_2, ser_7_3],
     [ser_8_1, ser_8_2, ser_8_3],
     [ser_9_1, ser_9_2, ser_9_3],
-    [ser_10_1, ser_10_2, ser_10_3]] 
-    print("___________SIZE = 3______________")
-
+    [ser_10_1, ser_10_2, ser_10_3]
+]
     for i in range (0,10):
         print(f"Performing the regression {i+1}")
         regressor = Regressor(SCORE_DISTRIBUTION, SCORE_DISTRIBUTION_MEM, funct[i])
