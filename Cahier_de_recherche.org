@@ -1751,3 +1751,12 @@ Now, I must understand the behavior behind our models by comparing their coeffic
 *** TODO :: Use the best normùalized models or the unnormalized ones?
 We observe we have lot of model which uses jobs attributes as : 10*p*q -10 * p²*q , by using a 3D representation of this we can see that the results of this operation is exponantial in function of q, in our anlysis we can interpret that as a strong penalization on the number of cores needed by the jobs.
 We can observe approximatively the same phenomenom in a performant context aware regression model with : 10*q*x-10*q²*x.
+* Jeudi 27 juin
+** TODO :: Missions
++ 3D colormap best LUBLIN models
+  #+begin_center
+  [[file:images/colormap_3D.png]]
+  #+end_center
+  This results shown that our best model on the LUBLIN dataset produces differents be'havior
++ comparison of our models between ESTIMATED and backfilling condition
++ put the exact coefn instead of approximation
