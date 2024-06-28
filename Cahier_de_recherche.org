@@ -1759,4 +1759,18 @@ We can observe approximatively the same phenomenom in a performant context aware
   #+end_center
   This results shown that our best model on the LUBLIN dataset produces differents be'havior
 + comparison of our models between ESTIMATED and backfilling condition
+  #+begin_center
+  [[file:images/pecent_Back_Est.png]]
+  #+end_center
+  weak policies are mostly of degree 4
 + put the exact coefn instead of approximation
+* Vendredi 28 juin
+** Observation of our best models behavior
+#+begin_center
+[[file:images/colormap_3D_8funcs.png]]
+#+end_center
+We can see 4 type of models among the 8 best models:
++ V7_D3, V3_D3 : penalization of the tasks with a high cost for the platforms
++ V4_D3, V5_D1 : penalize the tasks proportionally to the number cores needed
++ V3_D4, V2_D2 : prioritize the jobs with high p and q but penalize the task with a low p and a high q
++ V9_D3, V2_D1 : penalization of the task with a high cost for the platform but p have more weight than q on the penalization
