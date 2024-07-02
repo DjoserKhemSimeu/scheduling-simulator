@@ -1774,3 +1774,17 @@ We can see 4 type of models among the 8 best models:
 + V4_D3, V5_D1 : penalize the tasks proportionally to the number cores needed
 + V3_D4, V2_D2 : prioritize the jobs with high p and q but penalize the task with a low p and a high q
 + V9_D3, V2_D1 : penalization of the task with a high cost for the platform but p have more weight than q on the penalization
+* Mardi 2 juillet
+** Trying to deeply analyse S3_V3_D3
+*** TODO :: working on the normalisation of the coeffs of S3_V3_D3
+#+begin_center
+[[file:images/Reg_coefs_norm_family.png]]
+#+end_center
+*** TODO :: plotting the colormap 2D of the major coef of S3_V3_D3
+#+begin_center
+[[file:images/colorbar_rxn_q3p.png]]
+#+end_center
+*** TODO :: plot the graph of the the variation of p with (q=1, r=0) and q (p=1 and r=0) for the results of S3_V3_D3
+#+begin_center
+
+#+end_center
