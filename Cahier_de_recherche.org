@@ -1795,3 +1795,17 @@ We can see 4 type of models among the 8 best models:
 [[file:images/Reg_coefs_ser_norm_family.png]]
 [[file:images/SER_9_1_comp_impact.png]]
 #+end_center
+** Observations
+*** S3_V3_D3 model :
++ max coeff applied positively on the input q³p
++ q³p penalize the tasks with high values for their attributes p and q (left right corner of the color map)
++ r have no significant impact on the priority value
++ when p and q increase the result increase also
+We can see that the S3_V3_D3 model compute the priority of a task mostlty from the value of the p and q attributes it' quite simalar to thebehavior of the SAF model with unnormalized data.
+*** SER_9_1 model :
++ the function use only the attributes p, q and w
++ no significant major coeff but the highest one is applied negatively on w
++ -w prioritize the jobs that are scheduled in a scheduling context with high q values
++ when p and q increase, the results increase
++ when w increase the results decrease
+We can see that the SER_9_1 compute the priority of a jobs by applying a penalization proportional to the values of the p and q attrbutes and a prioritization proportional to the values of the w attribute.
