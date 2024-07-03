@@ -1786,5 +1786,12 @@ We can see 4 type of models among the 8 best models:
 #+end_center
 *** TODO :: plot the graph of the the variation of p with (q=1, r=0) and q (p=1 and r=0) for the results of S3_V3_D3
 #+begin_center
-
+[[file:images/S3_V3_D3_comp_impact.png]]
+#+end_center
+* Mercredi 3 juillet
+** Objectif
+*** DONE :: perform the same analysis for the best context aware model
+#+begin_center
+[[file:images/Reg_coefs_ser_norm_family.png]]
+[[file:images/SER_9_1_comp_impact.png]]
 #+end_center
