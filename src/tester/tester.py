@@ -173,10 +173,12 @@ policies_flags = {
     "SER_10_1":"-ser_10_1",
     "SER_10_2":"-ser_10_2",
     "SER_10_3":"-ser_10_3",
+    "Q3P":"-q3p",
+    "Q2P":"-q2p",
 }
 
 
-def workload_experiments(workloads, policies, sim_types):
+def workload_experiments(workloads, policies, sim_types,var_zone):
     for workload_trace in workloads:
         for sim_type in sim_types:
             if workload_trace in ["LUBLIN 256", "LUBLIN 1024"]:
@@ -272,20 +274,23 @@ def workload_experiments(workloads, policies, sim_types):
                 _buffer = open(EXPERIMENTS_DIR / "plot-temp.dat", "w+")
                 for policy in policies:
                     policy_flag = policies_flags[policy]
+                    
                     subprocess.run(
-                        [
-                            f"./{simulators[sim_type]}",
-                            DATA_DIR / "platforms" / "plat_day.xml",
-                            DATA_DIR / "applications" / deploy_file,
-                            backfilling_flag,
-                            policy_flag,
-                            "-nt",
-                            str(number_of_jobs),
-                             #"-verbose",
-                        ],
-                        stdout=_buffer,
-                        cwd=EXPERIMENTS_DIR,
-                    )
+                            [
+                                f"./{simulators[sim_type]}",
+                                DATA_DIR / "platforms" / "plat_day.xml",
+                                DATA_DIR / "applications" / deploy_file,
+                                backfilling_flag,
+                                policy_flag,
+                                "-nt",
+                                str(number_of_jobs),
+                                "-var",
+                                str(var_zone),
+                                #"-verbose",
+                            ],
+                            stdout=_buffer,
+                            cwd=EXPERIMENTS_DIR,
+                        )
 
                 _buffer.close()
 
@@ -308,16 +313,11 @@ def workload_experiments(workloads, policies, sim_types):
 if __name__ == "__main__":
     
     workload_experiments(
-        ["CTC-SP2","SDSC-BLUE","LUBLIN 256"],
-        ["LIN","S3_V1_D3","S3_V1_D4",
-         "S3_V2_D1","S3_V2_D2","S3_V2_D3","S3_V2_D4",
-         "S3_V3_D1","S3_V3_D2","S3_V3_D3","S3_V3_D4",
-         "S3_V4_D1","S3_V4_D2","S3_V4_D3","S3_V4_D4",
-         "S3_V5_D1","S3_V5_D2","S3_V5_D3","S3_V5_D4",
-         "S3_V6_D1","S3_V6_D2","S3_V6_D3",
-         "S3_V7_D1","S3_V7_D2","S3_V7_D3","S3_V7_D4",
-         "S3_V8_D1","S3_V8_D2","S3_V8_D3","S3_V8_D4",
-         "S3_V9_D1","S3_V9_D2","S3_V9_D3","S3_V9_D4",
-         "S3_V10_D1","S3_V10_D2","S3_V10_D3","S3_V10_D4"],
-        ["ESTIMATED","BACKFILLING"],
+        ["LUBLIN 256"],
+        ["S3_V3_D3"],
+        ["ESTIMATED"],
+        4,
+
+
+    
     )

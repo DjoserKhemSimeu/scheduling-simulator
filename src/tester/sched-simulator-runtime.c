@@ -150,6 +150,8 @@ msg_error_t test_all(const char *platform_file,
 #define SER_10_1 102
 #define SER_10_2 103
 #define SER_10_3 104
+#define Q3P 105
+#define Q2P 106
 
 int number_of_tasks = 0;
 
@@ -642,6 +644,12 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit,double * runtimes_
             break;
         case NEW_3_10:
             h_values[i] = new_3_10(runtimes[i], cores[i], submit[i]);
+            break;
+        case Q3P:
+            h_values[i] = pow(cores_norm[i],3)*runtimes_norm[i];
+            break;
+        case Q2P:
+            h_values[i] = pow(cores_norm[i],2)*runtimes_norm[i];
             break;
         
         // CORRELATION ANALYSIS
@@ -1821,6 +1829,14 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-ser_10_3") == 0)
             {
                 chosen_policy = SER_10_3;
+            }
+            if (strcmp(argv[i], "-q3p") == 0)
+            {
+                chosen_policy = Q3P;
+            }
+             if (strcmp(argv[i], "-q2p") == 0)
+            {
+                chosen_policy = Q2P;
             }
 
 

@@ -148,12 +148,14 @@ msg_error_t test_all(const char *platform_file,
 #define SER_10_1 102
 #define SER_10_2 103
 #define SER_10_3 104
-
+#define Q3P 105
+#define Q2P 106
 
 
 
 
 int BF = 0;
+int VAR_ZONE=0;
 
 int number_of_tasks = 0;
 
@@ -204,6 +206,24 @@ double *sched_task_placement;
 // int* tasks_per_worker;
 // int number_of_tasks = QUEUE_NUM_TASKS + NUM_TASKS_STATE;
 double t0 = 0.0f;
+double findMax(double array[], int size) {
+    double max = array[0];
+    for (int i = 1; i < size; i++) {
+        if (array[i] > max) {
+            max = array[i];
+        }
+    }
+    return max;
+}
+double findMin(double array[], int size) {
+    double min = array[0];
+    for (int i = 1; i < size; i++) {
+        if (array[i] < min) {
+            min = array[i];
+        }
+    }
+    return min;
+}
 double* convertIntToDouble(int* tableau, int taille) {
     double* tableauDouble = (double*)malloc(taille * sizeof(double));
     if (tableauDouble == NULL) {
@@ -238,7 +258,8 @@ double* minMaxNorm(double* tableau, int taille,double min, double max) {
     
    //XBT_INFO("Mean = %f",moyenne);
     //XBT_INFO("STD = %f",ecartType);
-    
+    double min_s=findMin(tableau,taille);
+    double max_s=findMax(tableau,taille);
     double* tableauNormalise = (double*)malloc(taille * sizeof(double));
     if (tableauNormalise == NULL) {
         // Si l'allocation de mémoire échoue
@@ -247,11 +268,64 @@ double* minMaxNorm(double* tableau, int taille,double min, double max) {
     }
 
     for (int i = 0; i < taille; i++) {
-        double X_std= (tableau[i]-min)/(max-min);
-        tableauNormalise[i] = X_std * (max-min)+min;
+        tableauNormalise[i]= (tableau[i]-min_s)/(max_s-min_s);
+        
     }
 
     return tableauNormalise;
+}
+double* estimatitionTransform (double * runtimes_norm , double * cores_norm, int zone, int taille){
+    srand(time(NULL));
+    
+    double* req_norm = (double*)malloc(taille * sizeof(double));
+    if (req_norm == NULL) {
+        // Si l'allocation de mémoire échoue
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+    for (int i=0 ; i<taille ; i++){
+        
+        if (zone == 1){
+            if (runtimes_norm[i]<=0.5 & cores_norm[i]>0.5){
+                // Random between 0.5 and 1
+                //XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
+                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
+                
+                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+                
+            }else{
+                req_norm[i]=runtimes_norm[i];
+            }
+        } else if (zone == 2){
+            if (runtimes_norm[i]>0.5 & cores_norm[i]>0.5){
+                // Random between 0.5 and 1
+                //XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
+                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
+                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+                
+            }else{
+                req_norm[i]=runtimes_norm[i];
+            }
+        } else if (zone == 3){
+            if (runtimes_norm[i]<=0.5 & cores_norm[i]<=0.5){
+                // Random between 0.5 and 1
+                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
+                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+            }else{
+                req_norm[i]=runtimes_norm[i];
+            }
+        } else if (zone == 4){
+            if (runtimes_norm[i]>0.5 & cores_norm[i]<=0.5){
+                // Random between 0.5 and 1
+                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
+                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+            }else{
+                req_norm[i]=runtimes_norm[i];
+            }
+        }
+    }
+    return req_norm;
+
 }
 
 void backFill(double *runtimes, int *cores, int *submit, double *req, int *orig_pos, int policy, int queue_num_tasks, int num_tasks_disp)
@@ -556,6 +630,12 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, doub
             break;
         case NEW_3_10:
             h_values[i] = new_3_10(req[i], cores[i], submit[i]);
+            break;
+        case Q3P:
+            h_values[i] = pow(cores_norm[i],3)*req_norm[i];
+            break;
+        case Q2P:
+            h_values[i] = pow(cores_norm[i],2)*req_norm[i];
             break;
         // CORRELATION ANALYSIS
         case S3_V1_D3:
@@ -982,13 +1062,23 @@ int master(int argc, char *argv[])
         // tasks_comm_sizes = (double**) malloc(number_of_tasks * sizeof(double*));
         // tasks_allocation = (int**) malloc(number_of_tasks * sizeof(int*));
         // tasks_workers = xbt_new0(msg_host_t**, number_of_tasks);
+        double * runtimes_norm = minMaxNorm(all_runtimes,number_of_tasks,P_min,P_max);
         //XBT_INFO("P :");
           //XBT_INFO("P :");
-        double * req_norm = minMaxNorm(all_req_runtimes,number_of_tasks,P_min,P_max);
+        
         //XBT_INFO("Q :");
         double * cores_norm = minMaxNorm(convertIntToDouble(all_cores,number_of_tasks),number_of_tasks,Q_min,Q_max);
         //XBT_INFO("R :");
         double * submit_norm = minMaxNorm(convertIntToDouble(all_submit,number_of_tasks),number_of_tasks,R_min,R_max);
+        double * req_norm;
+        
+        if(VAR_ZONE>0){
+            
+            req_norm = estimatitionTransform(runtimes_norm,cores_norm,VAR_ZONE,number_of_tasks);
+        }else{
+            req_norm = minMaxNorm(all_req_runtimes,number_of_tasks,P_min,P_max);
+        }
+        
         for (i = 0; i < number_of_tasks; i++)
         {
 
@@ -1745,6 +1835,11 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-bf") == 0)
             {
                 BF = 1;
+            }
+            if (strcmp(argv[i], "-var") == 0){
+                
+                VAR_ZONE = atoi(argv[i + 1]);
+                
             }
         }
     }

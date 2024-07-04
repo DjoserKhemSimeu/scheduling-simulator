@@ -1802,6 +1802,8 @@ We can see 4 type of models among the 8 best models:
 + r have no significant impact on the priority value
 + when p and q increase the result increase also
 We can see that the S3_V3_D3 model compute the priority of a task mostlty from the value of the p and q attributes it' quite simalar to thebehavior of the SAF model with unnormalized data.
++ categories de job (processing time = seul facteur dans cette etude) plus de variations dans lme carre superieur droit
+
 *** SER_9_1 model :
 + the function use only the attributes p, q and w
 + no significant major coeff but the highest one is applied negatively on w
@@ -1809,3 +1811,22 @@ We can see that the S3_V3_D3 model compute the priority of a task mostlty from t
 + when p and q increase, the results increase
 + when w increase the results decrease
 We can see that the SER_9_1 compute the priority of a jobs by applying a penalization proportional to the values of the p and q attrbutes and a prioritization proportional to the values of the w attribute.
+*** DONE :: ajoute la politique q³p ajout aussi q²p
+*** DONE :: ajouter la heatmap de MEM2
+*** DONE :: tester plusieur estimated value pour le tester
+* Jeudi 4 juillet
+** Starting a new approach on the estimated experimental condition
+*** Hypothesis
+Thanks to the heatmap, we observe that there are job categories (q>0.5) where it is more important to have an accurate prediction of the precessing time. For example for the job category q>0.5 , having inaccurate predictions of p will have greater consquences in the priority and the schedule. We made this hypothesis by observing that some model have really good results in the actual conditions but really bad results in the two other conditions (S3_V1_D3).
+*** Next steps :
++ Vary the processing time estimation in different surface region (heatmap) to see the impact in the schedule (validate the hypothesis)
++ Propose a prediction method that that take the hypothesis into account
++ Compare the proposed pred method with other baseline pred methods
+*** Method :
+#+begin_example
+if cores_norm[i]<0.5 & runtimes_norm[i]<0.5 :
+        req_norm[i] = runtimes_norm[i] +np.random(0.5,1)*runtimes_norm[i]
+else :
+        req_norm[i] = runtimes_norm[i]
+#+end_example
+for the category q<0.5 and p<0.5
