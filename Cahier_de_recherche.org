@@ -1830,3 +1830,79 @@ else :
         req_norm[i] = runtimes_norm[i]
 #+end_example
 for the category q<0.5 and p<0.5
+* Lundi 8 juillet
+** Behavior of the estimated values
+We want to see the effect on the AVGBSL of the accuracy of the estimated p values for different type of jobs with the Q3P policy. we defined 4 different type of jobs:
++ Zone 1 : p<0.5 and q>0.5
++ Zone 2 : p>0.5 and q>0.5
++ Zone 3 : p<0.5 and q<0.5
++ Zone 4 : p>0.5 and q<0.5
+*** Implementation
+to observe the phonemenom in each zone, we decided for each zone to perform a test where the estimated p values of the jobs in the current are computed like that :
+#+begin_example
+p_est = p + (1+x)
+Where :  x a random in [0 , fact]
+fact = 10
+#+end_example
+the function :
+#+begin_example
+double* estimatitionTransform (double * runtimes_norm ,double * runtimes, double * cores_norm, int zone, int taille){
+    srand(42);
+
+    double* req_norm = (double*)malloc(taille * sizeof(double));
+    if (req_norm == NULL) {
+        // Si l'allocation de mémoire échoue
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        exit(EXIT_FAILURE);
+    }
+    for (int i=0 ; i<taille ; i++){
+
+        if (zone == 1){
+            if (runtimes_norm[i]<=0.5 & cores_norm[i]>0.5){
+                // Random between 0.5 and 1
+
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+
+                req_norm[i]=runtimes[i]*(1+rnd);
+                //XBT_INFO(" job id = %d runtimes = %f cores = %f , RES =%f",i,runtimes[i],cores_norm[i],req_norm[i]);
+
+            }else{
+                req_norm[i]=runtimes[i];
+            }
+        } else if (zone == 2){
+            if (runtimes_norm[i]>0.5 & cores_norm[i]>0.5){
+                // Random between 0.5 and 1
+                //XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                req_norm[i]=runtimes[i]*(1+rnd);
+
+            }else{
+                req_norm[i]=runtimes[i];
+            }
+        } else if (zone == 3){
+            if (runtimes_norm[i]<=0.5 & cores_norm[i]<=0.5){
+                // Random between 0.5 and 1
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                req_norm[i]=runtimes[i]*(1+rnd);
+            }else{
+                req_norm[i]=runtimes[i];
+            }
+        } else if (zone == 4){
+            if (runtimes_norm[i]>0.5 & cores_norm[i]<=0.5){
+                // Random between 0.5 and 1
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                req_norm[i]=runtimes[i]*(1+rnd);
+            }else{
+                req_norm[i]=runtimes[i];
+            }
+        }
+    }
+    return minMaxNorm(req_norm,taille,P_min,P_max);
+
+}
+#+end_example
+*** Results :
+#+begin_center
+[[file:images/results_zones_q3p.png]]
+#+end_center
+We can see that the Zone 3 provides us the highest AVGBSL observe with this approach, it can be explain by the fact that the jobs with low p values have a big impact on the computation of the AVGBSL, reduccing the precision of the estimated p value of these jobs make their scheduling less accurate, btw increase the waiting time of these jobs on the platform.

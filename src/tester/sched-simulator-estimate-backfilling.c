@@ -39,6 +39,7 @@ msg_error_t test_all(const char *platform_file,
 #define TERA 1e12
 #define MEGA 1e6
 #define TAO 10
+#define FACT 10
 #define QUEUE_NUM_TASKS 32
 #define NUM_TASKS_STATE 16
 #define EPSILON 1e-20
@@ -268,14 +269,14 @@ double* minMaxNorm(double* tableau, int taille,double min, double max) {
     }
 
     for (int i = 0; i < taille; i++) {
-        tableauNormalise[i]= (tableau[i]-min_s)/(max_s-min_s);
+        tableauNormalise[i]= (tableau[i]-min)/(max-min);
         
     }
 
     return tableauNormalise;
 }
-double* estimatitionTransform (double * runtimes_norm , double * cores_norm, int zone, int taille){
-    srand(time(NULL));
+double* estimatitionTransform (double * runtimes_norm ,double * runtimes, double * cores_norm, int zone, int taille){
+    srand(42);
     
     double* req_norm = (double*)malloc(taille * sizeof(double));
     if (req_norm == NULL) {
@@ -288,43 +289,44 @@ double* estimatitionTransform (double * runtimes_norm , double * cores_norm, int
         if (zone == 1){
             if (runtimes_norm[i]<=0.5 & cores_norm[i]>0.5){
                 // Random between 0.5 and 1
-                //XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
-                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
                 
-                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                
+                req_norm[i]=runtimes[i]*(1+rnd);
+                //XBT_INFO(" job id = %d runtimes = %f cores = %f , RES =%f",i,runtimes[i],cores_norm[i],req_norm[i]);
                 
             }else{
-                req_norm[i]=runtimes_norm[i];
+                req_norm[i]=runtimes[i];
             }
         } else if (zone == 2){
             if (runtimes_norm[i]>0.5 & cores_norm[i]>0.5){
                 // Random between 0.5 and 1
                 //XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
-                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
-                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                req_norm[i]=runtimes[i]*(1+rnd);
                 
             }else{
-                req_norm[i]=runtimes_norm[i];
+                req_norm[i]=runtimes[i];
             }
         } else if (zone == 3){
             if (runtimes_norm[i]<=0.5 & cores_norm[i]<=0.5){
                 // Random between 0.5 and 1
-                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
-                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                req_norm[i]=runtimes[i]*(1+rnd);
             }else{
-                req_norm[i]=runtimes_norm[i];
+                req_norm[i]=runtimes[i];
             }
         } else if (zone == 4){
             if (runtimes_norm[i]>0.5 & cores_norm[i]<=0.5){
                 // Random between 0.5 and 1
-                double rnd = 0.5 + ((double)rand() / RAND_MAX) * 0.5;
-                req_norm[i]=runtimes_norm[i]+(rnd*runtimes_norm[i]);
+                double rnd =((double)rand() / RAND_MAX)*FACT;
+                req_norm[i]=runtimes[i]*(1+rnd);
             }else{
-                req_norm[i]=runtimes_norm[i];
+                req_norm[i]=runtimes[i];
             }
         }
     }
-    return req_norm;
+    return minMaxNorm(req_norm,taille,P_min,P_max);
 
 }
 
@@ -632,7 +634,9 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, doub
             h_values[i] = new_3_10(req[i], cores[i], submit[i]);
             break;
         case Q3P:
+           
             h_values[i] = pow(cores_norm[i],3)*req_norm[i];
+             //XBT_INFO("Score for \"Task_%d\" [c=%f,s=%f,est=%f]=%.7f", orig_pos[i],cores_norm[i], submit_norm[i], req_norm[i], h_values[i]);
             break;
         case Q2P:
             h_values[i] = pow(cores_norm[i],2)*req_norm[i];
@@ -1074,7 +1078,7 @@ int master(int argc, char *argv[])
         
         if(VAR_ZONE>0){
             
-            req_norm = estimatitionTransform(runtimes_norm,cores_norm,VAR_ZONE,number_of_tasks);
+            req_norm = estimatitionTransform(runtimes_norm,all_runtimes,cores_norm,VAR_ZONE,number_of_tasks);
         }else{
             req_norm = minMaxNorm(all_req_runtimes,number_of_tasks,P_min,P_max);
         }
@@ -1347,7 +1351,7 @@ msg_error_t test_all(const char *platform_file,
         double waitTime = task_queue[i].startTime - task_queue[i].submitTime;
         double runTime = task_queue[i].endTime - task_queue[i].startTime;
         double quocient = runTime >= TAO ? runTime : TAO;
-        double slow = (waitTime + runTime) / quocient;
+        double slow = (waitTime + runTime)/ quocient;
         slowdown[_count] = slow >= 1.0f ? slow : 1.0f;
         sumSlowdown += slowdown[_count];
         // printf("%.2f\n", waitTime);
@@ -1815,6 +1819,14 @@ int main(int argc, char *argv[])
             if (strcmp(argv[i], "-ser_10_3") == 0)
             {
                 chosen_policy = SER_10_3;
+            }
+            if (strcmp(argv[i], "-q2p") == 0)
+            {
+                chosen_policy = Q2P;
+            }
+            if (strcmp(argv[i], "-q3p") == 0)
+            {
+                chosen_policy = Q3P;
             }
 
 

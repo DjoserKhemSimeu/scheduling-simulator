@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".
 from tools.swf_reader import *
 
 # Predefined paths (enable the script to be run from anywhere in the project)
-EXPERIMENTS_DIR = pathlib.Path(__file__).parent
+EXPERIMENTS_DIR = pathlib.Path(__file__).parent 
 DATA_DIR = pathlib.Path(__file__).parent.parent.parent / "data"
 
 SECONDS_IN_A_DAY = 86400
@@ -179,145 +179,145 @@ policies_flags = {
 
 
 def workload_experiments(workloads, policies, sim_types,var_zone):
-    for workload_trace in workloads:
-        for sim_type in sim_types:
-            if workload_trace in ["LUBLIN 256", "LUBLIN 1024"]:
-                workload_file = (
-                    traces[workload_trace][0]["actual"]
-                    if sim_type == "ACTUAL"
-                    else traces[workload_trace][0]["estimated"]
+    for zone in var_zone :
+        print(f"Performing Zone : {zone}")
+        for workload_trace in workloads:
+            for sim_type in sim_types:
+                if workload_trace in ["LUBLIN 256", "LUBLIN 1024"]:
+                    workload_file = (
+                        traces[workload_trace][0]["actual"]
+                        if sim_type == "ACTUAL"
+                        else traces[workload_trace][0]["estimated"]
+                    )
+                else:
+                    workload_file = traces[workload_trace][0]
+
+                deploy_file = traces[workload_trace][1]
+                number_of_experiments = traces[workload_trace][2]
+
+                if sim_type == "BACKFILLING":
+                    backfilling_flag = "-bf"
+                else:
+                    backfilling_flag = ""
+
+                number_of_policies = len(policies)
+
+                workload_jobs = ReaderSWF(workload_file)
+                df=pd.DataFrame.from_dict(workload_jobs.jobs_info)
+                scaler1=StandardScaler()
+                #scaler2=MinMaxScaler()
+                arr2=scaler1.fit_transform(df)
+                #arr3=scaler2.fit_transform(df)
+
+                df_norm_std=pd.DataFrame(arr2, columns = ["p","~p","q","r"])
+                #df_norm_minmax=pd.DataFrame(arr3, columns = ["p","~p","q","r"])
+                #dict_minmax=df_norm_minmax.to_dict('list')
+                dict_std=df_norm_std.to_dict('list')
+                
+
+                print(
+                    f"Performing scheduling performance test for the workload trace {workload_trace}.\nConfiguration: {sim_type}"
                 )
-            else:
-                workload_file = traces[workload_trace][0]
 
-            deploy_file = traces[workload_trace][1]
-            number_of_experiments = traces[workload_trace][2]
+                # DataFrame to store all slowdowns from all experiments
+                slowdowns = pd.DataFrame(columns=policies)
 
-            if sim_type == "BACKFILLING":
-                backfilling_flag = "-bf"
-            else:
-                backfilling_flag = ""
+                choose = 0
+                
+                for exp in range(number_of_experiments):
+                    task_file = open(EXPERIMENTS_DIR / "initial-simulation-submit.csv", "w+")
+                    earliest_submit = workload_jobs.jobs_info["r"][choose]
 
-            number_of_policies = len(policies)
+                    number_of_jobs = 0
 
-            workload_jobs = ReaderSWF(workload_file)
-            df=pd.DataFrame.from_dict(workload_jobs.jobs_info)
-            scaler1=StandardScaler()
-            #scaler2=MinMaxScaler()
-            arr2=scaler1.fit_transform(df)
-            #arr3=scaler2.fit_transform(df)
+                    state_jobs = {"p": [], "~p": [], "q": [], "r": []}
+                    for idx in range(STATE_SIZE):
+                        
+                        state_jobs["p"].append(workload_jobs.jobs_info["p"][choose + idx])
+                        state_jobs["q"].append(workload_jobs.jobs_info["q"][choose + idx])
+                        state_jobs["r"].append(workload_jobs.jobs_info["r"][choose + idx] - earliest_submit)
 
-            df_norm_std=pd.DataFrame(arr2, columns = ["p","~p","q","r"])
-            #df_norm_minmax=pd.DataFrame(arr3, columns = ["p","~p","q","r"])
-            #dict_minmax=df_norm_minmax.to_dict('list')
-            dict_std=df_norm_std.to_dict('list')
-            
+                        if sim_type != "ACTUAL":
+                            state_jobs["~p"].append(workload_jobs.jobs_info["~p"][choose + idx])
+                            task_file.write(
+                                f"{state_jobs['p'][idx]},{state_jobs['q'][idx]},{state_jobs['r'][idx]},{state_jobs['~p'][idx]}\n"
+                            )
+                        else:
+                            task_file.write(f"{state_jobs['p'][idx]},{state_jobs['q'][idx]},{state_jobs['r'][idx]}\n")
 
-            print(
-                f"Performing scheduling performance test for the workload trace {workload_trace}.\nConfiguration: {sim_type}"
-            )
+                        number_of_jobs += 1
 
-            # DataFrame to store all slowdowns from all experiments
-            slowdowns = pd.DataFrame(columns=policies)
-
-            choose = 0
-            for exp in range(number_of_experiments):
-                task_file = open(EXPERIMENTS_DIR / "initial-simulation-submit.csv", "w+")
-                earliest_submit = workload_jobs.jobs_info["r"][choose]
-
-                number_of_jobs = 0
-
-                state_jobs = {"p": [], "~p": [], "q": [], "r": []}
-                for idx in range(STATE_SIZE):
+                    queue_jobs = {"p": [], "~p": [], "q": [], "r": []}
+                    idx = 0
+                    while (
                     
-                    state_jobs["p"].append(workload_jobs.jobs_info["p"][choose + idx])
-                    state_jobs["q"].append(workload_jobs.jobs_info["q"][choose + idx])
-                    state_jobs["r"].append(workload_jobs.jobs_info["r"][choose + idx] - earliest_submit)
+                        workload_jobs.jobs_info["r"][choose + STATE_SIZE + idx] - earliest_submit
+                    ) <= SECONDS_IN_A_DAY * SIM_NUM_DAYS:
+                        
+                        queue_jobs["p"].append(workload_jobs.jobs_info["p"][STATE_SIZE + choose + idx])
+                        queue_jobs["q"].append(workload_jobs.jobs_info["q"][STATE_SIZE + choose + idx])
+                        queue_jobs["r"].append(workload_jobs.jobs_info["r"][STATE_SIZE + choose + idx] - earliest_submit)
 
-                    if sim_type != "ACTUAL":
-                        state_jobs["~p"].append(workload_jobs.jobs_info["~p"][choose + idx])
-                        task_file.write(
-                            f"{state_jobs['p'][idx]},{state_jobs['q'][idx]},{state_jobs['r'][idx]},{state_jobs['~p'][idx]}\n"
-                        )
-                    else:
-                        task_file.write(f"{state_jobs['p'][idx]},{state_jobs['q'][idx]},{state_jobs['r'][idx]}\n")
+                        if sim_type != "ACTUAL":
+                            queue_jobs["~p"].append(workload_jobs.jobs_info["~p"][STATE_SIZE + choose + idx])
+                            task_file.write(
+                                f"{queue_jobs['p'][idx]},{queue_jobs['q'][idx]},{queue_jobs['r'][idx]},{queue_jobs['~p'][idx]}\n"
+                            )
+                        else:
+                            task_file.write(f"{queue_jobs['p'][idx]},{queue_jobs['q'][idx]},{queue_jobs['r'][idx]}\n")
 
-                    number_of_jobs += 1
+                        idx += 1
+                        number_of_jobs += 1
 
-                queue_jobs = {"p": [], "~p": [], "q": [], "r": []}
-                idx = 0
-                while (
-                   
-                    workload_jobs.jobs_info["r"][choose + STATE_SIZE + idx] - earliest_submit
-                ) <= SECONDS_IN_A_DAY * SIM_NUM_DAYS:
-                    
-                    queue_jobs["p"].append(workload_jobs.jobs_info["p"][STATE_SIZE + choose + idx])
-                    queue_jobs["q"].append(workload_jobs.jobs_info["q"][STATE_SIZE + choose + idx])
-                    queue_jobs["r"].append(workload_jobs.jobs_info["r"][STATE_SIZE + choose + idx] - earliest_submit)
+                    task_file.close()
+                    choose += STATE_SIZE + idx
 
-                    if sim_type != "ACTUAL":
-                        queue_jobs["~p"].append(workload_jobs.jobs_info["~p"][STATE_SIZE + choose + idx])
-                        task_file.write(
-                            f"{queue_jobs['p'][idx]},{queue_jobs['q'][idx]},{queue_jobs['r'][idx]},{queue_jobs['~p'][idx]}\n"
-                        )
-                    else:
-                        task_file.write(f"{queue_jobs['p'][idx]},{queue_jobs['q'][idx]},{queue_jobs['r'][idx]}\n")
+                    print(f"Performing scheduling experiment {exp + 1}. Number of tasks={number_of_jobs}")
 
-                    idx += 1
-                    number_of_jobs += 1
+                    _buffer = open(EXPERIMENTS_DIR / "plot-temp.dat", "w+")
+                    for policy in policies:
+                        policy_flag = policies_flags[policy]
+                        
+                        subprocess.run(
+                                [
+                                    f"./{simulators[sim_type]}",
+                                    DATA_DIR / "platforms" / "plat_day.xml",
+                                    DATA_DIR / "applications" / deploy_file,
+                                    backfilling_flag,
+                                    policy_flag,
+                                    "-nt",
+                                    str(number_of_jobs),
+                                    "-var",
+                                    str(zone),
+                                    #"-verbose",
+                                ],
+                                stdout=_buffer,
+                                cwd=EXPERIMENTS_DIR,
+                            )
 
-                task_file.close()
-                choose += STATE_SIZE + idx
+                    _buffer.close()
 
-                print(f"Performing scheduling experiment {exp + 1}. Number of tasks={number_of_jobs}")
+                    temp_data = pd.DataFrame(columns=policies)
 
-                _buffer = open(EXPERIMENTS_DIR / "plot-temp.dat", "w+")
-                for policy in policies:
-                    policy_flag = policies_flags[policy]
-                    
-                    subprocess.run(
-                            [
-                                f"./{simulators[sim_type]}",
-                                DATA_DIR / "platforms" / "plat_day.xml",
-                                DATA_DIR / "applications" / deploy_file,
-                                backfilling_flag,
-                                policy_flag,
-                                "-nt",
-                                str(number_of_jobs),
-                                "-var",
-                                str(var_zone),
-                                #"-verbose",
-                            ],
-                            stdout=_buffer,
-                            cwd=EXPERIMENTS_DIR,
-                        )
+                    _buffer = open(EXPERIMENTS_DIR / "plot-temp.dat", "r")
+                    lines = list(_buffer)
+                    for i, policy in enumerate(policies):
+                        temp_data[policy] = [float(lines[i])]
+                    _buffer.close()
 
-                _buffer.close()
+                    slowdowns = pd.concat([slowdowns, temp_data], ignore_index=True)
 
-                temp_data = pd.DataFrame(columns=policies)
-
-                _buffer = open(EXPERIMENTS_DIR / "plot-temp.dat", "r")
-                lines = list(_buffer)
-                for i, policy in enumerate(policies):
-                    temp_data[policy] = [float(lines[i])]
-                _buffer.close()
-
-                slowdowns = pd.concat([slowdowns, temp_data], ignore_index=True)
-
-            slowdowns.to_csv(
-                EXPERIMENTS_DIR / f"{workload_trace}_{sim_type}_{number_of_experiments}_{number_of_policies}.csv",
-                index=False,
-            )
+                slowdowns.to_csv(
+                    EXPERIMENTS_DIR / f"{workload_trace}_{sim_type}_{number_of_experiments}_{number_of_policies}_ZONE_{zone}.csv",
+                    index=False,
+                )
 
 
 if __name__ == "__main__":
     
     workload_experiments(
         ["LUBLIN 256"],
-        ["S3_V3_D3"],
+        ["Q3P"],
         ["ESTIMATED"],
-        4,
-
-
-    
+        [1,2,3,4],
     )
