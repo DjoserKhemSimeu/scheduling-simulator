@@ -1923,6 +1923,7 @@ We can see that the Zone 3 provides us the highest AVGBSL observe with this appr
 | max q                         | Normal                     | Normal                     | Normal          | Strong penalization |
 | max p                         | penalization threshold 0.7 | penalization threshold 0.5 | Normal          | Normal              |
 | penalization demarcation      | strong (line)              | strong (line)              | soft (gradient) | soft (gradient)     |
+| penalization zone             | right up corner            | right up corner            | right up corner | right up corner     |
 | area of the penalization zone | low                        | low                        | high            | high                |
 
 *** TODO :: find an other way to analyze the best method other as the heatmap
