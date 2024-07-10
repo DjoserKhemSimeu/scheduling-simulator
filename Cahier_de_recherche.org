@@ -1906,3 +1906,23 @@ double* estimatitionTransform (double * runtimes_norm ,double * runtimes, double
 [[file:images/results_zones_q3p.png]]
 #+end_center
 We can see that the Zone 3 provides us the highest AVGBSL observe with this approach, it can be explain by the fact that the jobs with low p values have a big impact on the computation of the AVGBSL, reduccing the precision of the estimated p value of these jobs make their scheduling less accurate, btw increase the waiting time of these jobs on the platform.
+
+* Mercredi 10 juillet
+** Missions
+*** TODO :: Observe the behavior of the heatmap of the 4 best policy on p and q
+#+begin_center
+[[file:images/results_best_models.png]]
+#+end_center
+#+begin_center
+[[file:images/colorbar_rxn.png]]
+#+end_center
+** Observations
+|                               | Q3P                        | Q2P                        | SAF             | F2                  |
+| AVGBSL                        | 103                        | 106                        | 245             | 323                 |
+| Normalized                    | Yes                        | Yes                        | No              | No                  |
+| max q                         | Normal                     | Normal                     | Normal          | Strong penalization |
+| max p                         | penalization threshold 0.7 | penalization threshold 0.5 | Normal          | Normal              |
+| penalization demarcation      | strong (line)              | strong (line)              | soft (gradient) | soft (gradient)     |
+| area of the penalization zone | low                        | low                        | high            | high                |
+
+*** TODO :: find an other way to analyze the best method other as the heatmap

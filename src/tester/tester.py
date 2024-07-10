@@ -317,7 +317,7 @@ if __name__ == "__main__":
     
     workload_experiments(
         ["LUBLIN 256"],
-        ["Q3P"],
-        ["ESTIMATED"],
-        [1,2,3,4],
+        ["Q3P","Q2P","F2","SAF"],
+        ["ACTUAL"],
+        [0],
     )

@@ -293,7 +293,7 @@ double* estimatitionTransform (double * runtimes_norm ,double * runtimes, double
                 double rnd =((double)rand() / RAND_MAX)*FACT;
                 
                 req_norm[i]=runtimes[i]*(1+rnd);
-                //XBT_INFO(" job id = %d runtimes = %f cores = %f , RES =%f",i,runtimes[i],cores_norm[i],req_norm[i]);
+                XBT_INFO(" job id = %d runtimes = %f cores = %f , RES =%f",i,runtimes[i],cores_norm[i],req_norm[i]);
                 
             }else{
                 req_norm[i]=runtimes[i];
@@ -301,7 +301,7 @@ double* estimatitionTransform (double * runtimes_norm ,double * runtimes, double
         } else if (zone == 2){
             if (runtimes_norm[i]>0.5 & cores_norm[i]>0.5){
                 // Random between 0.5 and 1
-                //XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
+                
                 double rnd =((double)rand() / RAND_MAX)*FACT;
                 req_norm[i]=runtimes[i]*(1+rnd);
                 
@@ -319,6 +319,7 @@ double* estimatitionTransform (double * runtimes_norm ,double * runtimes, double
         } else if (zone == 4){
             if (runtimes_norm[i]>0.5 & cores_norm[i]<=0.5){
                 // Random between 0.5 and 1
+                XBT_INFO(" job id = %d runtimes = %f cores = %f",i,runtimes_norm[i],cores_norm[i]);
                 double rnd =((double)rand() / RAND_MAX)*FACT;
                 req_norm[i]=runtimes[i]*(1+rnd);
             }else{
