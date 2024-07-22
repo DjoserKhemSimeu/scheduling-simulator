@@ -175,11 +175,13 @@ policies_flags = {
     "SER_10_3":"-ser_10_3",
     "Q3P":"-q3p",
     "Q2P":"-q2p",
+    "Q4P":"-q4p",
+    "Q5P":"-q5p",
 }
 
 
 def workload_experiments(workloads, policies, sim_types,var_zone):
-    for zone in var_zone :
+   # for zone in var_zone :
         print(f"Performing Zone : {zone}")
         for workload_trace in workloads:
             for sim_type in sim_types:
@@ -287,8 +289,9 @@ def workload_experiments(workloads, policies, sim_types,var_zone):
                                     policy_flag,
                                     "-nt",
                                     str(number_of_jobs),
-                                    "-var",
-                                    str(zone),
+                                    "-norm",
+                                    #"-var",
+                                    #str(zone),
                                     #"-verbose",
                                 ],
                                 stdout=_buffer,
@@ -317,7 +320,7 @@ if __name__ == "__main__":
     
     workload_experiments(
         ["LUBLIN 256"],
-        ["Q3P","Q2P","F2","SAF"],
+        ["Q3P","Q2P","Q4P","Q5P","F2","SAF"],
         ["ACTUAL"],
-        [0],
+        
     )

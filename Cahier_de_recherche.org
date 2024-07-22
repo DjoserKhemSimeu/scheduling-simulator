@@ -1927,3 +1927,4 @@ We can see that the Zone 3 provides us the highest AVGBSL observe with this appr
 | area of the penalization zone | low                        | low                        | high            | high                |
 
 *** TODO :: find an other way to analyze the best method other as the heatmap
+** dominik.huber@inria.fr

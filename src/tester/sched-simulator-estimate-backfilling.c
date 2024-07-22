@@ -151,13 +151,14 @@ msg_error_t test_all(const char *platform_file,
 #define SER_10_3 104
 #define Q3P 105
 #define Q2P 106
-
+#define Q4P 107
+#define Q5P 108
 
 
 
 int BF = 0;
 int VAR_ZONE=0;
-
+int NORM =0;
 int number_of_tasks = 0;
 
 struct task_t
@@ -642,6 +643,12 @@ void sortTasksQueue(double *runtimes, int *cores, int *submit, double *req, doub
         case Q2P:
             h_values[i] = pow(cores_norm[i],2)*req_norm[i];
             break;
+        case Q4P:
+            h_values[i] = pow(cores_norm[i],4)*req_norm[i];
+            break;
+        case Q5P:
+            h_values[i] = pow(cores_norm[i],5)*req_norm[i];
+            break;
         // CORRELATION ANALYSIS
         case S3_V1_D3:
             h_values[i] = s3_vif_1_3(req_norm[i], cores_norm[i], submit_norm[i]);
@@ -1067,21 +1074,29 @@ int master(int argc, char *argv[])
         // tasks_comm_sizes = (double**) malloc(number_of_tasks * sizeof(double*));
         // tasks_allocation = (int**) malloc(number_of_tasks * sizeof(int*));
         // tasks_workers = xbt_new0(msg_host_t**, number_of_tasks);
-        double * runtimes_norm = minMaxNorm(all_runtimes,number_of_tasks,P_min,P_max);
-        //XBT_INFO("P :");
-          //XBT_INFO("P :");
-        
-        //XBT_INFO("Q :");
-        double * cores_norm = minMaxNorm(convertIntToDouble(all_cores,number_of_tasks),number_of_tasks,Q_min,Q_max);
-        //XBT_INFO("R :");
-        double * submit_norm = minMaxNorm(convertIntToDouble(all_submit,number_of_tasks),number_of_tasks,R_min,R_max);
         double * req_norm;
-        
-        if(VAR_ZONE>0){
+        double * runtimes_norm;
+        double * submit_norm;
+        double * cores_norm;
+        if(NORM==1){
+            runtimes_norm = minMaxNorm(all_runtimes,number_of_tasks,P_min,P_max);
+
+            cores_norm = minMaxNorm(convertIntToDouble(all_cores,number_of_tasks),number_of_tasks,Q_min,Q_max);
             
-            req_norm = estimatitionTransform(runtimes_norm,all_runtimes,cores_norm,VAR_ZONE,number_of_tasks);
+            submit_norm = minMaxNorm(convertIntToDouble(all_submit,number_of_tasks),number_of_tasks,R_min,R_max);
+            
+            
+            if(VAR_ZONE>0){
+                
+                req_norm = estimatitionTransform(runtimes_norm,all_runtimes,cores_norm,VAR_ZONE,number_of_tasks);
+            }else{
+                req_norm = minMaxNorm(all_req_runtimes,number_of_tasks,P_min,P_max);
+            }
         }else{
-            req_norm = minMaxNorm(all_req_runtimes,number_of_tasks,P_min,P_max);
+            req_norm=all_req_runtimes;
+            runtimes_norm= all_runtimes;
+            submit_norm=all_submit;
+            cores_norm=all_cores;
         }
         
         for (i = 0; i < number_of_tasks; i++)
@@ -1829,6 +1844,20 @@ int main(int argc, char *argv[])
             {
                 chosen_policy = Q3P;
             }
+            if (strcmp(argv[i], "-q4p") == 0)
+            {
+                chosen_policy = Q4P;
+            }
+            if (strcmp(argv[i], "-q5p") == 0)
+            {
+                chosen_policy = Q5P;
+            }
+            if (strcmp(argv[i], "-norm") == 0)
+            {
+                NORM= 1;
+            }
+
+
 
 
 
