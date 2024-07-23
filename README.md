@@ -38,7 +38,7 @@ Note that this command must be executed in the project root, otherwise it will f
 
 ## The modules
 ### Simulator
-This module is used to generate the distribution $\operatorname{score}(p, q, r)$. The simulation parameters are described as a simple python dictionary at the start of `simulator.py` and `simulator_trials.py` files. Any entry can be modified to satisfy your needs. We define argument for defining the random seed of the algorithm, we also explore the latin hypercube initialization for the first population of the genetic algorithm, you can use it by using the flag `-l`.
+This module is used to generate the distribution `\operatorname{score}(p, q, r)`. The simulation parameters are described as a simple python dictionary at the start of `simulator.py` and `simulator_trials.py` files. Any entry can be modified to satisfy your needs. We define argument for defining the random seed of the algorithm, we also explore the latin hypercube initialization for the first population of the genetic algorithm, you can use it by using the flag `-l`.
 
 The simulations could take some time, depending on the chosen parameters. Because of this, you should execute the code using the `nohup <code> &` structure, for instance
 ```bash
