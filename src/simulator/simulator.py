@@ -33,7 +33,7 @@ SIMULATION_PARAMETERS = {
 parser=argparse.ArgumentParser()
 parser.add_argument("-l","--hypercube",help="random (default) or hypercube?",action="store_true")
 parser.add_argument("seed", metavar='N', type=int,
-                    help='an integer for the accumulator')
+                    help='an integer for the random seed')
 args = parser.parse_args()
 
 
@@ -154,7 +154,7 @@ class Simulator:
 
     def clear_possible_artifacts(self, index):
         if self._result_file.exists():
-            self._result_file.unlink()calculatrice en ligne
+            self._result_file.unlink()
         if self.get_training_data_file(index).exists():
             self.get_training_data_file(index).unlink()
 

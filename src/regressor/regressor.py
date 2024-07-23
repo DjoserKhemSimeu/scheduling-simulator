@@ -23,7 +23,7 @@ SERIAL_FUNCTIONS =[
     ser_9_1, ser_9_2, ser_9_3,
     ser_10_1, ser_10_2, ser_10_3
 ]
-FUNCTIONS = [lin]
+
 
 
 class Regressor:
